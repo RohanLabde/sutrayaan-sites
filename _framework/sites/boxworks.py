@@ -2,7 +2,7 @@ API = "https://script.google.com/macros/s/AKfycbyYwGXasel1oc08exteRvWOB1FTzNsU_Z
 
 # Regular slotted container (RSC) dieline at 1:2 scale for a 300 x 200 x 250 mm box.
 DIE = ('<div class="feature dieline"><div class="ft-head"><b>RSC dieline · 300 × 200 × 250 mm</b><span>5-ply · BC flute</span></div>'
-  '<svg viewBox="0 0 560 300" role="img" aria-label="Flat dieline of a regular slotted carton with four panels, glue flap and top and bottom flaps">'
+  '<svg viewBox="0 0 566 304" role="img" aria-label="Flat dieline of a regular slotted carton with four panels, glue flap and top and bottom flaps">'
   '<path class="cut" d="M20 98 L38 92 V215 L20 209 Z"/>'
   '<path class="cut" d="M38 40 H186 V90 H190 V40 H286 V90 H290 V40 H436 V90 H440 V40 H538 V265 H440 V215 H436 V265 H290 V215 H286 V265 H190 V215 H186 V265 H38 Z"/>'
   '<path class="crease" d="M38 90 H538 M38 215 H538 M188 90 V215 M288 90 V215 M438 90 V215"/>'
@@ -10,8 +10,8 @@ DIE = ('<div class="feature dieline"><div class="ft-head"><b>RSC dieline · 300 
   '<text class="lbl" x="363" y="158" text-anchor="middle">L · 300</text><text class="lbl" x="488" y="158" text-anchor="middle">W · 200</text>'
   '<text class="lbl2" x="113" y="70" text-anchor="middle">top flap</text><text class="lbl2" x="113" y="245" text-anchor="middle">bottom flap</text>'
   '<text class="lbl2" x="29" y="160" text-anchor="middle" transform="rotate(-90 29 160)">glue</text>'
-  '<path class="dim" d="M548 90 V215 M544 90 H552 M544 215 H552"/><text class="lbl" x="552" y="80" text-anchor="end">H · 250</text>'
-  '<path class="dim" d="M38 284 H188 M38 280 V288 M188 280 V288"/><text class="lbl2" x="113" y="298" text-anchor="middle">cut ─  crease - -</text>'
+  '<path class="dim" d="M547 90 V215 M543 90 H551 M543 215 H551"/><text class="lbl" x="560" y="152" text-anchor="middle" transform="rotate(-90 560 152)">H · 250</text>'
+  '<path class="dim" d="M38 280 H188 M38 276 V284 M188 276 V284"/><text class="lbl2" x="113" y="298" text-anchor="middle">L = 300 mm</text>''<path class="cut" d="M400 290 H420" style="fill:none"/><text class="lbl2" x="425" y="294">cut</text><path class="crease" d="M460 290 H480"/><text class="lbl2" x="485" y="294">crease</text>'
   '</svg><span class="muted" style="font-size:.88rem">We send a dieline like this with every new-box quote, for your approval before production.</span></div>')
 
 SITE = {
