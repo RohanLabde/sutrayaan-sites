@@ -8,9 +8,9 @@
  */
 const SHEET_NAME = 'Leads';
 const ALERT_EMAIL = '';            // leave blank to email the sheet owner
-const BUSINESS = 'Meru Precision (demo)';
+const BUSINESS = 'Sutrayaan demo site';   // used when a site does not send its name
 const HEADERS = ['Ref','Received','Status','Type','Process','Name','Company','Email','Phone','City',
-                 'Material','Quantity','Needed by','Description','Drawings','NDA','First response','Updated'];
+                 'Material','Quantity','Needed by','Description','Drawings','NDA','First response','Updated','Site'];
 const STATUSES = ['New','Contacted','Quoted','Won','Lost'];
 
 function sheet_() {
@@ -21,6 +21,8 @@ function sheet_() {
     sh.appendRow(HEADERS);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold').setBackground('#DDEDEA');
+  } else if (sh.getLastColumn() < HEADERS.length) {
+    sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold').setBackground('#DDEDEA');
   }
   return sh;
 }
@@ -61,7 +63,7 @@ function doPost(e) {
     const files = Array.isArray(d.files) ? d.files.map(f => clean_(f, 120)).join(', ') : '';
     sh.appendRow([ref, now, 'New', clean_(d.type, 60), clean_(d.process, 60), clean_(d.name, 100), clean_(d.company, 120),
                   clean_(d.email, 120), clean_(d.phone, 40), clean_(d.city, 80), clean_(d.material, 80), clean_(d.qty, 80),
-                  clean_(d.neededBy, 20), clean_(d.desc, 2000), files, d.nda ? 'Yes' : 'No', '', now]);
+                  clean_(d.neededBy, 20), clean_(d.desc, 2000), files, d.nda ? 'Yes' : 'No', '', now, clean_(d.site || 'meru', 40)]);
 
     const to = ALERT_EMAIL || Session.getEffectiveUser().getEmail();
     const body = [
@@ -73,7 +75,7 @@ function doPost(e) {
       'Part: ' + clean_(d.desc, 2000), 'Drawings: ' + (files || '—'), 'NDA requested: ' + (d.nda ? 'Yes' : 'No'), '',
       'Open the sheet: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl()
     ].join('\n');
-    MailApp.sendEmail(to, 'New quote request ' + ref + ' · ' + clean_(d.company, 60) + ' · ' + BUSINESS, body);
+    MailApp.sendEmail(to, 'New request ' + ref + ' · ' + clean_(d.company, 60) + ' · ' + (clean_(d.brand, 60) || BUSINESS), body);
     return json_({ ok: true, ref: ref });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -82,13 +84,14 @@ function doPost(e) {
   }
 }
 
-// Public list for the demo tracker: latest 50, no emails or phone numbers, first names only.
-function doGet() {
+// Public list for the demo tracker: latest 50 for one site, no emails or phone numbers, first names only.
+function doGet(e) {
   const sh = sheet_();
   const n = sh.getLastRow() - 1;
   if (n < 1) return json_({ ok: true, leads: [] });
-  const rows = sh.getRange(2, 1, n, HEADERS.length).getValues().slice(-50).reverse();
-  const leads = rows.filter(r => r[0]).map(r => ({
+  const want = String((e && e.parameter && e.parameter.site) || 'meru');
+  const rows = sh.getRange(2, 1, n, HEADERS.length).getValues().filter(r => r[0] && String(r[18] || 'meru') === want).slice(-50).reverse();
+  const leads = rows.map(r => ({ site: String(r[18] || 'meru'),
     ref: r[0], createdAt: r[1] instanceof Date ? r[1].toISOString() : String(r[1]), status: r[2],
     type: r[3], process: r[4], name: String(r[5]).split(' ')[0], company: r[6], city: r[9],
     material: r[10], qty: r[11], desc: String(r[13]).slice(0, 160),

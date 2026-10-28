@@ -1,0 +1,28 @@
+/* ---------- Framework additions ---------- */
+.foot-name{font:700 1.1rem var(--f-display);text-transform:uppercase;letter-spacing:.03em}
+.feature{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:14px}
+.feature .ft-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.feature .ft-head b{font:600 1.05rem var(--f-display)}
+.feature .ft-head span{font:500 .72rem var(--f-mono);color:var(--ink-2);letter-spacing:.06em;text-transform:uppercase}
+/* Bar scale (e.g. press tonnage) */
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:76px 1fr 34px;gap:10px;align-items:center;font:500 .82rem var(--f-mono);font-variant-numeric:tabular-nums}
+.bar i{display:block;height:14px;border-radius:99px;background:var(--accent-soft);position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--accent);border-radius:99px;transform-origin:left;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.below .bar i::after{transform:scaleX(0)}
+@media (prefers-reduced-motion:reduce){.below .bar i::after{transform:none}}
+.bar span:last-child{text-align:right;color:var(--ink-2)}
+/* Certificate of analysis */
+.coa table{min-width:0;font-size:.88rem}
+.coa td,.coa th{padding:8px 10px}
+.coa .pass{color:var(--ok);font-weight:600}
+.coa .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 16px;font:400 .78rem var(--f-mono);color:var(--ink-2)}
+.coa .sig{display:flex;justify-content:space-between;align-items:end;gap:12px;font:400 .78rem var(--f-mono);color:var(--ink-2)}
+.coa .sig .stamp{width:64px;height:64px;font-size:.56rem}
+/* Dieline */
+.dieline svg{display:block;width:100%;height:auto}
+.dieline .cut{stroke:var(--ink);stroke-width:1.6;fill:var(--panel)}
+.dieline .crease{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:6 4;fill:none}
+.dieline .lbl{fill:var(--ink);font:500 12px var(--f-mono)}
+.dieline .lbl2{fill:var(--ink-2);font:400 10px var(--f-mono)}
+.dieline .dim{stroke:var(--accent);stroke-width:1;fill:none}

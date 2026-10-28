@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>{{ s.name }}</title>
+<meta name="description" content="{{ s.meta }} Demo website by Sutrayaan.">
+<link rel="icon" href="data:image/svg+xml,{{ s.favicon|urlencode }}">
+<script>window.SITE={{ site_json|safe }};</script>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="{{ s.fonts.url }}">
+<style>
+{{ css|safe }}
+</style>
+</head>
+<body>
+{% macro img(key, alt='', lazy=True, sizes='(max-width:900px) 100vw, 50vw', style='') -%}
+{%- set id = s.images[key] -%}
+<img src="https://images.unsplash.com/photo-{{ id }}?auto=format&fit=crop&w=1600&q=70" srcset="{% for w in [640,1024,1600,2000] %}https://images.unsplash.com/photo-{{ id }}?auto=format&fit=crop&w={{ w }}&q=70 {{ w }}w{% if not loop.last %}, {% endif %}{% endfor %}" sizes="{{ sizes }}" alt="{{ alt }}"{% if lazy %} loading="lazy"{% endif %} width="1600" height="1067"{% if style %} style="{{ style }}"{% endif %}>
+{%- endmacro %}
+{% macro icon(name) -%}{{ icons[name]|safe }}{%- endmacro %}
+
+<div class="demo" role="note">
+  <div class="wrap">
+    <span>DEMO SITE · {{ s.name }} is a fictional company · stock photos from Unsplash. Built by Sutrayaan.</span>
+    <a href="#leads">Owner view: inquiry tracker →</a>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="{{ s.name }} home">
+      {{ s.logo|safe }}
+      <span><b>{{ s.short }}</b><small>{{ s.brand_sub }}</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
+    <nav class="main" id="mainNav" aria-label="Main">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#capabilities" data-nav="capabilities">{{ s.nav.products }}</a>
+      <a href="#quality" data-nav="quality">{{ s.nav.quality }}</a>
+      <a href="#about" data-nav="about">About</a>
+      <a href="#quote" data-nav="quote" class="btn btn-primary">{{ s.nav.cta }}</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ================= HOME ================= -->
+<div class="view" id="v-home">
+  <div class="img-band hero">
+    {{ img('hero', s.hero.alt, lazy=False, sizes='100vw') }}
+    <div class="wrap">
+      <span class="eyebrow">{{ s.hero.eyebrow }}</span>
+      <h1>{{ s.hero.h1 }}</h1>
+      <p>{{ s.hero.p }}</p>
+      <div class="row">
+        <a class="btn btn-primary" href="#quote">{{ s.hero.cta }}</a>
+        <a class="btn btn-light" href="#capabilities">{{ s.hero.cta2 }}</a>
+      </div>
+      <div class="badges">{% for b in s.hero.badges %}<span>{{ b }}</span>{% endfor %}</div>
+    </div>
+  </div>
+
+  <div class="stats" aria-label="Company at a glance">
+    <div class="wrap">
+      {% for v,l in s.stats %}<div><b>{{ v }}</b><span>{{ l }}</span></div>{% endfor %}
+    </div>
+  </div>
+
+  <div class="marquee" aria-label="{{ s.marquee.label }}">
+    <div class="wrap" style="display:flex;align-items:center;gap:20px;width:100%">
+      <span class="lbl">{{ s.marquee.label }}</span>
+      <div class="viewport"><div class="track">
+        {% for m in s.marquee['items'] %}<span>{{ m }}</span>{% endfor %}
+        {% for m in s.marquee['items'] %}<span aria-hidden="true">{{ m }}</span>{% endfor %}
+      </div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">{{ s.products.eyebrow }}</span><h2>{{ s.products.h2 }}</h2></div>
+      <div class="grid-3">
+        {% for c in s.products.cards %}
+        <a class="pcard" href="#capabilities">
+          {{ img(c.img, c.alt) }}
+          <div class="body"><h3>{{ c.title }}</h3><span class="muted">{{ c.line }}</span><div class="chips">{% for ch in c.chips %}<span class="chip">{{ ch }}</span>{% endfor %}</div></div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">Industries</span><h2>{{ s.industries.h2 }}</h2></div>
+      <div class="ind">
+        {% for ic,label in s.industries['items'] %}<div>{{ icon(ic) }}<b>{{ label }}</b></div>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <div class="img-band plant">
+    {{ img(s.plant.img, s.plant.alt, sizes='100vw') }}
+    <div class="wrap">
+      <span class="eyebrow">{{ s.plant.eyebrow }}</span>
+      <h2>{{ s.plant.h2 }}</h2>
+      <div class="nums">{% for v,l in s.plant.nums %}<div><b>{{ v }}</b><span>{{ l }}</span></div>{% endfor %}</div>
+      <div><a class="btn btn-light" href="#quality">{{ s.plant.cta }}</a></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap split">
+      <figure class="media" style="margin:0">{{ img(s.qhome.img, s.qhome.alt) }}<figcaption>{{ s.qhome.caption }}</figcaption></figure>
+      <div style="display:grid;gap:22px">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Quality</span><h2>{{ s.qhome.h2 }}</h2></div>
+        <ul class="ticks">{% for t in s.qhome.ticks %}<li>{{ t }}</li>{% endfor %}</ul>
+        <div class="certs">{% for c in s.certs %}<div class="stamp">{{ c[0] }}<br>{{ c[1] }}</div>{% endfor %}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">How it works</span><h2>{{ s.steps.h2 }}</h2></div>
+      <ol class="steps">{% for b,t in s.steps['items'] %}<li><b>{{ b }}</b><span>{{ t }}</span></li>{% endfor %}</ol>
+    </div>
+  </section>
+
+  <div class="cta-band"><div class="wrap"><h2>{{ s.cta_band }}</h2><a class="btn" href="#quote">{{ s.hero.cta }}</a></div></div>
+</div>
+
+<!-- ================= PRODUCTS / CAPABILITIES ================= -->
+<div class="view" id="v-capabilities">
+  <div class="img-band page-hero">
+    {{ img(s.pp.img, '', lazy=False, sizes='100vw') }}
+    <div class="wrap"><span class="eyebrow">{{ s.nav.products }}</span><h1>{{ s.pp.h1 }}</h1><p>{{ s.pp.p }}</p></div>
+  </div>
+  <section>
+    <div class="wrap">
+      {% if s.pp.table_title %}<div class="sec-head"><span class="eyebrow">{{ s.pp.table_eyebrow }}</span><h2>{{ s.pp.table_title }}</h2></div>{% endif %}
+      <div class="table-wrap"><table>
+        <thead><tr>{% for h in s.pp.table.head %}<th>{{ h }}</th>{% endfor %}</tr></thead>
+        <tbody>{% for r in s.pp.table.rows %}<tr>{% for c in r %}<td{% if not loop.first %} class="num"{% endif %}>{{ c }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+      </table></div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap split">
+      <div style="min-width:0">{{ s.pp.feature|safe }}</div>
+      <div style="display:grid;gap:18px">
+        {% for g in s.pp.groups %}
+        {% if loop.first %}<div class="sec-head" style="margin:0"><span class="eyebrow">{{ g.eyebrow }}</span><h2>{{ g.h2 }}</h2></div>
+        {% else %}<span class="eyebrow" style="margin-top:8px">{{ g.eyebrow }}</span>{% endif %}
+        <div class="chips">{% for ch in g.chips %}<span class="chip">{{ ch }}</span>{% endfor %}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">{{ s.pp.minis_eyebrow }}</span><h2>{{ s.pp.minis_h2 }}</h2></div>
+      <div class="grid-4">{% for big,b,t in s.pp.minis %}<div class="mini"><span class="big">{{ big }}</span><b>{{ b }}</b><span class="muted">{{ t }}</span></div>{% endfor %}</div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap split rev">
+      <figure class="media" style="margin:0">{{ img(s.pp.split.img, s.pp.split.alt) }}</figure>
+      <div style="display:grid;gap:18px">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">{{ s.pp.split.eyebrow }}</span><h2>{{ s.pp.split.h2 }}</h2></div>
+        <ul class="ticks">{% for t in s.pp.split.ticks %}<li>{{ t }}</li>{% endfor %}</ul>
+      </div>
+    </div>
+  </section>
+  <div class="cta-band"><div class="wrap"><h2>{{ s.pp.cta }}</h2><a class="btn" href="#quote">{{ s.nav.cta }}</a></div></div>
+</div>
+
+<!-- ================= QUALITY & PLANT ================= -->
+<div class="view" id="v-quality">
+  <div class="img-band page-hero">
+    {{ img(s.qp.img, '', lazy=False, sizes='100vw') }}
+    <div class="wrap"><span class="eyebrow">{{ s.nav.quality }}</span><h1>{{ s.qp.h1 }}</h1><p>{{ s.qp.p }}</p></div>
+  </div>
+  <section>
+    <div class="wrap">
+      <ol class="steps" style="grid-template-columns:repeat(3,1fr)">{% for b,t in s.qp.steps %}<li><b>{{ b }}</b><span>{{ t }}</span></li>{% endfor %}</ol>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">{{ s.qp.eq_eyebrow }}</span><h2>{{ s.qp.eq_h2 }}</h2></div>
+      <div class="table-wrap"><table>
+        <thead><tr>{% for h in s.qp.eq.head %}<th>{{ h }}</th>{% endfor %}</tr></thead>
+        <tbody>{% for r in s.qp.eq.rows %}<tr>{% for c in r %}<td{% if not loop.first %} class="num"{% endif %}>{{ c }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+      </table></div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">The plant</span><h2>{{ s.qp.plant_h2 }}</h2></div>
+      <figure class="media" style="margin:0 0 22px">{{ img(s.qp.plant_img, s.qp.plant_alt, sizes='100vw', style='aspect-ratio:2/1') }}<figcaption>{{ s.qp.plant_caption }}</figcaption></figure>
+      <div class="grid-4">{% for big,b,t in s.qp.minis %}<div class="mini"><span class="big">{{ big }}</span><b>{{ b }}</b><span class="muted">{{ t }}</span></div>{% endfor %}</div>
+    </div>
+  </section>
+  <div class="cta-band"><div class="wrap"><h2>{{ s.qp.cta }}</h2><a class="btn" href="#quote" data-prefill="docs">Request documents</a></div></div>
+</div>
+
+<!-- ================= ABOUT ================= -->
+<div class="view" id="v-about">
+  <div class="img-band page-hero">
+    {{ img(s.about.img, '', lazy=False, sizes='100vw') }}
+    <div class="wrap"><span class="eyebrow">About us</span><h1>{{ s.about.h1 }}</h1><p>{{ s.about.p }}</p></div>
+  </div>
+  <section>
+    <div class="wrap">
+      <div class="timeline">{% for y,t in s.about.timeline %}<div><b>{{ y }}</b><span>{{ t }}</span></div>{% endfor %}</div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">For purchase teams</span><h2>Vendor registration details.</h2></div>
+      <div class="table-wrap"><table><tbody>
+        {% for k,v,demo in s.about.vendor %}<tr><td>{{ k }}</td><td{% if demo %} class="num"{% endif %}>{{ v }}{% if demo %} <span class="tag">demo</span>{% endif %}</td></tr>{% endfor %}
+      </tbody></table></div>
+      <p style="margin-top:20px"><a class="btn btn-primary" href="#quote" data-prefill="docs">Request vendor documents</a></p>
+    </div>
+  </section>
+  <section>
+    <div class="wrap split rev">
+      <figure class="media" style="margin:0">{{ img(s.about.careers_img, s.about.careers_alt) }}</figure>
+      <div style="display:grid;gap:18px">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Careers</span><h2>{{ s.about.careers_h2 }}</h2></div>
+        <ul class="ticks">{% for t in s.about.careers_ticks %}<li>{{ t }}</li>{% endfor %}</ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= QUOTE ================= -->
+<div class="view" id="v-quote">
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">{{ s.nav.cta }}</span><h1>{{ s.form.h1 }}</h1><p class="muted">{{ s.form.p }}</p></div>
+      <div class="quote-layout">
+        <div>
+          <form class="rfq" id="rfq" novalidate>
+            <div class="fields">
+              <label>Request type
+                <select id="f_type" name="type">{% for o in s.form.types %}<option>{{ o }}</option>{% endfor %}</select>
+              </label>
+              <label>{{ s.form.proc_label }}
+                <select id="f_proc" name="process">{% for o in s.form.proc_options %}<option>{{ o }}</option>{% endfor %}</select>
+              </label>
+              <label>Your name *<input id="f_name" name="name" autocomplete="name" required><span class="err" data-for="f_name" hidden></span></label>
+              <label>Company *<input id="f_company" name="company" autocomplete="organization" required><span class="err" data-for="f_company" hidden></span></label>
+              <label>Work email<input id="f_email" name="email" type="email" autocomplete="email"><span class="err" data-for="f_email" hidden></span></label>
+              <label>Phone / WhatsApp<input id="f_phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98200 12345"><span class="err" data-for="f_phone" hidden></span></label>
+              <label>{{ s.form.city_label }}<input id="f_city" name="city" placeholder="{{ s.form.city_ph }}"></label>
+              <label>{{ s.form.material_label }}{% if s.form.material_options %}<select id="f_material" name="material">{% for o in s.form.material_options %}<option>{{ o }}</option>{% endfor %}</select>{% else %}<input id="f_material" name="material" placeholder="{{ s.form.material_ph }}">{% endif %}</label>
+              <label>{{ s.form.qty_label }} *<input id="f_qty" name="qty" placeholder="{{ s.form.qty_ph }}"><span class="err" data-for="f_qty" hidden></span></label>
+              <label>Needed by<input id="f_date" name="date" type="date"></label>
+              {% for x in s.form.extras %}
+              <label{% if x.full %} class="full"{% endif %}>{{ x.label }}{% if x.options %}<select id="x_{{ x.id }}" data-extra="{{ x.label }}">{% for o in x.options %}<option>{{ o }}</option>{% endfor %}</select>{% else %}<input id="x_{{ x.id }}" data-extra="{{ x.label }}" placeholder="{{ x.ph }}">{% endif %}</label>
+              {% endfor %}
+              <label class="full">{{ s.form.desc_label }}{% if s.form.desc_required %} *{% endif %}<textarea id="f_desc" name="desc" placeholder="{{ s.form.desc_ph }}"></textarea><span class="err" data-for="f_desc" hidden></span></label>
+              <div class="full" style="display:grid;gap:6px">
+                <span style="font-weight:600;font-size:.92rem">{{ s.form.files_label }}</span>
+                <label class="drop" id="drop" for="f_files">
+                  <span><b>Choose files</b> or drag them here</span>
+                  <span class="hint">{{ s.form.files_hint }}</span>
+                  <input id="f_files" type="file" multiple accept="{{ s.form.files_accept }}" hidden>
+                </label>
+                <div class="filelist" id="fileList"></div>
+              </div>
+              <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>Website<input id="f_web" name="website" tabindex="-1" autocomplete="off"></label></div>
+              <label class="check full"><input type="checkbox" id="f_nda" name="nda"> {{ s.form.check_label }}</label>
+            </div>
+            <p class="err" id="formErr" hidden></p>
+            <div><button class="btn btn-primary" type="submit" id="submitBtn">Send request</button></div>
+          </form>
+          <div class="done" id="done" hidden>
+            <span class="eyebrow">Request received</span>
+            <h2 style="font-size:1.8rem">Thank you. Your reference is <span class="mono" id="refNo"></span>.</h2>
+            <p class="muted" id="doneMsg"></p>
+            <p class="muted" id="demoNote" hidden></p>
+            <div><button class="btn btn-ghost" type="button" id="another">Send another request</button></div>
+          </div>
+        </div>
+        <aside class="aside">
+          <figure class="media" style="margin:0">{{ img(s.form.aside_img, s.form.aside_alt, style='aspect-ratio:4/3') }}</figure>
+          <div class="card">
+            <h3>Talk to sales</h3>
+            <div class="contact-line"><div><b>Email</b><br><span class="mono">{{ s.contact.email }}</span></div><button class="copy" type="button" data-copy="{{ s.contact.email }}">Copy</button></div>
+            <div class="contact-line"><div><b>WhatsApp</b><br><span class="mono">{{ s.contact.phone }}</span> <span class="tag">demo</span></div><button class="copy" type="button" data-copy="{{ s.contact.phone }}">Copy</button></div>
+            <div class="contact-line"><div><b>Hours</b><br><span class="muted">{{ s.contact.hours }}</span></div></div>
+          </div>
+          <div class="card"><h3>{{ s.form.trust_h }}</h3><p class="muted">{{ s.form.trust_p }}</p></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= LEADS (owner view) ================= -->
+<div class="view" id="v-leads">
+  <section>
+    <div class="wrap">
+      <div class="tracker-head">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Owner view · hidden from buyers on a live site</span><h1>Inquiry tracker</h1><p class="muted">Every website inquiry, in one place. Update the status as you work each one.</p></div>
+        <a class="btn btn-ghost" href="#quote">Add a test inquiry</a>
+      </div>
+      <div id="trackerNotice" class="notice" style="margin-top:20px" hidden></div>
+      <div class="kpis" id="kpis">
+        <div class="kpi" id="k-new"><b>0</b><span>New, awaiting reply</span></div>
+        <div class="kpi" id="k-late"><b>0</b><span>Waiting over 24 hours</span></div>
+        <div class="kpi" id="k-quoted"><b>0</b><span>Quoted</span></div>
+        <div class="kpi" id="k-won"><b>0</b><span>Won</span></div>
+      </div>
+      <div class="tracker-grid">
+        <div class="lead-list" id="leadList"><div class="empty"><b>No inquiries yet</b><span>Submit a request on the quote page and it will appear here.</span></div></div>
+        <div style="display:grid;gap:12px">
+          <span class="eyebrow">Owner's inbox, live site</span>
+          <div class="phone" aria-label="Example inquiry alert"><div class="bubble" id="waBubble"><b>New request</b><span class="muted">Alerts appear here for each new inquiry.</span><span class="t">--:--</span></div></div>
+          <p class="muted" style="font-size:.88rem">Each inquiry is saved to the owner's Google Sheet and emailed to them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap" style="padding-block:28px">
+    <div class="tb">
+      <div><b class="foot-name">{{ s.name }}</b><span class="muted">{{ s.footer_line }}</span></div>
+      <div><span class="eyebrow">Company</span><a href="#capabilities">{{ s.nav.products }}</a><a href="#quality">{{ s.nav.quality }}</a><a href="#about">About &amp; careers</a></div>
+      <div><span class="eyebrow">Buyers</span><a href="#quote">{{ s.nav.cta }}</a><a href="#quote" data-prefill="docs">Vendor documents</a></div>
+      <div><span class="eyebrow">Certified</span>{% for c in s.foot_certs %}<span class="mono">{{ c }}</span>{% endfor %}</div>
+    </div>
+    <div class="tb-bottom"><span>{{ s.doc_no }}</span><span>Demo website by Sutrayaan · fictional company · <a href="#leads" style="color:inherit">owner view</a></span></div>
+  </div>
+</footer>
+
+<script>
+{{ app_js|safe }}
+</script>
+<script>
+{{ motion_js|safe }}
+</script>
+</body>
+</html>
