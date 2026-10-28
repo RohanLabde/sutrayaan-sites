@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 38 38'%3E%3Crect width='38' height='38' rx='6' fill='%23172024'/%3E%3Cpath d='M7 29 L15 11 L19 20 L23 11 L31 29' fill='none' stroke='%2343B4A6' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
+<script>window.MERU_API="__SHEETS_URL__";</script>
+<title>Meru Precision Components</title>
+<meta name="description" content="CNC turned and milled precision components, Thane, Maharashtra. Demo website by Sutrayaan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: image-led industrial site. Full-bleed dark product photography, condensed headings,
+   mono for every spec, short copy, and an engineering title-block footer. */
+:root{
+  --paper:#F1F3F2; --panel:#FFFFFF; --ink:#172024; --ink-2:#4B575D; --line:#CBD3D2;
+  --accent:#0D6A61; --accent-ink:#FFFFFF; --accent-soft:#DDEDEA; --stamp:#B03A2E;
+  --ok:#2C7A3F; --warn:#9A6200; --banner:#172024; --banner-ink:#E7ECEB;
+  --img-ink:#F4F7F6; --img-ink-2:#C3CFCD; --img-shade:#0C1113; --img-accent:#5CCBBC;
+  --f-display:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --wrap:1180px; --r:6px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#101517; --panel:#172024; --ink:#E3E9E8; --ink-2:#A2AFB1; --line:#2B363A;
+  --accent:#43B4A6; --accent-ink:#06201C; --accent-soft:#16332F; --stamp:#E2705F;
+  --ok:#6CC283; --warn:#E3A43D; --banner:#05090A; --banner-ink:#CFD8D7; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#101517; --panel:#172024; --ink:#E3E9E8; --ink-2:#A2AFB1; --line:#2B363A;
+  --accent:#43B4A6; --accent-ink:#06201C; --accent-soft:#16332F; --stamp:#E2705F;
+  --ok:#6CC283; --warn:#E3A43D; --banner:#05090A; --banner-ink:#CFD8D7; color-scheme:dark}
+
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;font-feature-settings:"lnum"}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--panel)}
+a{color:var(--accent)}
+img{display:block;max-width:100%;height:auto}
+.img-band>img{height:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.06;text-wrap:balance;margin:0;letter-spacing:-.005em}
+h1{font-size:clamp(2.4rem,5.6vw,4.3rem);font-weight:700}
+h2{font-size:clamp(1.85rem,3.4vw,2.6rem);font-weight:600}
+h3{font-size:1.28rem;font-weight:600}
+p{margin:0;max-width:60ch}
+.mono{font-family:var(--f-mono);font-size:.86em;font-variant-numeric:tabular-nums}
+.eyebrow{font:500 .74rem/1.2 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.muted{color:var(--ink-2)}
+
+.demo{background:var(--banner);color:var(--banner-ink);font:500 .76rem/1.4 var(--f-mono)}
+.demo .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:7px}
+.demo a{color:var(--banner-ink)}
+
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--panel);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;gap:20px;padding-block:12px;position:relative}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto}
+.brand svg{flex:none}
+.brand b{display:block;font:700 1.15rem/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase}
+.brand small{display:block;font:400 .68rem/1.3 var(--f-mono);color:var(--ink-2);letter-spacing:.06em}
+nav.main{display:flex;gap:4px;align-items:center}
+nav.main a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:8px 10px}
+nav.main a[aria-current="page"]{color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+nav.main a:not(.btn):hover{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 .98rem/1 var(--f-body);letter-spacing:.01em;padding:14px 20px;border-radius:var(--r);border:1px solid transparent;text-decoration:none;cursor:pointer}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink-2)}
+.btn-light{background:transparent;color:var(--img-ink);border-color:var(--img-ink-2)}
+.btn-light:hover{border-color:var(--img-ink)}
+nav.main .btn{margin-left:8px;padding:10px 14px}
+nav.main .btn[aria-current]{box-shadow:none;color:var(--accent-ink)}
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:var(--r);padding:8px 12px;color:var(--ink);font:600 .9rem var(--f-body)}
+@media (max-width:900px){
+  .menu-btn{display:block}
+  nav.main{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;background:var(--panel);border-bottom:1px solid var(--line);padding:8px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px))}
+  nav.main.open{display:flex}
+  nav.main a{padding:12px 8px}
+  nav.main .btn{margin:8px 0 0}
+}
+
+section{padding-block:clamp(56px,8vw,96px)}
+.sec-head{display:grid;gap:10px;margin-bottom:36px}
+.sec-head.center{justify-items:center;text-align:center}
+.alt{background:var(--panel);border-block:1px solid var(--line)}
+.view{display:none}
+.view.active{display:block}
+
+/* Image hero */
+.img-band{position:relative;background:var(--img-shade);color:var(--img-ink);overflow:hidden}
+.img-band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.img-band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--img-shade) 0%,rgba(12,17,19,.82) 34%,rgba(12,17,19,.15) 70%,rgba(12,17,19,0) 100%)}
+.img-band .wrap{position:relative;z-index:1}
+.hero .wrap{padding-block:clamp(72px,11vw,150px);display:grid;gap:22px;justify-items:start}
+.hero h1{max-width:12ch}
+.hero p{color:var(--img-ink-2);font-size:1.18rem;max-width:40ch}
+.hero .eyebrow{color:var(--img-accent)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.badges{display:flex;gap:8px 22px;flex-wrap:wrap;font:500 .8rem var(--f-mono);color:var(--img-ink-2);margin-top:8px}
+.badges span::before{content:"✓ ";color:var(--img-accent)}
+@media (max-width:700px){.img-band::after{background:linear-gradient(180deg,rgba(12,17,19,.55),var(--img-shade) 85%)}}
+
+.page-hero .wrap{padding-block:clamp(56px,8vw,100px);display:grid;gap:14px}
+.page-hero p{color:var(--img-ink-2);font-size:1.1rem}
+.page-hero .eyebrow{color:var(--img-accent)}
+
+/* Stats */
+.stats{background:var(--panel);border-bottom:1px solid var(--line)}
+.stats .wrap{display:grid;grid-template-columns:repeat(5,1fr)}
+.stats div{padding:22px 16px;border-left:1px solid var(--line)}
+.stats div:first-child{border-left:0;padding-left:0}
+.stats b{display:block;font:740 2rem/1 var(--f-display);font-stretch:78%;font-variant-numeric:tabular-nums}
+.stats span{font-size:.86rem;color:var(--ink-2)}
+@media (max-width:900px){.stats .wrap{grid-template-columns:repeat(2,1fr)}.stats div{border-left:0;border-top:1px solid var(--line);padding-left:0}.stats div:nth-child(-n+2){border-top:0}.stats div:last-child{grid-column:1/-1}}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media (max-width:900px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.grid-3,.grid-2,.grid-4{grid-template-columns:1fr}}
+.grid-2>*,.grid-3>*,.grid-4>*{min-width:0}
+
+/* Product cards */
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:grid;grid-template-rows:auto 1fr;text-decoration:none;color:var(--ink);transition:transform .2s,border-color .2s}
+.pcard:hover{transform:translateY(-3px);border-color:var(--accent)}
+.pcard img{aspect-ratio:4/3;width:100%;object-fit:cover;background:var(--img-shade)}
+.pcard .body{padding:18px 20px 20px;display:grid;gap:10px;align-content:start}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 .74rem/1 var(--f-mono);padding:6px 8px;border:1px solid var(--line);border-radius:3px;color:var(--ink-2);background:var(--paper);white-space:nowrap}
+
+/* Industries */
+.ind{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.ind div{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px;display:grid;gap:10px;justify-items:start}
+.ind svg{color:var(--accent)}
+.ind b{font:650 1.02rem/1.2 var(--f-display);font-stretch:85%}
+@media (max-width:900px){.ind{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.ind{grid-template-columns:repeat(2,1fr)}}
+
+/* Split image + text */
+.split{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+.split.rev{grid-template-columns:1fr 1.1fr}
+.split.rev .media{order:2}
+.split>*{min-width:0}
+.media{border-radius:var(--r);overflow:hidden;background:var(--img-shade);position:relative}
+.media img{width:100%;aspect-ratio:5/4;object-fit:cover}
+.media figcaption{position:absolute;left:12px;bottom:12px;font:500 .72rem var(--f-mono);color:var(--img-ink);background:rgba(12,17,19,.7);padding:5px 8px;border-radius:3px}
+@media (max-width:900px){.split,.split.rev{grid-template-columns:1fr}.split.rev .media{order:0}}
+.ticks{display:grid;gap:10px;padding:0;margin:0;list-style:none}
+.ticks li{display:flex;gap:10px;align-items:flex-start}
+.ticks li::before{content:"";flex:none;width:18px;height:18px;margin-top:4px;border-radius:50%;background:var(--accent-soft);box-shadow:inset 0 0 0 5px var(--accent)}
+
+/* Plant band */
+.plant .wrap{padding-block:clamp(80px,12vw,160px);display:grid;gap:26px}
+.plant .nums{display:flex;gap:16px 40px;flex-wrap:wrap}
+.plant .nums b{display:block;font:740 2.6rem/1 var(--f-display);font-stretch:78%;color:var(--img-ink)}
+.plant .nums span{font:500 .8rem var(--f-mono);color:var(--img-ink-2)}
+.plant .eyebrow{color:var(--img-accent)}
+.plant h2{max-width:14ch}
+
+/* Certs */
+.certs{display:flex;gap:18px;flex-wrap:wrap}
+.stamp{width:78px;height:78px;border:2px solid var(--stamp);color:var(--stamp);border-radius:50%;display:grid;place-items:center;text-align:center;font:600 .66rem/1.15 var(--f-mono);transform:rotate(-8deg)}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding:0;margin:0;counter-reset:s}
+.steps li{list-style:none;display:grid;gap:8px;align-content:start;counter-increment:s}
+.steps li::before{content:counter(s,decimal-leading-zero);font:500 .8rem var(--f-mono);color:var(--accent);border-top:2px solid var(--accent);padding-top:12px}
+.steps b{font:650 1.15rem/1.2 var(--f-display);font-stretch:85%}
+.steps span{color:var(--ink-2);font-size:.95rem}
+@media (max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* Tables */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.95rem}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .72rem/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);background:var(--paper)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);font-size:.85rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* Drawing */
+.drawing{background:var(--panel);border:1px solid var(--ink);border-radius:2px;color:var(--ink)}
+.drawing svg{display:block;width:100%;height:auto}
+.titleblock{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);font:400 .7rem/1.3 var(--f-mono)}
+.titleblock div{padding:6px 8px;border-left:1px solid var(--ink)}
+.titleblock div:first-child{border-left:0}
+.titleblock b{display:block;font-weight:500;font-size:.78rem}
+.titleblock span{color:var(--ink-2)}
+@media (max-width:460px){.titleblock{grid-template-columns:repeat(2,1fr)}.titleblock div:nth-child(3){border-left:0}.titleblock div:nth-child(n+3){border-top:1px solid var(--ink)}}
+
+/* Mini cards */
+.mini{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:8px;align-content:start}
+.mini b{font:650 1.15rem/1.2 var(--f-display);font-stretch:85%}
+.mini .big{font:740 1.6rem/1 var(--f-display);font-stretch:78%;color:var(--accent);font-variant-numeric:tabular-nums}
+
+/* Timeline */
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink)}
+.timeline div{padding:16px 16px 0 0;display:grid;gap:6px;position:relative}
+.timeline div::before{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--paper)}
+.timeline b{font:740 1.8rem/1 var(--f-display);font-stretch:78%}
+.timeline span{color:var(--ink-2);font-size:.94rem}
+@media (max-width:700px){.timeline{grid-template-columns:1fr 1fr;row-gap:28px}}
+
+.cta-band{background:var(--accent);color:var(--accent-ink)}
+.cta-band .wrap{display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:44px}
+.cta-band h2{font-size:clamp(1.6rem,3vw,2.3rem);max-width:22ch}
+.cta-band .btn{background:var(--accent-ink);color:var(--accent)}
+
+/* Form */
+form.rfq{display:grid;gap:18px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fields .full{grid-column:1/-1}
+@media (max-width:620px){.fields{grid-template-columns:1fr}}
+label{display:grid;gap:6px;font-weight:600;font-size:.92rem}
+label .hint{font-weight:400;color:var(--ink-2);font-size:.82rem}
+input,select,textarea{font:400 1rem/1.4 var(--f-body);color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:11px 12px;width:100%;min-width:0}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+textarea{min-height:100px;resize:vertical}
+.err{color:var(--stamp);font-weight:600;font-size:.82rem}
+.invalid{border-color:var(--stamp)}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.check input{width:auto;margin-top:5px}
+.drop{border:1.5px dashed var(--ink-2);border-radius:var(--r);padding:20px;text-align:center;background:var(--paper);display:grid;gap:6px;cursor:pointer}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.filelist{display:grid;gap:4px;font:400 .82rem var(--f-mono);color:var(--ink-2)}
+.quote-layout{display:grid;grid-template-columns:1.6fr 1fr;gap:32px;align-items:start}
+.quote-layout>*{min-width:0}
+@media (max-width:900px){.quote-layout{grid-template-columns:1fr}}
+.aside{display:grid;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:12px;align-content:start;min-width:0}
+.done{display:grid;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:0 var(--r) var(--r) 0;padding:24px}
+.contact-line{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding-block:10px}
+.contact-line:last-child{border-bottom:0}
+.copy{font:500 .75rem var(--f-mono);background:none;border:1px solid var(--line);border-radius:3px;padding:5px 8px;color:var(--ink-2);cursor:pointer}
+.tag{font:500 .68rem var(--f-mono);color:var(--ink-2);border:1px dashed var(--ink-2);border-radius:3px;padding:2px 6px}
+
+footer.site{background:var(--panel);border-top:2px solid var(--ink)}
+.tb{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;border-left:1px solid var(--ink);border-right:1px solid var(--ink);font-size:.9rem}
+.tb>div{padding:18px 16px;border-left:1px solid var(--ink);display:grid;gap:6px;align-content:start}
+.tb>div:first-child{border-left:0}
+.tb a{color:var(--ink)}
+.tb .eyebrow{color:var(--ink-2)}
+.tb-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--ink);padding:10px 16px;font:400 .72rem var(--f-mono);color:var(--ink-2);border-left:1px solid var(--ink);border-right:1px solid var(--ink)}
+@media (max-width:900px){.tb{grid-template-columns:1fr 1fr}.tb>div:nth-child(3){border-left:0}.tb>div:nth-child(n+3){border-top:1px solid var(--ink)}}
+@media (max-width:520px){.tb{grid-template-columns:1fr}.tb>div{border-left:0;border-top:1px solid var(--ink)}.tb>div:first-child{border-top:0}}
+
+/* Tracker */
+.tracker-head{display:flex;justify-content:space-between;gap:16px;align-items:end;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-block:24px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.kpi b{display:block;font:700 2rem/1 var(--f-display);font-stretch:80%;font-variant-numeric:tabular-nums}
+.kpi span{font-size:.85rem;color:var(--ink-2)}
+.kpi.alert{border-color:var(--warn)}
+.kpi.alert b{color:var(--warn)}
+@media (max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
+.pill{display:inline-block;font:600 .72rem/1 var(--f-mono);padding:5px 8px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+.s-New{color:var(--stamp)} .s-Quoted{color:var(--warn)} .s-Won{color:var(--ok)} .s-Lost{color:var(--ink-2)} .s-Contacted{color:var(--accent)}
+.tracker-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:20px;align-items:start}
+.tracker-grid>*{min-width:0}
+@media (max-width:900px){.tracker-grid{grid-template-columns:1fr}}
+.lead-list{display:grid;gap:12px}
+.lead{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:10px 20px}
+.lead .who{display:grid;gap:4px;min-width:0}
+.lead .who b{font-size:1.05rem}
+.lead .meta{font:400 .8rem var(--f-mono);color:var(--ink-2);display:flex;gap:6px 14px;flex-wrap:wrap}
+.lead .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.lead .actions select{width:auto;padding:7px 10px;font-size:.9rem}
+.lead .detail{grid-column:1/-1;font-size:.93rem;color:var(--ink-2);border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:4px}
+@media (max-width:620px){.lead{grid-template-columns:1fr}.lead .actions{justify-content:flex-start}}
+.notice{background:var(--accent-soft);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;gap:6px}
+.phone{max-width:300px;border:1px solid var(--line);border-radius:22px;padding:14px;background:var(--paper);display:grid;gap:8px}
+.bubble{background:var(--panel);border:1px solid var(--line);border-radius:10px 10px 10px 2px;padding:10px 12px;font-size:.88rem;display:grid;gap:4px}
+.bubble .t{font:400 .7rem var(--f-mono);color:var(--ink-2);text-align:right}
+.empty{border:1px dashed var(--line);border-radius:var(--r);padding:28px;text-align:center;color:var(--ink-2);display:grid;gap:8px}
+
+/* ---------- Motion (all switched off under prefers-reduced-motion) ---------- */
+@keyframes kb{from{transform:scale(1.09)}to{transform:scale(1)}}
+@keyframes rise{from{opacity:.35;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes viewin{from{opacity:.55}to{opacity:1}}
+@keyframes stampin{0%{transform:scale(1.35) rotate(-22deg);opacity:.35}70%{transform:scale(.96) rotate(-6deg);opacity:1}100%{transform:rotate(-8deg)}}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes hatch{to{background-position:92px 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes blink{50%{opacity:.25}}
+.view.active{animation:viewin .35s ease-out}
+.hero>img,.page-hero>img{animation:kb 9s cubic-bezier(.2,.6,.2,1) both}
+.hero .wrap>*,.page-hero .wrap>*{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.hero .wrap>*:nth-child(2),.page-hero .wrap>*:nth-child(2){animation-delay:.08s}
+.hero .wrap>*:nth-child(3),.page-hero .wrap>*:nth-child(3){animation-delay:.16s}
+.hero .wrap>*:nth-child(4){animation-delay:.24s}
+.hero .wrap>*:nth-child(5){animation-delay:.32s}
+header.site{transition:box-shadow .25s}
+header.site.scrolled{box-shadow:0 8px 20px -14px rgba(0,0,0,.45)}
+.reveal,.ind>div.reveal,.grid-4>.mini.reveal,a.pcard.reveal{transition:transform .65s cubic-bezier(.2,.7,.2,1),opacity .65s ease,border-color .25s,box-shadow .3s}
+.reveal.below{transform:translateY(24px);opacity:.55}
+.btn{transition:filter .2s,border-color .2s,background .2s,transform .15s}
+.btn:active{transform:translateY(1px)}
+.btn-primary::after,.cta-band .btn::after,.btn-light::after{content:"→";display:inline-block;transition:transform .2s}
+.btn-primary:hover::after,.cta-band .btn:hover::after,.btn-light:hover::after{transform:translateX(4px)}
+nav.main .btn::after{content:none}
+nav.main a.btn-primary,nav.main a.btn-primary:hover{color:var(--accent-ink)}
+.btn.loading{pointer-events:none;opacity:.85}
+.btn.loading::after{content:"";width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+/* cards */
+.pcard img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.pcard:hover img{transform:scale(1.06)}
+.pcard .more{font-weight:650;font-size:.92rem;color:var(--accent)}
+.pcard .more::after{content:" →";display:inline-block;transition:transform .2s}
+.pcard:hover .more::after{transform:translateX(4px)}
+.pcard{box-shadow:0 0 0 rgba(0,0,0,0)}
+.pcard:hover{box-shadow:0 18px 36px -24px rgba(0,0,0,.5)}
+.ind div,.mini,.kpi,.card{transition:transform .25s,border-color .25s,box-shadow .25s}
+.ind div:hover,.mini:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 14px 28px -22px rgba(0,0,0,.5)}
+.ind svg{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.ind div:hover svg{transform:scale(1.14) rotate(-5deg)}
+.media img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.media:hover img{transform:scale(1.04)}
+/* plant parallax */
+.plant>img{transform:translateY(var(--py,0px)) scale(1.14);will-change:transform}
+/* certs */
+.stamp{transition:transform .3s}
+.stamp:hover{transform:rotate(0deg) scale(1.08)}
+.certs.in .stamp{animation:stampin .55s cubic-bezier(.2,.7,.2,1) both}
+.certs.in .stamp:nth-child(2){animation-delay:.1s}.certs.in .stamp:nth-child(3){animation-delay:.2s}.certs.in .stamp:nth-child(4){animation-delay:.3s}
+/* steps: progress line draws across */
+.steps li{position:relative}
+.steps li::before{border-top-color:var(--line)}
+.steps li::after{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--accent);transform-origin:left;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.steps.below li::after{transform:scaleX(0)}
+.steps li:nth-child(2)::after{transition-delay:.15s}.steps li:nth-child(3)::after{transition-delay:.3s}.steps li:nth-child(4)::after{transition-delay:.45s}
+/* timeline */
+.timeline div::before{transition:transform .4s}
+.timeline div:hover::before{transform:scale(1.4)}
+/* drawing dimension lines */
+.drawing .dim{stroke-dasharray:440;stroke-dashoffset:0;transition:stroke-dashoffset 1.3s cubic-bezier(.3,.6,.2,1)}
+.drawing.below .dim{stroke-dashoffset:440}
+/* tables */
+tbody tr{transition:background .15s}
+tbody tr:hover{background:var(--accent-soft)}
+/* marquee */
+.marquee{display:flex;align-items:center;gap:20px;overflow:hidden;background:var(--paper);border-bottom:1px solid var(--line);padding-block:14px}
+.marquee .lbl{flex:none;font:500 .72rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.marquee .viewport{overflow:hidden;flex:1;min-width:0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee .track{display:flex;gap:44px;width:max-content;animation:mq 42s linear infinite;font:600 .95rem var(--f-body);color:var(--ink-2)}
+.marquee .track span::before{content:"◆";color:var(--accent);font-size:.6rem;margin-right:12px;vertical-align:2px}
+.marquee:hover .track{animation-play-state:paused}
+/* cta band hatch */
+.cta-band{position:relative;overflow:hidden}
+.cta-band::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 31px,rgba(255,255,255,.07) 31px 32px);background-size:92px 92px;animation:hatch 14s linear infinite;pointer-events:none}
+.cta-band .wrap{position:relative}
+/* form */
+input,select,textarea{transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
+.drop{transition:border-color .2s,background .2s}
+.drop:hover{border-color:var(--accent)}
+.done:not([hidden]){animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+/* tracker */
+.lead{animation:rise .45s cubic-bezier(.2,.7,.2,1) both;transition:border-color .2s}
+.lead:hover{border-color:var(--accent)}
+.pill.s-New::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px;animation:blink 1.6s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.reveal.below,.steps.below li::after,.drawing.below .dim{transform:none;opacity:1;stroke-dashoffset:0}.plant>img{transform:scale(1.05)}}
+</style>
+</head>
+<body>
+
+
+<div class="demo" role="note">
+  <div class="wrap">
+    <span>DEMO SITE · Meru Precision is a fictional company · images are 3D renders. Built by Sutrayaan.</span>
+    <a href="#leads">Owner view: inquiry tracker →</a>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Meru Precision Components home">
+      <svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><rect x="1" y="1" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 29 L15 11 L19 20 L23 11 L31 29" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"/><line x1="4" y1="33" x2="34" y2="33" stroke="currentColor" stroke-width="1" stroke-dasharray="3 2"/></svg>
+      <span><b>Meru Precision</b><small>CNC COMPONENTS · THANE</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
+    <nav class="main" id="mainNav" aria-label="Main">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#capabilities" data-nav="capabilities">Capabilities</a>
+      <a href="#quality" data-nav="quality">Quality &amp; Plant</a>
+      <a href="#about" data-nav="about">About</a>
+      <a href="#quote" data-nav="quote" class="btn btn-primary">Get a quote</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ================= HOME ================= -->
+<div class="view" id="v-home">
+  <div class="img-band hero">
+    <img src="img/hero.webp" alt="Precision-turned shaft, flange, gear, brass fittings and bronze bushes on a dark workbench" width="1800" height="928" fetchpriority="high">
+    <div class="wrap">
+      <span class="eyebrow">Precision engineering · Thane, India</span>
+      <h1>CNC components, made to ±0.005&nbsp;mm.</h1>
+      <p>Shafts, flanges, fittings and housings for automotive, pump and machinery OEMs.</p>
+      <div class="row">
+        <a class="btn btn-primary" href="#quote">Send a drawing</a>
+        <a class="btn btn-light" href="#capabilities">Our capabilities</a>
+      </div>
+      <div class="badges"><span>Quote in 48 hours</span><span>IATF 16949</span><span>Exports to 9 countries</span></div>
+    </div>
+  </div>
+
+  <div class="stats" aria-label="Company at a glance">
+    <div class="wrap">
+      <div><b>22 yrs</b><span>since 2004</span></div>
+      <div><b>34</b><span>CNC machines</span></div>
+      <div><b>1.2 lakh</b><span>parts a month</span></div>
+      <div><b>60+</b><span>OEM customers</span></div>
+      <div><b>99.6%</b><span>on-time delivery</span></div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-label="Export markets">
+    <div class="wrap" style="display:flex;align-items:center;gap:20px;width:100%">
+      <span class="lbl">Exporting to</span>
+      <div class="viewport"><div class="track" aria-hidden="false">
+        <span>Germany</span><span>Italy</span><span>United Kingdom</span><span>USA</span><span>UAE</span><span>Saudi Arabia</span><span>Turkey</span><span>Thailand</span><span>South Africa</span>
+        <span aria-hidden="true">Germany</span><span aria-hidden="true">Italy</span><span aria-hidden="true">United Kingdom</span><span aria-hidden="true">USA</span><span aria-hidden="true">UAE</span><span aria-hidden="true">Saudi Arabia</span><span aria-hidden="true">Turkey</span><span aria-hidden="true">Thailand</span><span aria-hidden="true">South Africa</span>
+      </div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">What we make</span><h2>Three core capabilities.</h2></div>
+      <div class="grid-3">
+        <a class="pcard" href="#capabilities">
+          <img src="img/turned.webp" alt="Stepped steel shaft, threaded pin and bronze bush" loading="lazy" width="1000" height="750">
+          <div class="body"><h3>CNC turned parts</h3><span class="muted">Shafts, pins, bushes and sleeves.</span><div class="chips"><span class="chip">Ø4–320 mm</span><span class="chip">±0.005 mm</span></div></div>
+        </a>
+        <a class="pcard" href="#capabilities">
+          <img src="img/milled.webp" alt="Machined steel flange and aluminium manifold block" loading="lazy" width="1000" height="750">
+          <div class="body"><h3>VMC / HMC milled parts</h3><span class="muted">Flanges, manifolds, housings and brackets.</span><div class="chips"><span class="chip">1000 × 500 mm</span><span class="chip">4-axis</span></div></div>
+        </a>
+        <a class="pcard" href="#capabilities">
+          <img src="img/fittings.webp" alt="Brass and stainless steel threaded hydraulic fittings" loading="lazy" width="1000" height="750">
+          <div class="body"><h3>Hydraulic fittings</h3><span class="muted">Adaptors and connectors in brass and steel.</span><div class="chips"><span class="chip">BSP · NPT · M</span><span class="chip">Leak tested</span></div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">Industries</span><h2>Trusted by OEMs in five sectors.</h2></div>
+      <div class="ind">
+        <div><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22l3-8h20l3 8v5H4z"/><circle cx="10" cy="27" r="3"/><circle cx="24" cy="27" r="3"/></svg><b>Automotive &amp; EV</b></div>
+        <div><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="17" cy="17" r="12"/><path d="M17 5c4 6 4 18 0 24M5 17c6-4 18-4 24 0"/></svg><b>Pumps &amp; valves</b></div>
+        <div><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="12" width="20" height="10"/><path d="M24 17h6M8 12V7h12v5"/></svg><b>Hydraulics</b></div>
+        <div><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="17" cy="17" r="5"/><path d="M17 3v5M17 26v5M3 17h5M26 17h5M7 7l3.5 3.5M23.5 23.5L27 27M27 7l-3.5 3.5M10.5 23.5L7 27"/></svg><b>Machinery</b></div>
+        <div><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 4s9 10 9 16a9 9 0 0 1-18 0c0-6 9-16 9-16z"/></svg><b>Oil &amp; gas</b></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="img-band plant">
+    <img src="img/shopfloor.webp" alt="Shop floor aisle lined with CNC machining centres" loading="lazy" width="1800" height="930">
+    <div class="wrap">
+      <span class="eyebrow">Inside the plant</span>
+      <h2>18,000 sq ft. Two shifts. One standard.</h2>
+      <div class="nums">
+        <div><b>16</b><span>turning centres</span></div>
+        <div><b>11</b><span>machining centres</span></div>
+        <div><b>2</b><span>CMMs</span></div>
+      </div>
+      <div><a class="btn btn-light" href="#quality">Tour the plant</a></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap split">
+      <figure class="media" style="margin:0"><img src="img/cmm.webp" alt="Coordinate measuring machine probing a machined flange" loading="lazy" width="1100" height="891"><figcaption>CMM inspection · 1.9 µm</figcaption></figure>
+      <div style="display:grid;gap:22px">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Quality</span><h2>Every batch measured. Every report shipped.</h2></div>
+        <ul class="ticks">
+          <li>CMM report with every dispatch</li>
+          <li>PPAP Level 3 and APQP for automotive</li>
+          <li>Material certificates to EN 10204 3.1</li>
+        </ul>
+        <div class="certs">
+          <div class="stamp">IATF<br>16949</div><div class="stamp">ISO<br>9001</div><div class="stamp">ISO<br>14001</div><div class="stamp">ZED<br>GOLD</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">How it works</span><h2>Drawing to dispatch in four steps.</h2></div>
+      <ol class="steps">
+        <li><b>Send your drawing</b><span>PDF, STEP or DWG. NDA on request.</span></li>
+        <li><b>Quote in 48 hours</b><span>Price, lead time and engineering notes.</span></li>
+        <li><b>First article</b><span>Samples with a full report in 2–3 weeks.</span></li>
+        <li><b>Production</b><span>Batches ship in 4–6 weeks.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="cta-band"><div class="wrap"><h2>Have a drawing? Get a quote in 48 hours.</h2><a class="btn" href="#quote">Send a drawing</a></div></div>
+</div>
+
+<!-- ================= CAPABILITIES ================= -->
+<div class="view" id="v-capabilities">
+  <div class="img-band page-hero">
+    <img src="img/turned.webp" alt="" width="1000" height="750">
+    <div class="wrap"><span class="eyebrow">Capabilities</span><h1>What we can make.</h1><p>Process, size, tolerance and material, at a glance.</p></div>
+  </div>
+  <section>
+    <div class="wrap">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Process</th><th>Size range</th><th>Best tolerance</th><th>Finish</th></tr></thead>
+          <tbody>
+            <tr><td>CNC turning</td><td class="num">Ø4–320 mm · L ≤ 600</td><td class="num">±0.005 mm</td><td class="num">Ra 0.4</td></tr>
+            <tr><td>Turn-mill (Y-axis)</td><td class="num">Ø6–65 mm bar</td><td class="num">±0.01 mm</td><td class="num">Ra 0.8</td></tr>
+            <tr><td>VMC milling</td><td class="num">1000 × 500 × 500 mm</td><td class="num">±0.01 mm</td><td class="num">Ra 0.8</td></tr>
+            <tr><td>HMC, 4th axis</td><td class="num">500 mm pallet</td><td class="num">±0.01 mm</td><td class="num">Ra 0.8</td></tr>
+            <tr><td>Cylindrical grinding</td><td class="num">Ø10–200 mm</td><td class="num">±0.003 mm</td><td class="num">Ra 0.2</td></tr>
+            <tr><td>Threading</td><td class="num">M5–M64 · ¼″–2″</td><td class="num">6g / 6H</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap split">
+      <figure class="drawing" style="margin:0" aria-label="Engineering drawing of a stepped drive shaft">
+        <svg viewBox="0 0 520 230" role="img" aria-labelledby="shaftT">
+          <title id="shaftT">Stepped drive shaft with dimensions</title>
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9z" style="fill:var(--accent)"/></marker>
+            <pattern id="thr" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(75)"><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--ink-2)" stroke-width="1"/></pattern>
+          </defs>
+          <line x1="20" y1="110" x2="500" y2="110" style="stroke:var(--ink-2)" stroke-width="1" stroke-dasharray="14 4 2 4"/>
+          <path d="M44 88 L48 84 H120 V70 H296 V80 H380 V92 H466 L470 96 V124 L466 128 H380 V140 H296 V150 H120 V136 H48 L44 132 Z" style="stroke:var(--ink);fill:var(--panel)" stroke-width="1.6"/>
+          <rect x="384" y="92" width="80" height="36" style="fill:url(#thr)" opacity=".7"/>
+          <rect x="190" y="104" width="50" height="12" rx="6" style="fill:none;stroke:var(--ink)" stroke-width="1.2"/>
+          <line x1="44" y1="140" x2="44" y2="196" style="stroke:var(--ink-2)" stroke-width=".8"/>
+          <line x1="470" y1="132" x2="470" y2="196" style="stroke:var(--ink-2)" stroke-width=".8"/>
+          <line x1="46" y1="188" x2="468" y2="188" style="stroke:var(--accent)" stroke-width="1" marker-start="url(#ar)" marker-end="url(#ar)"/>
+          <text x="257" y="182" text-anchor="middle" style="fill:var(--ink);font:500 12px var(--f-mono)">426 ±0.05</text>
+          <line x1="150" y1="72" x2="150" y2="148" style="stroke:var(--accent)" stroke-width="1" marker-start="url(#ar)" marker-end="url(#ar)"/>
+          <text x="156" y="64" style="fill:var(--ink);font:500 12px var(--f-mono)">Ø80 h6</text>
+          <line x1="120" y1="36" x2="120" y2="68" style="stroke:var(--ink-2)" stroke-width=".8"/>
+          <line x1="296" y1="36" x2="296" y2="68" style="stroke:var(--ink-2)" stroke-width=".8"/>
+          <line x1="122" y1="44" x2="294" y2="44" style="stroke:var(--accent)" stroke-width="1" marker-start="url(#ar)" marker-end="url(#ar)"/>
+          <text x="208" y="38" text-anchor="middle" style="fill:var(--ink);font:500 12px var(--f-mono)">176 ±0.02</text>
+          <path d="M330 80 l6 -12 l6 12 M336 68 l14 -26 h30" style="fill:none;stroke:var(--ink)" stroke-width="1.1"/>
+          <text x="354" y="38" style="fill:var(--ink);font:500 12px var(--f-mono)">Ra 0.4</text>
+          <text x="424" y="160" text-anchor="middle" style="fill:var(--ink-2);font:400 11px var(--f-mono)">M36×1.5</text>
+          <text x="215" y="125" text-anchor="middle" style="fill:var(--ink-2);font:400 10px var(--f-mono)">KEYWAY 10P9</text>
+        </svg>
+        <figcaption class="titleblock">
+          <div><span>PART</span><b>Drive shaft</b></div>
+          <div><span>MATERIAL</span><b>EN19</b></div>
+          <div><span>TOL. (GEN.)</span><b>ISO 2768-m</b></div>
+          <div><span>BATCH</span><b>2,000 pcs</b></div>
+        </figcaption>
+      </figure>
+      <div style="display:grid;gap:18px">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Materials</span><h2>Steels, stainless, brass and aluminium.</h2></div>
+        <div class="chips">
+          <span class="chip">EN8</span><span class="chip">EN19</span><span class="chip">EN24</span><span class="chip">20MnCr5</span><span class="chip">SS304</span><span class="chip">SS316</span><span class="chip">SS410</span><span class="chip">17-4 PH</span><span class="chip">Duplex 2205</span><span class="chip">Brass CW614N</span><span class="chip">Al 6061</span><span class="chip">Al 7075</span><span class="chip">Bronze</span>
+        </div>
+        <span class="eyebrow" style="margin-top:8px">Finishing</span>
+        <div class="chips"><span class="chip">Induction hardening</span><span class="chip">Carburising</span><span class="chip">Zinc-nickel</span><span class="chip">Hard chrome</span><span class="chip">Passivation</span><span class="chip">Laser marking</span></div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">Order sizes</span><h2>From one prototype to 50,000 pieces.</h2></div>
+      <div class="grid-4">
+        <div class="mini"><span class="big">10+</span><b>Prototypes</b><span class="muted">1–2 weeks</span></div>
+        <div class="mini"><span class="big">5–300</span><b>First article / PPAP</b><span class="muted">2–3 weeks</span></div>
+        <div class="mini"><span class="big">50k</span><b>Production</b><span class="muted">4–6 weeks</span></div>
+        <div class="mini"><span class="big">Weekly</span><b>Call-offs</b><span class="muted">Kanban or blanket PO</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap split rev">
+      <figure class="media" style="margin:0"><img src="img/gear.webp" alt="Machined steel gear blanks" loading="lazy" width="1000" height="750"></figure>
+      <div style="display:grid;gap:18px">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Export-ready</span><h2>Shipping to 9 countries since 2011.</h2></div>
+        <ul class="ticks"><li>45 km from Nhava Sheva (JNPT) port</li><li>DIN, ASTM, BS and JIS standards</li><li>FOB, CIF or DAP terms</li></ul>
+      </div>
+    </div>
+  </section>
+  <div class="cta-band"><div class="wrap"><h2>Send a drawing. We reply in 48 hours.</h2><a class="btn" href="#quote">Get a quote</a></div></div>
+</div>
+
+<!-- ================= QUALITY & PLANT ================= -->
+<div class="view" id="v-quality">
+  <div class="img-band page-hero">
+    <img src="img/cmm.webp" alt="" width="1100" height="891">
+    <div class="wrap"><span class="eyebrow">Quality &amp; plant</span><h1>Measured before it leaves.</h1><p>Documented process, calibrated equipment, proof with every batch.</p></div>
+  </div>
+  <section>
+    <div class="wrap">
+      <ol class="steps" style="grid-template-columns:repeat(3,1fr)">
+        <li><b>Incoming</b><span>Every bar checked against its mill certificate.</span></li>
+        <li><b>In process</b><span>First-piece approval and SPC, Cpk ≥ 1.67.</span></li>
+        <li><b>Final</b><span>CMM report and material certificate with each dispatch.</span></li>
+      </ol>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">Metrology room · 20 ± 1 °C</span><h2>Measuring equipment.</h2></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Equipment</th><th>Qty</th><th>Accuracy</th></tr></thead>
+        <tbody>
+          <tr><td>CMM, 700 × 1000 × 600 mm</td><td class="num">2</td><td class="num">1.9 µm</td></tr>
+          <tr><td>Contour &amp; roughness tester</td><td class="num">1</td><td class="num">Ra 0.02–40 µm</td></tr>
+          <tr><td>Profile projector</td><td class="num">2</td><td class="num">10×–100×</td></tr>
+          <tr><td>Hardness testers</td><td class="num">3</td><td class="num">HRC / HV</td></tr>
+          <tr><td>Thread &amp; plug gauges</td><td class="num">1,400+</td><td class="num">NABL calibrated</td></tr>
+        </tbody></table></div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">The plant</span><h2>34 CNC machines in Wagle Estate, Thane.</h2></div>
+      <figure class="media" style="margin:0 0 22px"><img src="img/shopfloor.webp" alt="Shop floor aisle lined with CNC machining centres" loading="lazy" width="1800" height="930" style="aspect-ratio:2/1"><figcaption>Unit 1 · turning and machining</figcaption></figure>
+      <div class="grid-4">
+        <div class="mini"><span class="big">16</span><b>CNC turning centres</b><span class="muted">Ø4–320 mm</span></div>
+        <div class="mini"><span class="big">4</span><b>Turn-mill centres</b><span class="muted">Ø65 mm bar</span></div>
+        <div class="mini"><span class="big">11</span><b>VMC &amp; HMC</b><span class="muted">up to 1000 × 500 mm</span></div>
+        <div class="mini"><span class="big">3</span><b>Grinders</b><span class="muted">Ø200 × 600 mm</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="cta-band"><div class="wrap"><h2>Need our audit pack for vendor registration?</h2><a class="btn" href="#quote" data-prefill="docs">Request documents</a></div></div>
+</div>
+
+<!-- ================= ABOUT ================= -->
+<div class="view" id="v-about">
+  <div class="img-band page-hero">
+    <img src="img/hero.webp" alt="" width="1800" height="928">
+    <div class="wrap"><span class="eyebrow">About us</span><h1>Two lathes in 2004. Thirty-four today.</h1><p>Family-run, engineer-led, and still supplying our first customer.</p></div>
+  </div>
+  <section>
+    <div class="wrap">
+      <div class="timeline">
+        <div><b>2004</b><span>Founded in a 1,200 sq ft gala with two lathes.</span></div>
+        <div><b>2011</b><span>First export order, to Germany.</span></div>
+        <div><b>2019</b><span>IATF 16949 certified. Unit 2 opens.</span></div>
+        <div><b>2026</b><span>34 machines, 85 people, 60+ OEMs.</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">For purchase teams</span><h2>Vendor registration details.</h2></div>
+      <div class="table-wrap"><table>
+        <tbody>
+          <tr><td>Legal name</td><td>Meru Precision Components Pvt. Ltd. <span class="tag">demo</span></td></tr>
+          <tr><td>Address</td><td>Wagle Industrial Estate, Thane (W) 400604 <span class="tag">demo</span></td></tr>
+          <tr><td>GSTIN</td><td class="num">27XXXXXXXXXXXZX <span class="tag">demo</span></td></tr>
+          <tr><td>Udyam</td><td class="num">UDYAM-MH-00-0000000 <span class="tag">demo</span></td></tr>
+          <tr><td>Documents</td><td>Company profile, certificates, machine list, bank letter</td></tr>
+        </tbody></table></div>
+      <p style="margin-top:20px"><a class="btn btn-primary" href="#quote" data-prefill="docs">Request vendor documents</a></p>
+    </div>
+  </section>
+  <section>
+    <div class="wrap split rev">
+      <figure class="media" style="margin:0"><img src="img/shopfloor.webp" alt="CNC machine shop floor" loading="lazy" width="1800" height="930"></figure>
+      <div style="display:grid;gap:18px">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Careers</span><h2>Now hiring CNC setters and a quality engineer.</h2></div>
+        <ul class="ticks"><li>Day and night shifts</li><li>PF, ESIC and canteen</li><li>Walk in Mon–Sat, 10 am – 4 pm</li></ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= QUOTE ================= -->
+<div class="view" id="v-quote">
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow">Get a quote</span><h1>Send us your drawing.</h1><p class="muted">An engineer replies with price and lead time within 48 hours.</p></div>
+      <div class="quote-layout">
+        <div>
+          <form class="rfq" id="rfq" novalidate>
+            <div class="fields">
+              <label>Request type
+                <select id="f_type" name="type">
+                  <option>Quote for a part</option>
+                  <option>Prototype / sample</option>
+                  <option value="Vendor registration documents">Vendor registration documents</option>
+                  <option>General question</option>
+                </select>
+              </label>
+              <label>Process (if known)
+                <select id="f_process" name="process">
+                  <option>Not sure</option><option>CNC turning</option><option>VMC / HMC milling</option><option>Turn-mill</option><option>Grinding</option><option>Fittings / threading</option>
+                </select>
+              </label>
+              <label>Your name *<input id="f_name" name="name" autocomplete="name" required><span class="err" data-for="f_name" hidden></span></label>
+              <label>Company *<input id="f_company" name="company" autocomplete="organization" required><span class="err" data-for="f_company" hidden></span></label>
+              <label>Work email<input id="f_email" name="email" type="email" autocomplete="email"><span class="err" data-for="f_email" hidden></span></label>
+              <label>Phone / WhatsApp<input id="f_phone" name="phone" type="tel" autocomplete="tel" placeholder="+91 98200 12345"><span class="err" data-for="f_phone" hidden></span></label>
+              <label>City and country<input id="f_city" name="city" placeholder="Pune, India"></label>
+              <label>Material<input id="f_material" name="material" placeholder="EN19, SS316, brass…"></label>
+              <label>Quantity *<input id="f_qty" name="qty" placeholder="2,000 pcs per batch"><span class="err" data-for="f_qty" hidden></span></label>
+              <label>Needed by<input id="f_date" name="date" type="date"></label>
+              <label class="full">Part description *<textarea id="f_desc" name="desc" placeholder="Part name, critical tolerances, finish, heat treatment…"></textarea><span class="err" data-for="f_desc" hidden></span></label>
+              <div class="full" style="display:grid;gap:6px">
+                <span style="font-weight:600;font-size:.92rem">Drawings</span>
+                <label class="drop" id="drop" for="f_files">
+                  <span><b>Choose files</b> or drag them here</span>
+                  <span class="hint">PDF, STEP, IGES, DWG, DXF or images</span>
+                  <input id="f_files" type="file" multiple accept=".pdf,.step,.stp,.igs,.iges,.dwg,.dxf,.png,.jpg,.jpeg" hidden>
+                </label>
+                <div class="filelist" id="fileList"></div>
+              </div>
+              <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><label>Website<input id="f_web" name="website" tabindex="-1" autocomplete="off"></label></div>
+              <label class="check full"><input type="checkbox" id="f_nda" name="nda"> Send me your NDA before I share drawings</label>
+            </div>
+            <p class="err" id="formErr" hidden></p>
+            <div><button class="btn btn-primary" type="submit" id="submitBtn">Send quote request</button></div>
+          </form>
+          <div class="done" id="done" hidden>
+            <span class="eyebrow">Request received</span>
+            <h2 style="font-size:1.8rem">Thank you. Your reference is <span class="mono" id="refNo"></span>.</h2>
+            <p class="muted" id="doneMsg"></p>
+            <p class="muted" id="demoNote" hidden></p>
+            <div><button class="btn btn-ghost" type="button" id="another">Send another request</button></div>
+          </div>
+        </div>
+        <aside class="aside">
+          <figure class="media" style="margin:0"><img src="img/milled.webp" alt="Machined flange and manifold block" loading="lazy" width="1000" height="750" style="aspect-ratio:4/3"></figure>
+          <div class="card">
+            <h3>Talk to sales</h3>
+            <div class="contact-line"><div><b>Email</b><br><span class="mono">sales@meruprecision.example</span></div><button class="copy" type="button" data-copy="sales@meruprecision.example">Copy</button></div>
+            <div class="contact-line"><div><b>WhatsApp</b><br><span class="mono">+91 22 0000 0000</span> <span class="tag">demo</span></div><button class="copy" type="button" data-copy="+91 22 0000 0000">Copy</button></div>
+            <div class="contact-line"><div><b>Hours</b><br><span class="muted">Mon–Sat, 9:30 am – 6:30 pm</span></div></div>
+          </div>
+          <div class="card"><h3>Your drawings stay private</h3><p class="muted">Seen only by our engineers. NDA on request.</p></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= LEADS (owner view) ================= -->
+<div class="view" id="v-leads">
+  <section>
+    <div class="wrap">
+      <div class="tracker-head">
+        <div class="sec-head" style="margin:0"><span class="eyebrow">Owner view · hidden from buyers on a live site</span><h1>Inquiry tracker</h1><p class="muted">Every website inquiry, in one place. Update the status as you work each one.</p></div>
+        <a class="btn btn-ghost" href="#quote">Add a test inquiry</a>
+      </div>
+      <div id="trackerNotice" class="notice" style="margin-top:20px" hidden></div>
+      <div class="kpis" id="kpis">
+        <div class="kpi" id="k-new"><b>0</b><span>New, awaiting reply</span></div>
+        <div class="kpi" id="k-late"><b>0</b><span>Waiting over 24 hours</span></div>
+        <div class="kpi" id="k-quoted"><b>0</b><span>Quoted</span></div>
+        <div class="kpi" id="k-won"><b>0</b><span>Won</span></div>
+      </div>
+      <div class="tracker-grid">
+        <div class="lead-list" id="leadList">
+          <div class="empty"><b>No inquiries yet</b><span>Submit a request on the quote page and it will appear here.</span></div>
+        </div>
+        <div style="display:grid;gap:12px">
+          <span class="eyebrow">Owner's phone, live site</span>
+          <div class="phone" aria-label="Example WhatsApp alert">
+            <div class="bubble" id="waBubble"><b>New quote request</b><span class="muted">Alerts appear here for each new inquiry.</span><span class="t">--:--</span></div>
+          </div>
+          <p class="muted" style="font-size:.88rem">On a client's live site, each inquiry also pings the owner's WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap" style="padding-block:28px">
+    <div class="tb">
+      <div><b style="font:760 1.1rem var(--f-display);font-stretch:80%;text-transform:uppercase">Meru Precision Components</b><span class="muted">CNC components for OEMs since 2004. Thane, Maharashtra.</span></div>
+      <div><span class="eyebrow">Company</span><a href="#capabilities">Capabilities</a><a href="#quality">Quality &amp; plant</a><a href="#about">About &amp; careers</a></div>
+      <div><span class="eyebrow">Buyers</span><a href="#quote">Get a quote</a><a href="#quote" data-prefill="docs">Vendor documents</a></div>
+      <div><span class="eyebrow">Certified</span><span class="mono">IATF 16949:2016</span><span class="mono">ISO 9001:2015</span><span class="mono">ISO 14001:2015</span></div>
+    </div>
+    <div class="tb-bottom"><span>DWG. NO. MPC-WEB-001 · REV D</span><span>Demo website by Sutrayaan · fictional company · <a href="#leads" style="color:inherit">owner view</a></span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const VIEWS=["home","capabilities","quality","about","quote","leads"];
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  let pendingPrefill=null;
+  function show(name){
+    if(!VIEWS.includes(name)) name="home";
+    $$(".view").forEach(v=>v.classList.toggle("active",v.id==="v-"+name));
+    $$("nav.main a").forEach(a=>{ if(a.dataset.nav===name) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+    $("#mainNav").classList.remove("open"); $("#menuBtn").setAttribute("aria-expanded","false");
+    if(name==="quote" && pendingPrefill==="docs"){ $("#f_type").value="Vendor registration documents"; }
+    pendingPrefill=null;
+    window.scrollTo(0,0);
+  }
+  document.addEventListener("click",e=>{const a=e.target.closest("a[data-prefill]"); if(a) pendingPrefill=a.dataset.prefill;});
+  window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+  show(location.hash.slice(1)||"home");
+  $("#menuBtn").addEventListener("click",()=>{const o=$("#mainNav").classList.toggle("open");$("#menuBtn").setAttribute("aria-expanded",o)});
+
+  $$("[data-copy]").forEach(b=>b.addEventListener("click",()=>{
+    const t=b.dataset.copy;
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)}).catch(()=>{b.textContent="Select text";});
+  }));
+
+  let files=[];
+  const drop=$("#drop"), fin=$("#f_files");
+  function renderFiles(){ $("#fileList").innerHTML=""; files.forEach(f=>{const d=document.createElement("div");d.textContent="▸ "+f.name+" · "+(f.size/1024/1024).toFixed(2)+" MB";$("#fileList").appendChild(d)}); }
+  fin.addEventListener("change",()=>{files=[...fin.files];renderFiles()});
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over")}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over")}));
+  drop.addEventListener("drop",e=>{files=[...e.dataTransfer.files];renderFiles()});
+
+  const API=(window.MERU_API&&!/^__/.test(window.MERU_API))?window.MERU_API:"";
+  async function api(body){ const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)}); const j=await r.json(); if(!j.ok) throw new Error(j.error||"failed"); return j; }
+  startTracker();
+
+  function setErr(id,msg){const el=document.querySelector('.err[data-for="'+id+'"]');const inp=$("#"+id);if(!el)return;el.hidden=!msg;el.textContent=msg||"";inp.classList.toggle("invalid",!!msg)}
+  function val(id){return ($("#"+id).value||"").trim()}
+  $$("#rfq input,#rfq textarea").forEach(i=>i.addEventListener("input",()=>setErr(i.id,"")));
+  $("#rfq").addEventListener("submit",async e=>{
+    e.preventDefault();
+    let ok=true;
+    const isDocs=val("f_type")==="Vendor registration documents";
+    [["f_name","Enter your name."],["f_company","Enter your company name."]].forEach(([id,m])=>{const bad=!val(id);setErr(id,bad?m:"");if(bad)ok=false});
+    if(!isDocs){[["f_qty","Enter a quantity so we can price the batch."],["f_desc","Describe the part, or attach a drawing and write its name here."]].forEach(([id,m])=>{const bad=!val(id);setErr(id,bad?m:"");if(bad)ok=false})} else {setErr("f_qty","");setErr("f_desc","")}
+    const email=val("f_email"), phone=val("f_phone");
+    setErr("f_email",""); setErr("f_phone","");
+    if(!email&&!phone){setErr("f_email","Give an email or a phone number so we can reply.");ok=false}
+    else if(email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){setErr("f_email","This email address looks incomplete.");ok=false}
+    if(phone&&phone.replace(/\D/g,"").length<8){setErr("f_phone","Include the full number with country code.");ok=false}
+    $("#formErr").hidden=ok; $("#formErr").textContent=ok?"":"Some details are missing. Check the highlighted fields.";
+    if(!ok) return;
+    const d=new Date();
+    const ref="RFQ-"+d.toISOString().slice(2,10).replace(/-/g,"")+"-"+String(Math.floor(Math.random()*900)+100);
+    const lead={ref,type:val("f_type"),process:val("f_process"),name:val("f_name"),company:val("f_company"),email,phone,city:val("f_city"),material:val("f_material"),qty:val("f_qty"),neededBy:val("f_date"),desc:val("f_desc"),files:files.map(f=>f.name),nda:$("#f_nda").checked,status:"New",source:"Website",createdAt:d.toISOString(),example:false};
+    const btn=$("#submitBtn"); btn.disabled=true; btn.textContent="Sending"; btn.classList.add("loading");
+    let saved=false, finalRef=ref;
+    if(API){ try{ const j=await api(Object.assign({action:"create",website:$("#f_web").value},lead)); finalRef=j.ref||ref; saved=true; }catch(err){ saved=false } }
+    btn.disabled=false; btn.classList.remove("loading"); btn.textContent="Send quote request";
+    $("#refNo").textContent=finalRef;
+    $("#doneMsg").textContent=isDocs?"We will email the vendor registration pack within one working day.":"An engineer will reply within 48 hours. For anything urgent, WhatsApp us with this reference.";
+    const note=$("#demoNote"); note.hidden=false;
+    if(saved){note.innerHTML='Demo: saved to the owner\'s Google Sheet and emailed to them. <a href="#leads">See it in the tracker →</a>';if(window.refreshLeads) setTimeout(window.refreshLeads,800);}
+    else{note.textContent="We could not save this request just now. Please email or WhatsApp us using the details on the right.";}
+    $("#rfq").hidden=true; $("#done").hidden=false; window.scrollTo(0,0);
+  });
+  $("#another").addEventListener("click",()=>{$("#rfq").reset();files=[];renderFiles();$("#rfq").hidden=false;$("#done").hidden=true});
+
+  const STATUSES=["New","Contacted","Quoted","Won","Lost"];
+  function ago(iso){const m=Math.round((Date.now()-new Date(iso))/60000);if(m<60)return m+" min ago";const h=Math.round(m/60);if(h<48)return h+" h ago";return Math.round(h/24)+" days ago"}
+  function esc(s){const d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML}
+  function render(leads,editable){
+    const list=$("#leadList"); list.innerHTML="";
+    const n=s=>leads.filter(l=>l.status===s).length;
+    const late=leads.filter(l=>l.status==="New"&&Date.now()-new Date(l.createdAt)>864e5).length;
+    $("#k-new b").textContent=n("New"); $("#k-late b").textContent=late; $("#k-quoted b").textContent=n("Quoted"); $("#k-won b").textContent=n("Won");
+    $("#k-late").classList.toggle("alert",late>0);
+    if(!leads.length){list.innerHTML='<div class="empty"><b>No inquiries yet</b><span>Submit a request on the quote page and it will appear here.</span><span><a href="#quote">Add a test inquiry →</a></span></div>';return}
+    leads.forEach(l=>{
+      const el=document.createElement("article"); el.className="lead";
+      const digits=(l.phone||"").replace(/\D/g,"");
+      const wa=digits.length>=10?'<a class="btn btn-ghost" style="padding:7px 10px;font-size:.88rem" target="_blank" rel="noopener" href="https://wa.me/'+digits+'?text='+encodeURIComponent("Hello "+(l.name||"")+", thank you for your enquiry "+l.ref+" to Meru Precision. ")+'">Reply on WhatsApp</a>':"";
+      el.innerHTML='<div class="who"><b>'+esc(l.company)+' <span class="muted" style="font-weight:400">· '+esc(l.name)+'</span>'+(l.example?' <span class="tag">example</span>':'')+'</b>'+
+        '<div class="meta"><span>'+esc(l.ref)+'</span><span>'+esc(ago(l.createdAt))+'</span><span>'+esc(l.type)+'</span>'+(l.city?'<span>'+esc(l.city)+'</span>':'')+'</div></div>'+
+        '<div class="actions"><span class="pill s-'+esc(l.status)+'">'+esc(l.status)+'</span>'+
+        (editable?'<select aria-label="Status for '+esc(l.ref)+'">'+STATUSES.map(s=>'<option'+(s===l.status?' selected':'')+'>'+s+'</option>').join("")+'</select>':'')+wa+'</div>'+
+        '<div class="detail"><span><b>Part:</b> '+esc(l.desc||"—")+'</span><span><b>Qty:</b> '+esc(l.qty||"—")+' · <b>Material:</b> '+esc(l.material||"—")+' · <b>Process:</b> '+esc(l.process||"—")+'</span>'+
+        (l.files&&l.files.length?'<span class="mono">Drawings: '+esc(l.files.join(", "))+'</span>':'')+
+        '<span class="mono">'+esc([l.email,l.phone].filter(Boolean).join(" · "))+(l.nda?' · NDA requested':'')+'</span></div>';
+      if(editable){
+        const sel=el.querySelector("select");
+        sel.addEventListener("change",async()=>{
+          sel.disabled=true;
+          const patch={status:sel.value,updatedAt:new Date().toISOString()};
+          if(l.status==="New"&&sel.value!=="New"&&!l.firstResponseAt) patch.firstResponseAt=patch.updatedAt;
+          try{await api({action:"status",ref:l.ref,status:sel.value}); l.status=sel.value; el.querySelector(".pill").className="pill s-"+sel.value; el.querySelector(".pill").textContent=sel.value;}catch(e){sel.value=l.status}
+          sel.disabled=false;
+        });
+      }
+      list.appendChild(el);
+    });
+    const top=leads[0], t=new Date(top.createdAt);
+    $("#waBubble").innerHTML='<b>New quote request · '+esc(top.ref)+'</b><span>'+esc(top.company)+' ('+esc(top.name)+')</span><span class="muted">'+esc((top.desc||top.type).slice(0,90))+'</span><span class="muted">Qty: '+esc(top.qty||"—")+'</span><span class="t">'+t.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+'</span>';
+  }
+  function exampleLeads(){
+    const now=Date.now(), iso=h=>new Date(now-h*36e5).toISOString();
+    return [
+      {ref:"RFQ-EXAMPLE-101",type:"Quote for a part",process:"CNC turning",name:"Anjali",company:"Kirti Pumps (example)",city:"Pune, India",material:"SS410",qty:"3,000 pcs",desc:"Impeller shaft Ø32 h6, 280 mm long",files:["IMP-SHAFT-R2.pdf"],status:"New",createdAt:iso(3),example:true},
+      {ref:"RFQ-EXAMPLE-100",type:"Prototype / sample",process:"VMC / HMC milling",name:"Markus",company:"Weber Hydraulik (example)",city:"Stuttgart, Germany",material:"Al 6082",qty:"20 pcs",desc:"Manifold block, 6 ports, G1/4",files:["MB-6P.step"],status:"New",createdAt:iso(30),example:true},
+      {ref:"RFQ-EXAMPLE-099",type:"Quote for a part",process:"Fittings / threading",name:"Faisal",company:"Gulf Fluid Systems (example)",city:"Dubai, UAE",material:"SS316",qty:"10,000 pcs",desc:"Male connector 1/2\" NPT × 12 mm",files:[],status:"Quoted",createdAt:iso(120),example:true}
+    ];
+  }
+  function startTracker(){
+    const notice=$("#trackerNotice");
+    if(!API){ notice.hidden=false; notice.innerHTML='<b>You are seeing example data.</b><span class="muted">On a live site this page is private to the business owner.</span>'; render(exampleLeads(),false); return; }
+    notice.hidden=false;
+    notice.innerHTML='<b>Live demo.</b><span class="muted">Inquiries sent from the quote form appear here. Contact details are hidden on this public page; the owner sees them in Google Sheets.</span>';
+    let busy=false;
+    async function load(){ if(busy) return; busy=true;
+      try{ const r=await fetch(API+"?t="+Date.now()); const j=await r.json(); const leads=(j.leads||[]); render(leads.length?leads:exampleLeads(),leads.length>0); }
+      catch(e){ render(exampleLeads(),false); }
+      busy=false; }
+    window.refreshLeads=load;
+    load(); setInterval(()=>{ if(document.querySelector("#v-leads.active")) load(); },15000);
+    addEventListener("hashchange",()=>{ if(location.hash==="#leads") load(); });
+  }
+})();
+</script>
+<script>
+/* Motion layer: scroll reveals, count-ups, parallax, header shadow. Page is complete without it. */
+(function(){
+  const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  // product cards get a "View specs" cue
+  $$(".pcard .body").forEach(b=>b.insertAdjacentHTML("beforeend",'<span class="more">View specs</span>'));
+  // dimension lines on the drawing
+  $$(".drawing line[marker-start]").forEach(l=>l.classList.add("dim"));
+  // header shadow
+  const hdr=document.querySelector("header.site");
+  const onScroll=()=>{hdr.classList.toggle("scrolled",scrollY>8); if(!reduce) parallax();};
+  addEventListener("scroll",onScroll,{passive:true});
+  // parallax on the plant band
+  let ticking=false;
+  function parallax(){ if(ticking) return; ticking=true; requestAnimationFrame(()=>{ticking=false;
+    $$(".view.active .plant>img").forEach(img=>{const r=img.parentElement.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return;
+      img.style.setProperty("--py",(((r.top+r.height/2)-innerHeight/2)*-0.09).toFixed(1)+"px");});
+  });}
+  if(reduce) return;
+  // reveal targets, with sibling stagger
+  const SEL=".sec-head,.pcard,.ind>div,.split>*,.steps,.certs,.grid-4>*,.table-wrap,.timeline,.drawing,.cta-band h2,.stats,.plant .wrap>*,.quote-layout>*";
+  $$(SEL).forEach(el=>{el.classList.add("reveal");});
+  $$(".grid-3,.ind,.grid-4").forEach(g=>[...g.children].forEach((c,i)=>{c.style.transitionDelay=(i*70)+"ms"}));
+  // count-ups
+  function countUp(root){
+    $$("[data-count]",root).concat(root.matches&&root.matches("[data-count]")?[root]:[]).forEach(el=>{
+      if(el.dataset.done) return; el.dataset.done=1;
+      const m=el.dataset.count.match(/^([\d.,]+)(.*)$/); if(!m) return;
+      const end=parseFloat(m[1].replace(/,/g,"")), dec=(m[1].split(".")[1]||"").length, suf=m[2], t0=performance.now(), D=1100;
+      const step=t=>{const p=Math.min(1,(t-t0)/D), e=1-Math.pow(1-p,3), v=end*e;
+        el.textContent=(dec?v.toFixed(dec):Math.round(v).toLocaleString("en-IN"))+suf; if(p<1) requestAnimationFrame(step); else el.textContent=el.dataset.count;};
+      requestAnimationFrame(step);
+    });
+  }
+  $$(".stats b,.plant .nums b,.mini .big").forEach(b=>{const t=b.textContent.trim(); if(/^[\d.,]+[^\d–-]*$/.test(t)&&!/–/.test(t)) b.dataset.count=t;});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return;
+    const el=e.target; el.classList.remove("below"); el.classList.add("in"); countUp(el); io.unobserve(el); }),{rootMargin:"0px 0px -8% 0px",threshold:0.05});
+  function arm(){
+    const v=document.querySelector(".view.active"); if(!v) return;
+    $$(".reveal",v).forEach(el=>{ if(el.classList.contains("in")) return;
+      if(el.getBoundingClientRect().top>innerHeight*0.9) el.classList.add("below"); io.observe(el); });
+    parallax();
+  }
+  addEventListener("hashchange",()=>requestAnimationFrame(arm));
+  requestAnimationFrame(arm);
+})();
+</script>
+
+</body>
+</html>
