@@ -1,0 +1,127 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero report-hero">
+    <div class="wrap">
+      {{ M.eyebrow("Sample audit") }}
+      <h1>This is what you'll get, <em>in 24 hours.</em></h1>
+      <p class="lede">A full example of our free website audit. The company below is fictional; the checks are the ones we run on every audit.</p>
+      <div class="row no-print"><a class="btn btn-primary" href="/audit/">Get yours free</a><button class="btn btn-ghost" type="button" onclick="window.print()">Save as PDF</button></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <article class="report" aria-label="Sample website audit report">
+        <header class="r-head">
+          <div class="r-brand">
+            <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="var(--ink)"/><path d="M7 29c6-16 22-18 18-6s-14 8-4-4 13-9 13-9" fill="none" stroke="var(--saffron)" stroke-width="2.6" stroke-linecap="round"/><circle cx="7" cy="29" r="3" fill="var(--saffron)"/></svg>
+            <b>SUTRAYAAN</b><span>Website audit</span>
+          </div>
+          <dl class="r-meta">
+            <div><dt>Prepared for</dt><dd>Example Precision Works, Thane <span class="tagline">Fictional sample</span></dd></div>
+            <div><dt>Business</dt><dd>CNC turning and VMC machining, 18 machines</dd></div>
+            <div><dt>Website reviewed</dt><dd>www.example-precision.in</dd></div>
+            <div><dt>Reference</dt><dd>AUD-SAMPLE · 29 Oct 2026</dd></div>
+          </dl>
+        </header>
+
+        <div class="r-sec">
+          <h2 class="r-h">Summary</h2>
+          <div class="r-summary">
+            <div class="r-score" role="img" aria-label="Overall score 38 out of 100">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="var(--saffron)" stroke-width="10" stroke-linecap="round" stroke-dasharray="{{ (326.7*0.38)|round(1) }} 326.7" transform="rotate(-90 60 60)"/></svg>
+              <b>38</b><span>out of 100</span>
+            </div>
+            <div style="display:grid;gap:14px">
+              <p class="r-lead">Your plant is clearly capable, but the website hides it. A buyer on a phone can't see what you machine, to what tolerance, or how to send a drawing. The three fixes below would change that in about three weeks.</p>
+              <div class="r-bars">
+                {% for name, score in [("Works on a buyer's phone", 30), ("Buyers can find what you make", 25), ("Found on Google and Maps", 55), ("Easy to send an enquiry", 40)] %}
+                <div class="r-bar"><span>{{ name }}</span><i><em style="width:{{ score }}%"></em></i><b>{{ score }}</b></div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="r-sec">
+          <h2 class="r-h">What a buyer sees on their phone</h2>
+          <div class="r-phones">
+            <figure>
+              <div class="r-phone bad" aria-hidden="true">
+                <div class="r-ph-top">example-precision.in</div>
+                <div class="r-ph-body">
+                  <div class="r-ph-logo">EXAMPLE PRECISION WORKS</div>
+                  <div class="r-ph-banner">WELCOME TO OUR WEBSITE</div>
+                  <p>We are leading manufacturer of all types of precision CNC turned components, VMC jobs, as per customer drawing and requirement with best quality and in-time delivery. Contact us for any requirement...</p>
+                  <div class="r-ph-tiny">Home | About | Products | Gallery | Contact</div>
+                  <div class="r-ph-tiny">Email: info@example-precision.in</div>
+                </div>
+              </div>
+              <figcaption><b>Today.</b> Text is too small to read without zooming, the page took 7.8 seconds to load on 4G, and the only way to enquire is an email address.</figcaption>
+            </figure>
+            <figure>
+              <div class="r-phone good" aria-hidden="true">
+                <div class="r-ph-top">example-precision.in</div>
+                <div class="r-ph-body">
+                  <div class="r-ph-img"></div>
+                  <div class="r-ph-h">CNC turned parts to ±0.01 mm.</div>
+                  <div class="r-ph-chips"><span>SS 304/316</span><span>EN8</span><span>Brass</span><span>ISO 9001</span></div>
+                  <div class="r-ph-btn">Send a drawing</div>
+                  <div class="r-ph-btn alt">WhatsApp us</div>
+                </div>
+              </div>
+              <figcaption><b>After the fixes.</b> What you make, your materials and tolerances, and a one-tap way to send a drawing, all in the first screen.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="r-sec">
+          <h2 class="r-h">What we checked</h2>
+          <table class="r-table">
+            <thead><tr><th>Check</th><th>Result</th><th>What we found</th></tr></thead>
+            <tbody>
+            {% for check, res, note in checks %}
+              <tr><td>{{ check }}</td><td><span class="r-pill {{ res|lower }}">{{ res }}</span></td><td>{{ note }}</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="r-sec">
+          <h2 class="r-h">Three fixes, in order of impact</h2>
+          <ol class="r-fixes">
+            {% for f in fixes %}
+            <li>
+              <div class="r-fix-n">{{ loop.index }}</div>
+              <div class="r-fix-body">
+                <h3>{{ f.title }}</h3>
+                <p><b>Why it matters.</b> {{ f.why }}</p>
+                <p><b>What we'd do.</b> {{ f.do }}</p>
+              </div>
+              <dl class="r-fix-meta"><div><dt>Impact</dt><dd>{{ f.impact }}</dd></div><div><dt>Time</dt><dd>{{ f.time }}</dd></div></dl>
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
+
+        <div class="r-sec r-quote">
+          <div>
+            <h2 class="r-h">Fixed quote</h2>
+            <p>All three fixes, as one new website with the enquiry tracker. Domain, website and data registered in your company's name.</p>
+            <p class="small">Fix 3 is something you can do yourself. If you'd rather, we'll send a free step-by-step guide.</p>
+          </div>
+          <div class="r-price"><span>All three fixes</span><b>₹40,000</b><span>Enquiry tracker included free (launch offer) · Ready in 3 weeks</span></div>
+        </div>
+
+        <div class="r-foot">
+          <span>Prepared by Sutrayaan · rohan@sutrayaan.com · WhatsApp +91 99675 55168</span>
+          <span>This quote is valid for 30 days. No obligation.</span>
+        </div>
+      </article>
+      <p class="small no-print" style="margin-top:18px">Sample only. Example Precision Works and its website are fictional. Your audit is written for your website.</p>
+    </div>
+  </section>
+
+{{ M.cta_band("Want this for <em>your website?</em>", "Send the form and we'll review your site within 24 hours. Free, no obligation.", btn="Get yours free") }}
+{% endblock %}

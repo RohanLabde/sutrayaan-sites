@@ -39,7 +39,7 @@
   // reveals
   if(!reduce && "IntersectionObserver" in window){
     const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove("below");io.unobserve(e.target)}}),{rootMargin:"0px 0px -8% 0px"});
-    $$(".sec-head,.demo,.case,.problems>div,.pack,.prow,.steps li,.quote,.faq,.audit-copy,form.card,.timebox,.promise,.principles>div,.ccard,.name-block,.note-box").forEach(el=>{el.classList.add("reveal"); if(el.getBoundingClientRect().top>innerHeight*.9) el.classList.add("below"); io.observe(el);});
+    $$(".sec-head,.demo,.case,.problems>div,.pack,.prow,.steps li,.quote,.faq,.audit-copy,form.card,.timebox,.promise,.principles>div,.ccard,.name-block,.note-box,.r-sec").forEach(el=>{el.classList.add("reveal"); if(el.getBoundingClientRect().top>innerHeight*.9) el.classList.add("below"); io.observe(el);});
     $$(".demos,.problems,.packs,.steps,.principles,.ccards").forEach(g=>[...g.children].forEach((c,i)=>c.style.transitionDelay=(i*90)+"ms"));
   }
 

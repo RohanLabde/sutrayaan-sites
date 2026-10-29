@@ -32,6 +32,9 @@ PAGES = [
     dict(key="audit", path="/audit/", tpl="audit.html.j2",
          title="Free Website Audit for Manufacturers · Sutrayaan",
          desc="Get a free review of your factory's website in 24 hours, with three fixes that bring in more enquiries."),
+    dict(key="audit", path="/audit/sample/", tpl="audit_sample.html.j2",
+         title="Sample Website Audit for a Manufacturer · Sutrayaan",
+         desc="See a full example of Sutrayaan's free website audit: scores, 13 checks, and three fixes with a fixed price."),
     dict(key="about", path="/about/", tpl="about.html.j2",
          title="About Sutrayaan · Mumbai",
          desc="Sutrayaan connects Indian manufacturers to their buyers with websites and enquiry systems built in their industry's language."),
@@ -77,12 +80,43 @@ PACKAGES = [
          items=["CRM set up for your sales team", "WhatsApp alerts", "Quote templates"]),
 ]
 
+CHECKS = [
+    ("Loads in under 3 seconds on 4G", "Fail", "7.8 seconds. The home page banner image alone is 4.2 MB."),
+    ("Readable on a phone without zooming", "Fail", "The site is a desktop layout shrunk to fit. Body text renders at about 9 px."),
+    ("One tap to call or WhatsApp", "Partial", "The phone number is shown as an image, so it can't be tapped."),
+    ("Products and capabilities listed", "Fail", "One line: \u201call types of precision CNC turned components\u201d. No part examples."),
+    ("Machine list", "Fail", "Not shown. Buyers can't tell your capacity or largest job size."),
+    ("Materials and tolerances", "Fail", "Not mentioned anywhere on the site."),
+    ("Certifications shown", "Partial", "\u201cISO certified\u201d in the footer, with no certificate number or scope."),
+    ("Quote form", "Fail", "None. Only an email address on the Contact page."),
+    ("Drawing upload", "Fail", "Not possible without a quote form."),
+    ("Secure site (https)", "Pass", "Certificate is valid."),
+    ("Google Business Profile", "Partial", "Listed, but 3 photos, no opening hours and the wrong category (\u201cHardware store\u201d)."),
+    ("Found for \u201cCNC machining Thane\u201d", "Fail", "Not on the first two pages of Google results."),
+    ("Same address and phone everywhere", "Partial", "The website and Google profile show different phone numbers."),
+]
+
+FIXES = [
+    dict(title="Show what you make, and how well",
+         why="Buyers shortlist suppliers in minutes. If they can't see parts, materials, tolerances and machines, they move to the next site.",
+         do="A capabilities page with your machine list, materials, tolerances and industries served, plus 8\u201310 photos of real parts from one plant visit.",
+         impact="High", time="2 weeks"),
+    dict(title="Replace the email address with a quote form",
+         why="Engineers send drawings. With only an email address, many never write, and the ones who do wait days for a reply.",
+         do="A quote form with drawing upload and a WhatsApp button. Every request lands in your Google Sheet with an instant alert, so nothing is missed.",
+         impact="High", time="3\u20135 days"),
+    dict(title="Fix your Google Business Profile",
+         why="Many buyers search \u201cCNC machining near me\u201d and call straight from Google Maps without opening a website.",
+         do="Correct the category to \u201cMachine shop\u201d, add hours, services and 20 plant photos, match the phone number with your website, and ask five customers for reviews.",
+         impact="Medium", time="2 days"),
+]
+
 
 def main():
     ver = hashlib.md5(((OUT / "assets/site.css").read_bytes() + (OUT / "assets/site.js").read_bytes())).hexdigest()[:8]
     env = Environment(loader=FileSystemLoader(str(SRC / "templates")), autoescape=select_autoescape(["j2", "html"]), trim_blocks=False)
     for p in PAGES:
-        html = env.get_template(p["tpl"]).render(page=p, nav=NAV, demos=DEMOS, packages=PACKAGES, wa=WA, wa_icon=WA_ICON, ver=ver, indexable=LIVE)
+        html = env.get_template(p["tpl"]).render(page=p, checks=CHECKS, fixes=FIXES, nav=NAV, demos=DEMOS, packages=PACKAGES, wa=WA, wa_icon=WA_ICON, ver=ver, indexable=LIVE)
         out = OUT / p["path"].strip("/") / "index.html" if p["path"] != "/" else OUT / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html)
