@@ -26,7 +26,7 @@
   <div class="copy"><small>{{ d.kicker }}</small><strong>{{ d.headline }}</strong><em style="background:{{ d.btn_bg }};color:{{ d.btn_ink }}">{{ d.cta }}</em></div></div>
 {% endmacro %}
 
-{% macro eyebrow(text) %}<span class="eyebrow" data-knot><i class="knot"></i>{{ text }}</span>{% endmacro %}
+{% macro eyebrow(text, knot=True) %}<span class="eyebrow"{% if knot %} data-knot{% endif %}><i class="knot"></i>{{ text }}</span>{% endmacro %}
 
 {% macro cta_band(title, sub, btn="Get a free website audit", href="/audit/") %}
 <section class="dark">

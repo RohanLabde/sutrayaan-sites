@@ -13,7 +13,7 @@
   let len=0;
   function layoutThread(){
     const knots=$$("[data-knot] .knot");
-    if(!path||window.innerWidth<1000||knots.length<2){if(path)path.setAttribute("d","");len=0;return}
+    if(!path||window.innerWidth<1280||knots.length<2){if(path)path.setAttribute("d","");len=0;return}
     const mb=main.getBoundingClientRect(); const x0=Math.max(18,(mb.width-1160)/2-26);
     const pts=knots.map(k=>{const r=k.getBoundingClientRect();return [r.left+r.width/2-mb.left, r.top+r.height/2-mb.top]});
     let d=`M${x0} 0 C ${x0} ${pts[0][1]*.5}, ${pts[0][0]} ${pts[0][1]*.5}, ${pts[0][0]} ${pts[0][1]}`;
