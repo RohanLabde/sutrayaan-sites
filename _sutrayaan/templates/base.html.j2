@@ -63,5 +63,7 @@
   <span>Chat on WhatsApp</span>
 </a>
 {% endif %}<script src="/assets/site.js?v={{ ver }}" defer></script>
+{% if indexable %}<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "b69e7e2b74f44c7a9c2aa2200e693871"}'></script><!-- End Cloudflare Web Analytics -->
+{% endif %}
 </body>
 </html>
