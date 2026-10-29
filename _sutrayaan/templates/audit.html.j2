@@ -1,0 +1,41 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero">
+    <div class="wrap">
+      {{ M.eyebrow("Free website audit") }}
+      <h1>A free review of your website, <em>in 24 hours.</em></h1>
+      <p class="lede">Tell us a little about your factory. We'll send three fixes that bring in more enquiries. No obligation.</p>
+    </div>
+  </section>
+
+  <section class="audit tight" id="audit">
+    <div class="wrap">
+      <div class="audit-copy">
+        {{ M.eyebrow("What you'll get") }}
+        <ul class="gets">
+          <li>How your site looks on a buyer's phone</li>
+          <li>What buyers can and can't find: products, capabilities, certifications, contact</li>
+          <li>How you show up on Google and Google Maps</li>
+          <li>Three fixes, in order of impact, with a fixed price if you want us to do them</li>
+        </ul>
+        <div class="note-box saffron" style="margin-top:12px">
+          <b>No website yet?</b>
+          <span class="muted">Send the form anyway. We'll look at how buyers find you on Google today and suggest where to start.</span>
+        </div>
+      </div>
+      <div>{{ M.audit_form() }}</div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">{{ M.eyebrow("What happens next") }}<h2>Three steps, <em>no sales pitch.</em></h2></div>
+      <ol class="steps three" id="steps">
+        <li><b>You send the form</b><span>Takes a minute. You get a reference number right away.</span></li>
+        <li><b>We review your site</b><span>On a phone and a laptop, and on Google search and Maps.</span></li>
+        <li><b>You get three fixes</b><span>By WhatsApp or email within 24 hours, with a fixed price if you want our help.</span></li>
+      </ol>
+    </div>
+  </section>
+{% endblock %}

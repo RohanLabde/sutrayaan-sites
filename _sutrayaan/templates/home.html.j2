@@ -1,0 +1,161 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow" data-knot><i class="knot"></i>Websites and enquiry systems for manufacturers · Mumbai</span>
+        <h1>More enquiries for your factory. <em>Tracked, answered, won.</em></h1>
+        <p class="lede">We build websites that speak your buyers' language, and an enquiry tracker so no request gets lost.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="/audit/">Get a free website audit</a>
+          <a class="btn btn-ghost" href="/work/">See our work</a>
+        </div>
+        <div class="trust"><span>Free audit in 24 hours</span><span>You own your site and domain</span><span>Websites from ₹30,000</span></div>
+      </div>
+      <div class="phone-wrap" aria-label="Example: a factory owner's phone receiving new enquiry alerts">
+        <div class="phone">
+          <div class="screen">
+            <span class="time">9:41</span>
+            <div class="day">Thursday</div>
+            <div class="note n1"><div class="top"><span>Enquiry · just now</span><span>RFQ-104</span></div><b>Kirti Pumps, Pune</b><span>Impeller shaft, SS410 · 3,000 pcs</span><span class="pill">Drawing attached</span></div>
+            <div class="note n2"><div class="top"><span>Enquiry · 2 h ago</span><span>RFQ-103</span></div><b>Weber Hydraulik, Stuttgart</b><span>Manifold block · 20 pcs prototype</span></div>
+            <div class="note n3"><div class="top"><span>Status · today</span><span>RFQ-099</span></div><b>Gulf Fluid Systems marked Won</b><span>10,000 fittings</span></div>
+          </div>
+        </div>
+        <div class="tag-float"><span>This month</span><b>14 enquiries</b><span>0 missed</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" style="padding-top:clamp(40px,6vw,72px)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-knot><i class="knot"></i>Our work</span>
+        <h2>Built in your industry's <em>language.</em></h2>
+        <p class="muted">Four live demo sites, one per industry. Each has a working quote form and enquiry tracker. Try them.</p>
+      </div>
+      <div class="demos">
+        <a class="demo" href="https://meru.sutrayaan.com" target="_blank" rel="noopener">
+          <div class="mini"><img src="https://images.unsplash.com/photo-1666634157070-6fd830fb5672?auto=format&fit=crop&w=1000&q=70" alt="" loading="lazy" width="1000" height="625">
+            <div class="bar"><i></i><i></i><i></i><span>meru.sutrayaan.com</span></div>
+            <div class="copy"><small>Precision engineering · Thane</small><strong>CNC components, made to ±0.005 mm.</strong><em style="background:#43B4A6;color:#06201C">Send a drawing</em></div></div>
+          <div class="body"><span class="ind">CNC machining</span><h3>Meru Precision Components</h3><span class="muted">Spec tables with tolerances, a dimensioned drawing, and drawing upload on the quote form.</span><span class="go">View live demo</span></div>
+        </a>
+        <a class="demo" href="https://polyvasa.sutrayaan.com" target="_blank" rel="noopener">
+          <div class="mini"><img src="https://images.unsplash.com/photo-1730705788367-dbd288c40ee7?auto=format&fit=crop&w=1000&q=70" alt="" loading="lazy" width="1000" height="625">
+            <div class="bar"><i></i><i></i><i></i><span>polyvasa.sutrayaan.com</span></div>
+            <div class="copy"><small>Injection moulding · Vasai</small><strong>Moulded parts that fit first time.</strong><em style="background:#7C9CFF;color:#0A1230">Send a part drawing</em></div></div>
+          <div class="body"><span class="ind">Plastic injection moulding</span><h3>Polyvasa Moulding Works</h3><span class="muted">Press range by tonnage, an in-house tool room, and a quote form that asks about the mould.</span><span class="go">View live demo</span></div>
+        </a>
+        <a class="demo" href="https://orvella.sutrayaan.com" target="_blank" rel="noopener">
+          <div class="mini"><img src="https://images.unsplash.com/photo-1765218933298-dc55fdfb517a?auto=format&fit=crop&w=1000&q=70" alt="" loading="lazy" width="1000" height="625">
+            <div class="bar"><i></i><i></i><i></i><span>orvella.sutrayaan.com</span></div>
+            <div class="copy"><small>Fine chemicals · Taloja MIDC</small><strong>Fine chemicals. Consistent, batch after batch.</strong><em style="background:#5DB4F0;color:#04213A">Request a quote</em></div></div>
+          <div class="body"><span class="ind">Specialty chemicals</span><h3>Orvella Fine Chemicals</h3><span class="muted">A catalogue with CAS numbers, a sample Certificate of Analysis, and sample and SDS requests.</span><span class="go">View live demo</span></div>
+        </a>
+        <a class="demo" href="https://boxworks.sutrayaan.com" target="_blank" rel="noopener">
+          <div class="mini"><img src="https://images.unsplash.com/photo-1766040923580-16ad32fae8b4?auto=format&fit=crop&w=1000&q=70" alt="" loading="lazy" width="1000" height="625">
+            <div class="bar"><i></i><i></i><i></i><span>boxworks.sutrayaan.com</span></div>
+            <div class="copy"><small>Corrugated packaging · Bhiwandi</small><strong>Boxes that protect your product and your brand.</strong><em style="background:#FF7A3D;color:#2A0E00">Get box pricing</em></div></div>
+          <div class="body"><span class="ind">Corrugated packaging</span><h3>Bhiwandi Boxworks</h3><span class="muted">Box styles and board grades, a box dieline, and a quote form with size, ply and print colours.</span><span class="go">View live demo</span></div>
+        </a>
+      </div>
+      <div class="row" style="margin-top:28px;align-items:center;justify-content:space-between"><p class="small">All four companies are fictional and the photos are stock images. Your site would use your own plant, products and people.</p><a class="btn btn-ghost btn-sm" href="/work/">How each demo works →</a></div>
+    </div>
+  </section>
+
+  <section style="padding-top:clamp(24px,4vw,48px)">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-knot><i class="knot"></i>The problem</span>
+        <h2>Most factory websites lose enquiries <em>quietly.</em></h2>
+      </div>
+      <div class="problems">
+        <div><b>01</b><h3>Buyers can't find what you make</h3><span class="muted">Without capabilities, materials and certifications on the page, they move to the next supplier.</span></div>
+        <div><b>02</b><h3>Enquiries wait in an inbox</h3><span class="muted">Requests sit on someone's phone or email, and replies take days. The fastest supplier usually wins.</span></div>
+        <div><b>03</b><h3>Nobody knows the numbers</h3><span class="muted">How many enquiries came in last month? Which were won? Without tracking, nobody can say.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark" id="services">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-knot><i class="knot"></i>What you get</span>
+        <h2>One partner for your website <em>and</em> your enquiries.</h2>
+        <p class="muted">Clear packages, fixed quotes before we start.</p>
+      </div>
+      <div class="packs">
+        <div class="pack"><h3>Website</h3><div class="price">₹30,000<small>onwards</small></div><span class="muted">A site your buyers trust, written in your industry's terms.</span>
+          <ul><li>6–8 pages: products, capabilities, quality, about</li><li>Quote form with drawing upload</li><li>Works on every phone</li><li>Google Business Profile set up</li><li>Ready in 2–3 weeks</li></ul></div>
+        <div class="pack"><span class="offer">Free with a website · launch offer</span><h3>Enquiry tracker</h3><div class="price">₹10,000<small>onwards</small></div><span class="muted">Every request in one place, with an alert the moment it arrives.</span>
+          <ul><li>Enquiries saved to your Google Sheet</li><li>Instant email alert</li><li>Status from New to Won</li><li>Monthly enquiry report</li></ul></div>
+        <div class="pack"><h3>Monthly care</h3><div class="price">₹3,000<small>a month</small></div><span class="muted">We keep your site current and your enquiries visible.</span>
+          <ul><li>Text and photo updates</li><li>Backups and uptime checks</li><li>Monthly report and a 30-minute call</li></ul></div>
+      </div>
+      <div class="promise"><span>You own your domain, website and data</span><span>Fixed quote, no surprise bills</span><span>Replies within one working day</span><span>CRM and automation coming soon</span></div>
+      <a class="btn btn-ghost" href="/services/" style="margin-top:32px">Full package details →</a>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow" data-knot><i class="knot"></i>How it works</span>
+        <h2>From audit to enquiries in <em>four steps.</em></h2>
+      </div>
+      <ol class="steps" id="steps">
+        <li><b>Free audit</b><span>We review your current site and send three fixes within 24 hours.</span></li>
+        <li><b>Plant visit</b><span>One visit to understand your products and take photos.</span></li>
+        <li><b>Build</b><span>Your site is ready to review in 2–3 weeks.</span></li>
+        <li><b>Launch and track</b><span>Enquiries start arriving in your tracker.</span></li>
+      </ol>
+      <div class="timebox">Your time needed: <b>about 3 hours</b> in total</div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="quote">
+        <span class="eyebrow" data-knot><i class="knot"></i>Why we exist</span>
+        <p>“India's manufacturers make world-class products and are often let down online. We keep it simple: clear prices, fast replies, and everything registered in your name.”</p>
+        <span class="sig">— Team Sutrayaan</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><span class="eyebrow" data-knot><i class="knot"></i>Questions</span><h2>Asked by factory owners.</h2></div>
+      <div class="faq">
+        <details><summary>How much does a website cost?</summary><p>Most factory websites cost ₹30,000 to ₹75,000, depending on pages and products. The audit comes with a fixed quote.</p></details>
+        <details><summary>How long does it take?</summary><p>2–3 weeks from the plant visit, if we get your photos and product details on time.</p></details>
+        <details><summary>Who owns the website?</summary><p>You do. The domain, site and data are registered in your company's name.</p></details>
+        <details><summary>Do I need to write the content?</summary><p>No. We write it after one conversation and a plant visit. You review and approve.</p></details>
+        <details><summary>Can my team update it?</summary><p>Small text changes, yes. Bigger changes are included in Monthly care.</p></details>
+        <details><summary>What happens to enquiries?</summary><p>Each one goes to your Google Sheet and email instantly, with its status tracked until it's won or lost.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="audit" id="audit" style="padding-top:0">
+    <div class="wrap">
+      <div class="audit-copy">
+        <span class="eyebrow" data-knot><i class="knot"></i>Free website audit</span>
+        <h2>Find out what your website is <em>costing you.</em></h2>
+        <p class="muted">Tell us a little about your factory. Within 24 hours we'll send three fixes that bring in more enquiries. No obligation.</p>
+        <ul class="gets">
+          <li>How your site looks on a buyer's phone</li>
+          <li>What buyers can and can't find: products, capabilities, certifications, contact</li>
+          <li>How you show up on Google and Google Maps</li>
+          <li>Three fixes in order of impact, with a fixed price</li>
+        </ul>
+      </div>
+      <div>
+        {{ M.audit_form() }}
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero">
+    <div class="wrap">
+      {{ M.eyebrow("Our work") }}
+      <h1>See how we'd build <em>yours.</em></h1>
+      <p class="lede">Four demo websites for fictional companies, one per industry. Each has a working quote form and enquiry tracker. Try them.</p>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="cases">
+        {% for d in demos %}
+        <a class="case" href="https://{{ d.host }}" target="_blank" rel="noopener">
+          {{ M.mini(d) }}
+          <div class="body">
+            <span class="meta">{{ d.industry }} · {{ d.place }}</span>
+            <h2>{{ d.name }}</h2>
+            <ul>{% for s in d.shows %}<li>{{ s }}</li>{% endfor %}</ul>
+            <span class="small"><b style="color:var(--ink)">Try this:</b> {{ d.try }}</span>
+            <span class="go">View live demo</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      <p class="small" style="margin-top:40px"><em>All four companies are fictional and the photos are stock images. Your site would use your own plant, products and people.</em></p>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        {{ M.eyebrow("Try it yourself") }}
+        <h2>Send a test quote. <em>Watch it arrive.</em></h2>
+        <p class="muted">That's exactly what you'd see for every real enquiry.</p>
+      </div>
+      <ol class="steps three" id="steps">
+        <li><b>Open any demo</b><span>Pick the industry closest to yours.</span></li>
+        <li><b>Send a test quote</b><span>Use the quote form. Any name and company will do.</span></li>
+        <li><b>Open its tracker</b><span>Your request appears with a reference number, and you can change its status.</span></li>
+      </ol>
+    </div>
+  </section>
+
+{{ M.cta_band("Want one built for <em>your factory?</em>", "Start with a free audit of your current website. Three fixes in 24 hours, no obligation.") }}
+{% endblock %}

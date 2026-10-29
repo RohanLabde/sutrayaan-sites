@@ -1,0 +1,34 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero">
+    <div class="wrap">
+      {{ M.eyebrow("Contact") }}
+      <h1>Talk <em>to us.</em></h1>
+      <p class="lede">The fastest way is WhatsApp. We reply within one working day.</p>
+      <a class="btn btn-wa" href="{{ wa }}" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="#fff"><path d="{{ wa_icon }}"/></svg>Message us on WhatsApp</a>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="ccards">
+        <a class="ccard wa" href="{{ wa }}" target="_blank" rel="noopener"><span class="eyebrow">WhatsApp</span><b>+91 99675 55168</b></a>
+        <a class="ccard" href="mailto:rohan@sutrayaan.com"><span class="eyebrow">Email</span><b>rohan@<wbr>sutrayaan.com</b></a>
+        <div class="ccard"><span class="eyebrow">Hours</span><b>Mon–Sat</b><span class="muted">10 am – 7 pm IST</span></div>
+        <div class="ccard"><span class="eyebrow">Service area</span><span>Mumbai, Thane, Navi Mumbai, Palghar, Bhiwandi and Pune.</span><span class="muted">Video calls anywhere in India.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="audit tight" id="audit">
+    <div class="wrap">
+      <div class="audit-copy">
+        {{ M.eyebrow("Prefer to write?") }}
+        <h2>Send us a <em>short note.</em></h2>
+        <p class="muted">Tell us about your factory and we'll reply within one working day, with a free audit of your current website.</p>
+      </div>
+      <div>{{ M.audit_form("Contact form") }}</div>
+    </div>
+  </section>
+{% endblock %}

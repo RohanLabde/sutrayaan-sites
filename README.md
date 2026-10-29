@@ -8,6 +8,7 @@ Websites built by Sutrayaan. Each top-level folder is one static site, deployed 
 | `polyvasa/` | Polyvasa Moulding Works | Plastic injection moulding, Vasai | polyvasa.sutrayaan.com |
 | `orvella/` | Orvella Fine Chemicals | Specialty chemicals, Taloja MIDC | orvella.sutrayaan.com |
 | `boxworks/` | Bhiwandi Boxworks | Corrugated packaging, Bhiwandi | boxworks.sutrayaan.com |
+| `sutrayaan/` | Sutrayaan's own site | Home, Work, Services, Free audit, About, Contact | sutrayaan-site.onrender.com (draft) |
 
 All companies are fictional demos. Photos are from Unsplash (free licence).
 
@@ -31,3 +32,12 @@ The design system (layout CSS and motion) is read from `meru/index.html`, so fix
 ## Quote form and tracker (`apps-script/Code.gs`)
 
 One Google Sheet collects inquiries from every site (column **Site** says which), emails the owner, and serves each site's tracker. After changing `Code.gs`: Apps Script → **Deploy → Manage deployments → Edit → Version: New version → Deploy** (the URL stays the same).
+
+## Sutrayaan's own site (`_sutrayaan/`)
+
+Six pages built from Jinja templates in `_sutrayaan/templates/` into `sutrayaan/`. Shared styles and scripts are `sutrayaan/assets/site.css` and `site.js`; page lists, demos and packages are in `_sutrayaan/build.py`.
+
+```
+python3 _sutrayaan/build.py          # draft: noindex, robots.txt blocks crawlers
+python3 _sutrayaan/build.py --live   # for sutrayaan.com: indexable, sitemap.xml, open robots.txt
+```

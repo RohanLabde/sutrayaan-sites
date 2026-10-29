@@ -1,0 +1,55 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero">
+    <div class="wrap">
+      {{ M.eyebrow("About") }}
+      <h1>The thread between your factory and <em>your buyers.</em></h1>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="name-block">
+        <div class="name-word" aria-label="Sutra means thread. Yaan means vehicle.">
+          <span>Sutra<small>thread</small></span>
+          <span><em>yaan</em><small>vehicle</small></span>
+        </div>
+        <div style="display:grid;gap:18px">
+          {{ M.eyebrow("The name") }}
+          <p><em>Sutra</em> means thread. <em>Yaan</em> means vehicle. In India's old workshops, the <em>sutradhar</em> held the thread that measured the work and connected the craftsmen. Sutrayaan does the same for manufacturers today: we connect what you make to the people who need to buy it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap" style="display:grid;gap:24px">
+      {{ M.eyebrow("Why we exist") }}
+      <p class="big-line">India's manufacturers hold tolerances to microns, ship to Germany and Japan, and run plants that work around the clock. Yet many of their websites say little more than a phone number.</p>
+      <p class="muted" style="font-size:1.1rem">Buyers judge a supplier online before they ever call. We think the website should be as good as the factory.</p>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">{{ M.eyebrow("How we work") }}<h2>Four rules we keep.</h2></div>
+      <div class="principles">
+        <div><b>Plain prices.</b><span class="muted">A fixed quote before we start.</span></div>
+        <div><b>You own it.</b><span class="muted">Domain, website and data in your company's name.</span></div>
+        <div><b>Fast replies.</b><span class="muted">Within one working day, on WhatsApp or email.</span></div>
+        <div><b>Your language.</b><span class="muted">We learn your products before we write a word.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap" style="display:grid;gap:22px;justify-items:start">
+      {{ M.eyebrow("Where we are") }}
+      <p class="muted">Based in Mumbai, working with manufacturers across:</p>
+      <div class="areas"><span>Mumbai</span><span>Thane</span><span>Navi Mumbai</span><span>Palghar</span><span>Bhiwandi</span><span>Pune</span></div>
+      <p class="sig" style="font:500 .8rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-top:20px">— Team Sutrayaan</p>
+      <a class="btn btn-wa" href="{{ wa }}" target="_blank" rel="noopener">Talk to us on WhatsApp</a>
+    </div>
+  </section>
+{% endblock %}

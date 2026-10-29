@@ -1,0 +1,56 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero">
+    <div class="wrap">
+      {{ M.eyebrow("Services") }}
+      <h1>Clear packages. <em>Clear prices.</em></h1>
+      <p class="lede">Start with a website, add the enquiry tracker, and let us look after it every month. Every quote is fixed before we start.</p>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="ptable">
+        {% for p in packages %}
+        <div class="prow{% if p.soon %} soon{% endif %}">
+          <div><h3>{{ p.name }}</h3><div class="price">{{ p.price }}{% if p.note %}<small>{{ p.note }}</small>{% endif %}</div>{% if p.offer %}<span class="offer">{{ p.offer }}</span>{% endif %}</div>
+          <ul>{% for i in p['items'] %}<li>{{ i }}</li>{% endfor %}</ul>
+          <div class="ready">Ready in<b>{{ p.ready }}</b></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap two">
+      <div class="note-box saffron">
+        {{ M.eyebrow("Our promise") }}
+        <ul class="checks">
+          <li>You own your domain, website and data, registered in your company's name.</li>
+          <li>A fixed quote before we start. No surprise bills.</li>
+          <li>Replies within one working day.</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <span class="eyebrow"><i class="knot" style="background:var(--ink-3);box-shadow:0 0 0 4px var(--indigo-soft)"></i>What's not included</span>
+        <p class="muted">Paid advertising, printed brochures, and product photography beyond one plant visit. We can recommend partners.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">{{ M.eyebrow("Pricing questions") }}<h2>What most owners ask first.</h2></div>
+      <div class="faq">
+        <details><summary>How much does a website cost?</summary><p>Most factory websites cost ₹30,000 to ₹75,000, depending on pages and products. The audit comes with a fixed quote.</p></details>
+        <details><summary>Is the tracker really free?</summary><p>Yes, as part of our launch offer: the enquiry tracker is included at no charge when we build your website. On its own it starts at ₹10,000.</p></details>
+        <details><summary>Do I have to take Monthly care?</summary><p>No. Your site is yours either way. Monthly care is for owners who want updates, backups and a monthly enquiry report handled for them.</p></details>
+        <details><summary>Who owns the website?</summary><p>You do. The domain, site and data are registered in your company's name.</p></details>
+      </div>
+    </div>
+  </section>
+
+{{ M.cta_band("Get a fixed quote <em>for your site.</em>", "The free audit shows what to fix first, with a fixed price if you want us to do it.") }}
+{% endblock %}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{{ page.title }}</title>
+<meta name="description" content="{{ page.desc }}">
+{% if not indexable %}<meta name="robots" content="noindex">
+{% endif %}<link rel="canonical" href="https://sutrayaan.com{{ page.path }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sutrayaan">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:description" content="{{ page.desc }}">
+<meta property="og:url" content="https://sutrayaan.com{{ page.path }}">
+<meta name="theme-color" content="#1C1F4A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%231C1F4A'/%3E%3Cpath d='M7 29c6-16 22-18 18-6s-14 8-4-4 13-9 13-9' fill='none' stroke='%23F3A21B' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='7' cy='29' r='3' fill='%23F3A21B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/site.css?v={{ ver }}">
+{% if page.key == 'home' %}<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Sutrayaan","url":"https://sutrayaan.com/","email":"rohan@sutrayaan.com","telephone":"+91-99675-55168","description":"{{ page.desc }}","address":{"@type":"PostalAddress","addressLocality":"Mumbai","addressRegion":"Maharashtra","addressCountry":"IN"},"areaServed":["Mumbai","Thane","Navi Mumbai","Palghar","Bhiwandi","Pune"]}</script>
+{% endif %}</head>
+<body>
+
+<header class="site" id="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Sutrayaan home">
+      <svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="var(--ink)"/><path d="M7 29c6-16 22-18 18-6s-14 8-4-4 13-9 13-9" fill="none" stroke="var(--saffron)" stroke-width="2.6" stroke-linecap="round"/><circle cx="7" cy="29" r="3" fill="var(--saffron)"/></svg>
+      <b>SUTRAYAAN</b>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">Menu</button>
+    <nav class="main" id="mainNav" aria-label="Main">
+      {% for key, label, href in nav %}<a href="{{ href }}"{% if page.key == key %} aria-current="page"{% endif %}>{{ label }}</a>
+      {% endfor %}<a href="/audit/" class="btn btn-primary btn-sm"{% if page.key == 'audit' %} aria-current="page"{% endif %}>Free audit</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <svg class="thread" aria-hidden="true"><path id="threadPath" d=""/></svg>
+{% block content %}{% endblock %}
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top four">
+      <div style="display:grid;gap:18px;align-content:start">
+        <a class="brand" href="/" style="color:#fff"><svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#fff" fill-opacity=".08"/><path d="M7 29c6-16 22-18 18-6s-14 8-4-4 13-9 13-9" fill="none" stroke="var(--saffron)" stroke-width="2.6" stroke-linecap="round"/><circle cx="7" cy="29" r="3" fill="var(--saffron)"/></svg><b>SUTRAYAAN</b></a>
+        <h2>The thread between your factory and <em>your buyers.</em></h2>
+        <span style="color:#9EA2CC;font-size:.92rem">Websites and enquiry systems for manufacturers · Mumbai</span>
+      </div>
+      <div class="foot-col"><span class="eyebrow">Pages</span><a href="/work/">Work</a><a href="/services/">Services</a><a href="/audit/">Free audit</a><a href="/about/">About</a><a href="/contact/">Contact</a></div>
+      <div class="foot-col"><span class="eyebrow">Talk to us</span><a href="{{ wa }}" target="_blank" rel="noopener">WhatsApp +91 99675 55168</a><a href="mailto:rohan@sutrayaan.com">rohan@sutrayaan.com</a><span style="color:#9EA2CC">Mon–Sat, 10 am – 7 pm IST</span></div>
+      <div class="foot-col"><span class="eyebrow">Serving</span><span>Mumbai · Thane · Navi Mumbai</span><span>Palghar · Bhiwandi · Pune</span><span style="color:#9EA2CC">Video calls anywhere in India</span></div>
+    </div>
+    <div class="foot-bot"><span>© 2026 Sutrayaan</span><span>Sutra = thread · Yaan = vehicle</span></div>
+  </div>
+</footer>
+
+{% if page.key != 'contact' %}<a class="wa-float" href="{{ wa }}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="#fff"><path d="{{ wa_icon }}"/></svg>
+  <span>Chat on WhatsApp</span>
+</a>
+{% endif %}<script src="/assets/site.js?v={{ ver }}" defer></script>
+</body>
+</html>
