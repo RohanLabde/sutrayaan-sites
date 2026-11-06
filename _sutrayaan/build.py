@@ -6,7 +6,7 @@ Usage:  python3 _sutrayaan/build.py            (live: indexable, plus sitemap an
 Output goes to sutrayaan/ (the Render publish folder). Shared styles and scripts
 live in sutrayaan/assets/ and are edited directly there.
 """
-import hashlib, pathlib, sys
+import datetime, hashlib, html as htmlmod, json, pathlib, re, sys
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -112,20 +112,52 @@ FIXES = [
 ]
 
 
+def add_schema(p, html):
+    """Structured data that matches what the page shows: FAQ from its own questions, services from PACKAGES."""
+    blocks = []
+    faqs = re.findall(r"<details><summary>(.*?)</summary><p>(.*?)</p></details>", html, re.S)
+    if faqs:
+        clean = lambda s: htmlmod.unescape(re.sub(r"<[^>]+>", "", s)).strip()
+        blocks.append({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": clean(q), "acceptedAnswer": {"@type": "Answer", "text": clean(a)}} for q, a in faqs]})
+    if p["key"] == "services":
+        offers = []
+        for pk in PACKAGES:
+            if pk.get("soon"): continue
+            m = re.search(r"₹([\d,]+)", pk["price"])
+            item = {"@type": "Offer", "itemOffered": {"@type": "Service", "name": pk["name"], "description": "; ".join(pk["items"])},
+                    "priceCurrency": "INR"}
+            if m: item["priceSpecification"] = {"@type": "PriceSpecification", "minPrice": int(m.group(1).replace(",", "")), "priceCurrency": "INR"}
+            offers.append(item)
+        blocks.append({"@context": "https://schema.org", "@type": "Service", "serviceType": "Website design and enquiry tracking for manufacturers",
+                       "provider": {"@type": "ProfessionalService", "name": "Sutrayaan", "url": "https://sutrayaan.com/"},
+                       "areaServed": ["Mumbai", "Thane", "Navi Mumbai", "Vasai", "Palghar", "Bhiwandi", "Pune"],
+                       "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Sutrayaan packages", "itemListElement": offers}})
+    if not blocks: return html
+    tags = "".join('<script type="application/ld+json">' + json.dumps(b, ensure_ascii=False).replace("</", "<\\/") + "</script>\n" for b in blocks)
+    return html.replace("</head>", tags + "</head>", 1)
+
+
 def main():
     ver = hashlib.md5(((OUT / "assets/site.css").read_bytes() + (OUT / "assets/site.js").read_bytes())).hexdigest()[:8]
     env = Environment(loader=FileSystemLoader(str(SRC / "templates")), autoescape=select_autoescape(["j2", "html"]), trim_blocks=False)
     for p in PAGES:
         html = env.get_template(p["tpl"]).render(page=p, checks=CHECKS, fixes=FIXES, nav=NAV, demos=DEMOS, packages=PACKAGES, wa=WA, wa_icon=WA_ICON, ver=ver, indexable=LIVE)
+        html = add_schema(p, html)
         out = OUT / p["path"].strip("/") / "index.html" if p["path"] != "/" else OUT / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html)
         print(f"built {out.relative_to(ROOT)}  ({len(html)//1024} KB)")
     robots = OUT / "robots.txt"; sitemap = OUT / "sitemap.xml"
     if LIVE:
-        robots.write_text("User-agent: *\nAllow: /\nSitemap: https://sutrayaan.com/sitemap.xml\n")
+        bots = ["Googlebot", "Bingbot", "OAI-SearchBot", "ChatGPT-User", "GPTBot", "Claude-SearchBot", "Claude-User", "ClaudeBot",
+                "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot"]
+        robots.write_text("# Search engines and AI assistants are welcome to read and cite this site.\n" +
+                          "".join(f"User-agent: {b}\n" for b in bots) + "Allow: /\n\nUser-agent: *\nAllow: /\n\n" +
+                          "Sitemap: https://sutrayaan.com/sitemap.xml\n")
+        today = datetime.date.today().isoformat()
         sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-                           "".join(f"  <url><loc>https://sutrayaan.com{p['path']}</loc></url>\n" for p in PAGES) + "</urlset>\n")
+                           "".join(f"  <url><loc>https://sutrayaan.com{p['path']}</loc><lastmod>{today}</lastmod></url>\n" for p in PAGES) + "</urlset>\n")
     else:
         robots.write_text("User-agent: *\nDisallow: /\n")
         sitemap.unlink(missing_ok=True)
