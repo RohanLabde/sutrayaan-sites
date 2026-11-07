@@ -1,0 +1,32 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero">
+    <div class="wrap">
+      {{ M.eyebrow("Guides") }}
+      <h1>Plain answers for <em>factory owners.</em></h1>
+      <p class="lede">What a website should cost, what it should include, and how to stop losing enquiries. Written for manufacturers, with real numbers.</p>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="guide-list">
+        {% for g in guides %}
+        <a class="guide-card" href="{{ g.path }}">
+          <span class="ind">{{ g.kicker }}</span>
+          <h2>{{ g.h }}</h2>
+          <span class="muted">{{ g.desc }}</span>
+          <span class="go">Read the guide</span>
+        </a>
+        {% endfor %}
+      </div>
+      <div class="sec-head" style="margin-top:56px">{{ M.eyebrow("By industry") }}<h2 style="font-size:clamp(1.9rem,3.4vw,2.6rem)">Websites for your industry.</h2></div>
+      <div class="ind-links">
+        {% for o in industries %}<a href="{{ o.path }}">{{ o.nav }} <span>→</span></a>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+{{ M.cta_band("Rather have an expert <em>look at your site?</em>", "Send your current website and we'll reply within 24 hours with three fixes. Free, no obligation.") }}
+{% endblock %}

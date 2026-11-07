@@ -1,0 +1,66 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% set i = page.ind %}
+{% block content %}
+  <section class="page-hero">
+    <div class="wrap">
+      {{ M.eyebrow(i.eyebrow) }}
+      <h1>{{ i.h1|safe }}</h1>
+      <p class="lede">{{ i.lede }}</p>
+      <div class="row"><a class="btn btn-primary" href="/audit/">Get a free website audit</a><a class="btn btn-ghost" href="https://{{ i.demo.host }}" target="_blank" rel="noopener">See the {{ i.demo_label }} demo</a></div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">
+        {{ M.eyebrow("What buyers check first") }}
+        <h2>{{ i.checks_h2|safe }}</h2>
+        <p class="muted">{{ i.checks_lede }}</p>
+      </div>
+      <div class="ind-checks">
+        {% for t, d in i.checks %}<div><b>{{ loop.index }}</b><h3>{{ t }}</h3><span class="muted">{{ d }}</span></div>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap ind-build">
+      <div style="display:grid;gap:18px;align-content:start">
+        {{ M.eyebrow("What your website will include") }}
+        <h2>Built for how {{ i.buyers }} <em>buy.</em></h2>
+        <ul class="checks">{% for x in i.includes %}<li>{{ x }}</li>{% endfor %}</ul>
+        <p class="small">Plus everything in every Sutrayaan site: fast on phones, Google Business Profile set up, and every enquiry in your tracker. <a href="/services/">See all packages</a>.</p>
+      </div>
+      <a class="demo" href="https://{{ i.demo.host }}" target="_blank" rel="noopener">
+        {{ M.mini(i.demo) }}
+        <div class="body"><span class="ind">Live demo · {{ i.demo.industry }}</span><h3>{{ i.demo.name }}</h3><span class="muted">{{ i.demo_note }}</span><span class="go">Try the quote form</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="ind-price">
+        <div>
+          {{ M.eyebrow("Price and time") }}
+          <h2 style="font-size:clamp(1.9rem,3.4vw,2.6rem)">Most {{ i.short }} websites cost <em>{{ i.price }}.</em></h2>
+          <p class="muted">{{ i.price_note }} Ready in 2–3 weeks from the plant visit. The enquiry tracker is free with a website at launch. You get a fixed quote before we start.</p>
+        </div>
+        <a class="btn btn-primary" href="/audit/">Get a fixed quote</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="sec-head">{{ M.eyebrow("Questions") }}<h2>Asked by {{ i.short }} owners.</h2></div>
+      <div class="faq">
+        {% for q, a in i.faq %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+      </div>
+      <p class="small" style="margin-top:24px">Other industries: {% for o in industries if o.key != i.key %}<a href="{{ o.path }}">{{ o.nav }}</a>{% if not loop.last %} · {% endif %}{% endfor %} · <a href="/guides/factory-website-cost-india/">What a factory website costs in India</a></p>
+    </div>
+  </section>
+
+{{ M.cta_band(i.cta_h|safe, "Send your current website and we'll reply within 24 hours with three fixes, in order of impact. Free, no obligation.") }}
+{% endblock %}

@@ -68,6 +68,25 @@ DEMOS = [
 for d in DEMOS:
     d["try"] = d.pop("try_")
 
+sys.path.insert(0, str(SRC))
+from content_industries import INDUSTRIES  # noqa: E402
+for ind in INDUSTRIES:
+    ind["demo"] = next(d for d in DEMOS if d["host"].startswith(ind["demo_key"] + "."))
+    PAGES.append(dict(key="ind-" + ind["key"], path=ind["path"], tpl="industry.html.j2", title=ind["title"], desc=ind["desc"],
+                      ind=ind, preview=True))
+
+GUIDES = [
+    dict(key="guide-cost", path="/guides/factory-website-cost-india/", tpl="guide_cost.html.j2",
+         title="How Much Does a Factory Website Cost in India? · Sutrayaan",
+         desc="Factory websites in India cost ₹30,000 to ₹75,000 to build and about ₹4,000 to ₹16,000 a year to run. Compare options, running costs and what to ask.",
+         h="How much does a factory website cost in India?", kicker="Costs",
+         published="2026-11-07", updated="2026-11-07", updated_label="7 November 2026", preview=True, article=True),
+]
+PAGES.append(dict(key="guides", path="/guides/", tpl="guides.html.j2", title="Guides for Manufacturers · Sutrayaan",
+                  desc="Plain guides for Indian manufacturers: what a website costs, what it should include, and how to get more enquiries.",
+                  preview=True))
+PAGES.extend(GUIDES)
+
 PACKAGES = [
     dict(name="Website", price="From ₹30,000", ready="2–3 weeks",
          items=["6–8 pages written in your industry's terms", "Product and capability pages", "Quote form with drawing or file upload",
@@ -133,6 +152,12 @@ def add_schema(p, html):
                        "provider": {"@type": "ProfessionalService", "name": "Sutrayaan", "url": "https://sutrayaan.com/"},
                        "areaServed": ["Mumbai", "Thane", "Navi Mumbai", "Vasai", "Palghar", "Bhiwandi", "Pune"],
                        "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Sutrayaan packages", "itemListElement": offers}})
+    if p.get("article"):
+        blocks.append({"@context": "https://schema.org", "@type": "Article", "headline": p["h"], "description": p["desc"],
+                       "datePublished": p["published"], "dateModified": p["updated"], "inLanguage": "en-IN",
+                       "mainEntityOfPage": "https://sutrayaan.com" + p["path"], "image": "https://sutrayaan.com/assets/og.png",
+                       "author": {"@type": "Organization", "name": "Sutrayaan", "url": "https://sutrayaan.com/"},
+                       "publisher": {"@type": "Organization", "name": "Sutrayaan", "logo": {"@type": "ImageObject", "url": "https://sutrayaan.com/assets/og.png"}}})
     if not blocks: return html
     tags = "".join('<script type="application/ld+json">' + json.dumps(b, ensure_ascii=False).replace("</", "<\\/") + "</script>\n" for b in blocks)
     return html.replace("</head>", tags + "</head>", 1)
@@ -142,7 +167,7 @@ def main():
     ver = hashlib.md5(((OUT / "assets/site.css").read_bytes() + (OUT / "assets/site.js").read_bytes())).hexdigest()[:8]
     env = Environment(loader=FileSystemLoader(str(SRC / "templates")), autoescape=select_autoescape(["j2", "html"]), trim_blocks=False)
     for p in PAGES:
-        html = env.get_template(p["tpl"]).render(page=p, checks=CHECKS, fixes=FIXES, nav=NAV, demos=DEMOS, packages=PACKAGES, wa=WA, wa_icon=WA_ICON, ver=ver, indexable=LIVE)
+        html = env.get_template(p["tpl"]).render(page=p, industries=INDUSTRIES, guides=GUIDES, checks=CHECKS, fixes=FIXES, nav=NAV, demos=DEMOS, packages=PACKAGES, wa=WA, wa_icon=WA_ICON, ver=ver, indexable=LIVE and not p.get("preview"))
         html = add_schema(p, html)
         out = OUT / p["path"].strip("/") / "index.html" if p["path"] != "/" else OUT / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -157,7 +182,7 @@ def main():
                           "Sitemap: https://sutrayaan.com/sitemap.xml\n")
         today = datetime.date.today().isoformat()
         sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-                           "".join(f"  <url><loc>https://sutrayaan.com{p['path']}</loc><lastmod>{today}</lastmod></url>\n" for p in PAGES) + "</urlset>\n")
+                           "".join(f"  <url><loc>https://sutrayaan.com{p['path']}</loc><lastmod>{today}</lastmod></url>\n" for p in PAGES if not p.get("preview")) + "</urlset>\n")
     else:
         robots.write_text("User-agent: *\nDisallow: /\n")
         sitemap.unlink(missing_ok=True)
