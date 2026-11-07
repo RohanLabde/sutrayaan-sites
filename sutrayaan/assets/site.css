@@ -300,7 +300,7 @@ a.ccard:hover{border-color:var(--ink-3);transform:translateY(-2px)}
 .btn-wa:hover{background:#178C46;transform:translateY(-1px)}
 
 /* footer links */
-.foot-top.four{grid-template-columns:1.4fr .7fr 1fr 1fr}
+.foot-top.four{grid-template-columns:1.3fr .6fr .9fr 1fr .9fr}
 @media (max-width:920px){.foot-top.four{grid-template-columns:1fr 1fr}.foot-top.four>div:first-child{grid-column:1/-1}}
 @media (max-width:520px){.foot-top.four{grid-template-columns:1fr}}
 .steps.three{grid-template-columns:repeat(3,1fr)}
