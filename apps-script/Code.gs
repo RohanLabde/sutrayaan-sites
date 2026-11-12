@@ -7,6 +7,9 @@
  *    from sutrayaan.com are added automatically. Changing a Stage fills in the
  *    next action and its due date.
  * 3. Summary tab: counts by stage and source, reply rate, and what is due today.
+ * 4. Bigin (Zoho CRM): audit requests from sutrayaan.com also become a company, contact and deal
+ *    in Bigin, at the "Audit requested" stage. The sheet and email alert stay as the backup.
+ *    Setup: see "Bigin connection" near the end of this file.
  *
  * Setup: paste over everything in Extensions → Apps Script, save, choose
  * setupPipeline in the toolbar and click Run once (approve access), then
@@ -112,7 +115,11 @@ function doPost(e) {
                   clean_(d.email, 120), clean_(d.phone, 40), clean_(d.city, 80), clean_(d.material, 80), clean_(d.qty, 80),
                   clean_(d.neededBy, 20), clean_(d.desc, 2000), files, d.nda ? 'Yes' : 'No', '', now, site]);
 
-    if (site === 'sutrayaan') { try { addInbound_(d, ref); } catch (err) { console.error(err); } }
+    let crmNote = '';
+    if (site === 'sutrayaan') {
+      try { addInbound_(d, ref); } catch (err) { console.error(err); }
+      crmNote = addToBigin_(d, ref);   // never throws; returns a line for the alert email
+    }
 
     const to = ALERT_EMAIL || Session.getEffectiveUser().getEmail();
     const body = [
@@ -123,6 +130,7 @@ function doPost(e) {
       'Quantity: ' + clean_(d.qty), 'Needed by: ' + clean_(d.neededBy), '',
       'Details: ' + clean_(d.desc, 2000), 'Drawings: ' + (files || '—'), 'NDA requested: ' + (d.nda ? 'Yes' : 'No'), '',
       site === 'sutrayaan' ? 'Added to your Pipeline tab as "Audit requested".' : '',
+      crmNote,
       'Open the sheet: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl()
     ].join('\n');
     MailApp.sendEmail(to, 'New request ' + ref + ' · ' + clean_(d.company, 60) + ' · ' + (clean_(d.brand, 60) || BUSINESS), body);
@@ -316,4 +324,127 @@ function setupSummary_() {
   s.getRange(t + 2, 4, 200, 1).setNumberFormat('dd mmm');
   s.setColumnWidth(1, 230); s.setColumnWidth(3, 230); s.setColumnWidth(4, 150); s.setColumnWidth(7, 150);
   s.setFrozenRows(2);
+}
+
+
+// ======================= Bigin connection (Zoho, India data centre) =======================
+//
+// One-time setup (keys never leave your Google account):
+//  1. In the Zoho API Console (api-console.zoho.in) create a Self Client.
+//  2. Apps Script → Project Settings → Script properties → add ZOHO_CLIENT_ID and ZOHO_CLIENT_SECRET.
+//  3. In the Self Client, "Generate Code" with scope
+//       ZohoBigin.modules.ALL,ZohoBigin.settings.READ,ZohoBigin.users.READ
+//     and add it as script property ZOHO_GRANT_CODE (it expires in the minutes you chose).
+//  4. Run zohoConnect from the toolbar. It swaps the code for a long-lived key, finds your
+//     pipeline, and logs what it found. Then run zohoTest to send one test deal.
+
+const ZOHO = { accounts: 'https://accounts.zoho.in', api: 'https://www.zohoapis.in/bigin/v2' };
+const BIGIN_STAGE_NEW = 'Audit requested';
+
+function props_() { return PropertiesService.getScriptProperties(); }
+
+function zohoConnect() {
+  const p = props_(), id = p.getProperty('ZOHO_CLIENT_ID'), secret = p.getProperty('ZOHO_CLIENT_SECRET'), code = p.getProperty('ZOHO_GRANT_CODE');
+  if (!id || !secret || !code) throw new Error('Add ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET and ZOHO_GRANT_CODE in Project Settings → Script properties first.');
+  const r = UrlFetchApp.fetch(ZOHO.accounts + '/oauth/v2/token', { method: 'post', muteHttpExceptions: true,
+    payload: { grant_type: 'authorization_code', client_id: id.trim(), client_secret: secret.trim(), code: code.trim() } });
+  const j = JSON.parse(r.getContentText() || '{}');
+  if (!j.refresh_token) throw new Error('Zoho did not return a key. Reply was: ' + r.getContentText() + '  (Grant codes expire quickly: generate a new one and run again.)');
+  p.setProperty('ZOHO_REFRESH_TOKEN', j.refresh_token);
+  p.deleteProperty('ZOHO_GRANT_CODE');
+  CacheService.getScriptCache().put('zoho_access', j.access_token, 3000);
+  console.log('Connected to Bigin. Long-lived key saved.');
+  zohoDiscover_();
+}
+
+function zohoToken_() {
+  const cache = CacheService.getScriptCache(), hit = cache.get('zoho_access');
+  if (hit) return hit;
+  const p = props_(), rt = p.getProperty('ZOHO_REFRESH_TOKEN');
+  if (!rt) throw new Error('Bigin is not connected yet (run zohoConnect).');
+  const r = UrlFetchApp.fetch(ZOHO.accounts + '/oauth/v2/token', { method: 'post', muteHttpExceptions: true,
+    payload: { grant_type: 'refresh_token', refresh_token: rt, client_id: p.getProperty('ZOHO_CLIENT_ID').trim(), client_secret: p.getProperty('ZOHO_CLIENT_SECRET').trim() } });
+  const j = JSON.parse(r.getContentText() || '{}');
+  if (!j.access_token) throw new Error('Could not refresh the Bigin key: ' + r.getContentText());
+  cache.put('zoho_access', j.access_token, 3000);
+  return j.access_token;
+}
+
+function zohoFetch_(method, path, body) {
+  const opt = { method: method, muteHttpExceptions: true, contentType: 'application/json',
+                headers: { Authorization: 'Zoho-oauthtoken ' + zohoToken_() } };
+  if (body) opt.payload = JSON.stringify(body);
+  const r = UrlFetchApp.fetch(ZOHO.api + path, opt), code = r.getResponseCode(), text = r.getContentText();
+  if (code === 204) return {};
+  if (code >= 300) throw new Error('Bigin ' + method.toUpperCase() + ' ' + path + ' → ' + code + ': ' + text.slice(0, 500));
+  return text ? JSON.parse(text) : {};
+}
+
+// Finds the team pipeline (prefers one named "Sales"), its sub-pipeline and stages; saves the ids.
+function zohoDiscover_() {
+  const p = props_();
+  const lay = zohoFetch_('get', '/settings/layouts?module=Pipelines');
+  const layouts = lay.layouts || [];
+  console.log('Pipelines found: ' + layouts.map(l => l.name + ' (' + l.id + ')').join(', '));
+  const pick = layouts.find(l => /sales/i.test(l.name)) || layouts[0];
+  if (!pick) throw new Error('No pipeline found in Bigin.');
+  p.setProperty('ZOHO_PIPELINE_ID', String(pick.id));
+  p.setProperty('ZOHO_PIPELINE_NAME', pick.name);
+  const f = zohoFetch_('get', '/settings/fields?module=Pipelines');
+  const field = n => (f.fields || []).find(x => x.api_name === n);
+  const sub = field('Sub_Pipeline'), stage = field('Stage');
+  const subVals = sub && sub.pick_list_values ? sub.pick_list_values.map(v => v.display_value || v.actual_value) : [];
+  const ours = subVals.find(v => v.indexOf(pick.name) === 0) || subVals[0] || '';
+  p.setProperty('ZOHO_SUB_PIPELINE', ours);
+  console.log('Using pipeline "' + pick.name + '", sub-pipeline "' + ours + '". All sub-pipelines: ' + subVals.join(', '));
+  if (stage && stage.pick_list_values) console.log('Stages Bigin knows: ' + stage.pick_list_values.map(v => v.display_value).join(' | '));
+}
+
+function biginFindOrCreate_(module, field, value, record) {
+  if (value) {
+    try {
+      const s = zohoFetch_('get', '/' + module + '/search?criteria=' + encodeURIComponent('(' + field + ':equals:' + value + ')'));
+      if (s.data && s.data[0]) return s.data[0].id;
+    } catch (e) { console.warn('Search skipped: ' + e.message); }
+  }
+  const c = zohoFetch_('post', '/' + module, { data: [record] });
+  const row = c.data && c.data[0];
+  if (!row || row.status !== 'success') throw new Error('Could not create ' + module + ': ' + JSON.stringify(c).slice(0, 400));
+  return row.details.id;
+}
+
+// Adds one website enquiry to Bigin. Never throws: returns a line for the alert email.
+function addToBigin_(d, ref) {
+  const p = props_();
+  if (!p.getProperty('ZOHO_REFRESH_TOKEN')) return '';
+  try {
+    const company = clean_(d.company, 120), name = clean_(d.name, 100);
+    const parts = name.split(/\s+/), last = parts.length > 1 ? parts.pop() : (parts[0] || 'Unknown'), first = parts.join(' ');
+    const accountId = biginFindOrCreate_('Accounts', 'Account_Name', company, { Account_Name: company });
+    const email = clean_(d.email, 120);
+    const contactId = biginFindOrCreate_('Contacts', 'Email', email, {
+      First_Name: first, Last_Name: last, Email: email || undefined, Mobile: clean_(d.phone, 40) || undefined,
+      Account_Name: { id: accountId } });
+    const close = new Date(); close.setDate(close.getDate() + 14);
+    const deal = { Deal_Name: company + ' · ' + (clean_(d.type, 60) || 'Website enquiry'), Stage: BIGIN_STAGE_NEW,
+      Pipeline: { id: p.getProperty('ZOHO_PIPELINE_ID'), name: p.getProperty('ZOHO_PIPELINE_NAME') },
+      Closing_Date: Utilities.formatDate(close, 'Asia/Kolkata', 'yyyy-MM-dd'),
+      Account_Name: { id: accountId }, Contact_Name: { id: contactId },
+      Description: [ref, 'Industry: ' + clean_(d.process, 60), 'Biggest problem: ' + clean_(d.material, 80), clean_(d.desc, 800)].join('\n') };
+    const sub = p.getProperty('ZOHO_SUB_PIPELINE'); if (sub) deal.Sub_Pipeline = sub;
+    const res = zohoFetch_('post', '/Pipelines', { data: [deal] });
+    const row = res.data && res.data[0];
+    if (!row || row.status !== 'success') throw new Error(JSON.stringify(res).slice(0, 400));
+    return 'Added to Bigin as a deal at "' + BIGIN_STAGE_NEW + '".';
+  } catch (err) {
+    console.error(err);
+    return 'Bigin sync FAILED (the sheet and this email have everything): ' + String(err.message || err).slice(0, 300);
+  }
+}
+
+// Sends one test enquiry to Bigin and logs the result. Delete the test deal in Bigin afterwards.
+function zohoTest() {
+  const line = addToBigin_({ company: 'Bigin test (delete me)', name: 'Test Rohan', email: '', phone: '',
+    type: 'Free website audit', process: 'CNC and engineering', material: 'Too few enquiries', desc: 'Test from Apps Script' }, 'RFQ-TEST');
+  console.log(line || 'Bigin is not connected yet: run zohoConnect first.');
 }
