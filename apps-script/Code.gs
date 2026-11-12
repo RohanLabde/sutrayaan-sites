@@ -125,7 +125,7 @@ function doPost(e) {
     const body = [
       'New request ' + ref, '',
       'Company: ' + clean_(d.company), 'Name: ' + clean_(d.name),
-      'Email: ' + clean_(d.email), 'Phone: ' + clean_(d.phone), 'City: ' + clean_(d.city), '',
+      'Email: ' + clean_(d.email), 'Phone: ' + String(d.phone || '').trim().slice(0, 40), 'City: ' + clean_(d.city), '',
       'Type: ' + clean_(d.type), 'Process / industry: ' + clean_(d.process), 'Material / problem: ' + clean_(d.material),
       'Quantity: ' + clean_(d.qty), 'Needed by: ' + clean_(d.neededBy), '',
       'Details: ' + clean_(d.desc, 2000), 'Drawings: ' + (files || '—'), 'NDA requested: ' + (d.nda ? 'Yes' : 'No'), '',
@@ -342,6 +342,8 @@ const ZOHO = { accounts: 'https://accounts.zoho.in', api: 'https://www.zohoapis.
 const BIGIN_STAGE_NEW = 'Audit requested';
 
 function props_() { return PropertiesService.getScriptProperties(); }
+// Phone for Bigin: digits and a leading + only (the sheet's apostrophe guard would make Zoho reject it).
+function phone_(v) { const s = String(v == null ? '' : v).trim(); return (s.charAt(0) === '+' ? '+' : '') + s.replace(/\D/g, '').slice(0, 15); }
 
 function zohoConnect() {
   const p = props_(), id = p.getProperty('ZOHO_CLIENT_ID'), secret = p.getProperty('ZOHO_CLIENT_SECRET'), code = p.getProperty('ZOHO_GRANT_CODE');
@@ -423,7 +425,7 @@ function addToBigin_(d, ref) {
     const accountId = biginFindOrCreate_('Accounts', 'Account_Name', company, { Account_Name: company });
     const email = clean_(d.email, 120);
     const contactId = biginFindOrCreate_('Contacts', 'Email', email, {
-      First_Name: first, Last_Name: last, Email: email || undefined, Mobile: clean_(d.phone, 40) || undefined,
+      First_Name: first, Last_Name: last, Email: email || undefined, Mobile: phone_(d.phone) || undefined,
       Account_Name: { id: accountId } });
     const close = new Date(); close.setDate(close.getDate() + 14);
     const deal = { Deal_Name: company + ' · ' + (clean_(d.type, 60) || 'Website enquiry'), Stage: BIGIN_STAGE_NEW,
