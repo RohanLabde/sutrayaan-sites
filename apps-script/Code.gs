@@ -454,8 +454,10 @@ function zohoTest() {
 
 // ======================= One-time import: Pipeline tab → Bigin =======================
 // Run importShortlistToBigin from the toolbar. Each open company in the Pipeline tab becomes a company,
-// contact (when a name is known) and deal in Bigin, at the same stage, with a task for the next action.
-// The deal's Bigin id is written into a "Bigin ID" column, so running it again skips rows already sent.
+// a contact (a placeholder "Owner (to find)" when we don't know a name yet: Bigin needs one per deal)
+// and a deal at the same stage, plus a task for the next action.
+// It writes the deal id into "Bigin ID" and the task result into "Bigin task", so it is safe to run again:
+// rows already sent are skipped, failed rows are retried, and existing companies are reused.
 
 function biginCreate_(module, full, minimal) {
   try {
@@ -473,66 +475,98 @@ function biginCreate_(module, full, minimal) {
   }
 }
 
+// Zoho search needs ( ) , and \ escaped inside a criteria value.
+function biginSearchId_(module, field, value) {
+  if (!value) return null;
+  const esc = String(value).replace(/([(),\\])/g, '\\$1');
+  try {
+    const s = zohoFetch_('get', '/' + module + '/search?criteria=' + encodeURIComponent('(' + field + ':equals:' + esc + ')'));
+    return s.data && s.data[0] ? s.data[0].id : null;
+  } catch (e) { console.warn('Search in ' + module + ' failed for "' + value + '": ' + String(e.message).slice(0, 120)); return null; }
+}
+
+// Bigin links a task to a deal differently from Zoho CRM. Try the known shapes once, remember the one that works.
+function biginTask_(dealId, subject, due) {
+  const p = props_();
+  const shapes = {
+    related:  { Subject: subject, Due_Date: due, Related_To: { id: dealId }, $related_module: 'Pipelines' },
+    relatedM: { Subject: subject, Due_Date: due, Related_To: { id: dealId, module: { api_name: 'Pipelines' } } },
+    whatDeals:{ Subject: subject, Due_Date: due, What_Id: { id: dealId }, $se_module: 'Deals' },
+    plain:    { Subject: subject, Due_Date: due }
+  };
+  const known = p.getProperty('BIGIN_TASK_SHAPE');
+  const order = known ? [known] : ['related', 'relatedM', 'whatDeals', 'plain'];
+  let last;
+  for (const k of order) {
+    try {
+      const id = biginCreate_('Tasks', shapes[k]);
+      if (!known) { p.setProperty('BIGIN_TASK_SHAPE', k); console.log('Bigin tasks: using the "' + k + '" link style.'); }
+      return k === 'plain' ? 'yes (not linked to the deal)' : 'yes';
+    } catch (e) { last = e; }
+  }
+  throw last;
+}
+
 function importShortlistToBigin() {
   const p = props_();
   if (!p.getProperty('ZOHO_REFRESH_TOKEN')) throw new Error('Bigin is not connected yet (run zohoConnect).');
   const sh = pipeline_();
-  const lastCol = sh.getLastColumn();
-  const head = sh.getRange(1, 1, 1, lastCol).getValues()[0];
-  let idCol = head.indexOf('Bigin ID') + 1;
-  if (!idCol) { idCol = lastCol + 1; sh.getRange(1, idCol).setValue('Bigin ID').setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1C1F4A'); }
+  const ensureCol = name => {
+    const head = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+    let c = head.indexOf(name) + 1;
+    if (!c) { c = sh.getLastColumn() + 1; sh.getRange(1, c).setValue(name).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1C1F4A'); }
+    return c;
+  };
+  const idCol = ensureCol('Bigin ID'), taskCol = ensureCol('Bigin task');
   const n = sh.getLastRow() - 1;
   if (n < 1) { console.log('Pipeline tab is empty.'); return; }
-  const rows = sh.getRange(2, 1, n, Math.max(idCol, P_HEADERS.length)).getValues();
+  const width = Math.max(idCol, taskCol, P_HEADERS.length);
+  const rows = sh.getRange(2, 1, n, width).getValues();
   const v = (r, h) => String(r[P[h] - 1] == null ? '' : r[P[h] - 1]).replace(/^'/, '').trim();
-  const day = d => d instanceof Date ? Utilities.formatDate(d, 'Asia/Kolkata', 'yyyy-MM-dd') : '';
-  let sent = 0, skipped = 0, failed = 0;
+  const day = d => Utilities.formatDate(d instanceof Date ? d : new Date(), 'Asia/Kolkata', 'yyyy-MM-dd');
+  let sent = 0, tasks = 0, skipped = 0, failed = 0;
   rows.forEach((r, i) => {
     const company = v(r, 'Company'), stage = v(r, 'Stage');
     if (!company) return;
-    if (r[idCol - 1]) { skipped++; return; }
-    if (/delete me/i.test(company) || stage === 'Won' || stage === 'Lost') { skipped++; return; }
+    const idCell = String(r[idCol - 1] || ''), taskCell = String(r[taskCol - 1] || '');
+    if (idCell === 'sent by website form' || /delete me/i.test(company) || stage === 'Won' || stage === 'Lost') { skipped++; return; }
     if (v(r, 'Source') === 'Website (inbound)' && v(r, 'Ref')) { sh.getRange(i + 2, idCol).setValue('sent by website form'); skipped++; return; }
+    let dealId = /^\d{6,}$/.test(idCell) ? idCell : '';
     try {
-      const web = v(r, 'Website').replace(/\s*\(.*\)\s*$/, '');
-      const about = [v(r, 'Industry') && 'Industry: ' + v(r, 'Industry'), v(r, 'City') && 'City: ' + v(r, 'City'), v(r, 'Notes')].filter(Boolean).join('\n');
-      let accountId;
-      try {
-        const s = zohoFetch_('get', '/Accounts/search?criteria=' + encodeURIComponent('(Account_Name:equals:' + company + ')'));
-        if (s.data && s.data[0]) accountId = s.data[0].id;
-      } catch (e) { /* search can fail on special characters; create instead */ }
-      if (!accountId) accountId = biginCreate_('Accounts',
-        { Account_Name: company, Website: /\./.test(web) ? 'https://' + web.replace(/^https?:\/\//, '') : undefined, Description: about },
-        { Account_Name: company });
-      let contactId;
-      const person = v(r, 'Contact');
-      if (person) {
-        const parts = person.split(/\s+/), last = parts.length > 1 ? parts.pop() : parts[0], first = parts.join(' ');
-        contactId = biginCreate_('Contacts',
-          { First_Name: first || undefined, Last_Name: last, Title: v(r, 'Role') || undefined, Email: v(r, 'Email') || undefined,
+      if (!dealId) {
+        const web = v(r, 'Website').replace(/\s*\(.*\)\s*$/, '');
+        const about = [v(r, 'Industry') && 'Industry: ' + v(r, 'Industry'), v(r, 'City') && 'City: ' + v(r, 'City'), v(r, 'Notes')].filter(Boolean).join('\n');
+        const accountId = biginSearchId_('Accounts', 'Account_Name', company) || biginCreate_('Accounts',
+          { Account_Name: company, Website: /\./.test(web) ? 'https://' + web.replace(/^https?:\/\//, '') : undefined, Description: about },
+          { Account_Name: company });
+        const person = v(r, 'Contact');
+        let first = '', last = 'Owner (to find)', title = 'Find on LinkedIn';
+        if (person) { const parts = person.split(/\s+/); last = parts.length > 1 ? parts.pop() : parts[0]; first = parts.join(' '); title = v(r, 'Role'); }
+        const email = v(r, 'Email');
+        const contactId = (email && biginSearchId_('Contacts', 'Email', email)) || biginCreate_('Contacts',
+          { First_Name: first || undefined, Last_Name: last, Title: title || undefined, Email: email || undefined,
             Mobile: phone_(v(r, 'Phone')) || undefined, Account_Name: { id: accountId } },
           { Last_Name: last, Account_Name: { id: accountId } });
-      }
-      const due = r[P['Due'] - 1] instanceof Date ? r[P['Due'] - 1] : null;
-      const close = new Date(); close.setDate(close.getDate() + 30);
-      const deal = { Deal_Name: company + ' · Website', Stage: stage || 'Researched',
-        Pipeline: { id: p.getProperty('ZOHO_PIPELINE_ID'), name: p.getProperty('ZOHO_PIPELINE_NAME') },
-        Closing_Date: day(close), Account_Name: { id: accountId },
-        Description: ['Hook: ' + v(r, 'Hook (one problem we spotted)'), 'Demo to send: ' + v(r, 'Demo to send'),
-                      'Channel: ' + v(r, 'Channel'), 'Fit: ' + v(r, 'Fit (1-5)') + '/5', 'Pipeline ID: ' + v(r, 'ID')].join('\n') };
-      if (contactId) deal.Contact_Name = { id: contactId };
-      const amount = Number(r[P['Deal value (₹)'] - 1]); if (amount) deal.Amount = amount;
-      const sub = p.getProperty('ZOHO_SUB_PIPELINE'); if (sub) deal.Sub_Pipeline = sub;
-      const dealId = biginCreate_('Pipelines', deal);
+        const close = new Date(); close.setDate(close.getDate() + 30);
+        const deal = { Deal_Name: company + ' · Website', Stage: stage || 'Researched',
+          Pipeline: { id: p.getProperty('ZOHO_PIPELINE_ID'), name: p.getProperty('ZOHO_PIPELINE_NAME') },
+          Closing_Date: day(close), Account_Name: { id: accountId }, Contact_Name: { id: contactId },
+          Description: ['Hook: ' + v(r, 'Hook (one problem we spotted)'), 'Demo to send: ' + v(r, 'Demo to send'),
+                        'Channel: ' + v(r, 'Channel'), 'Fit: ' + v(r, 'Fit (1-5)') + '/5', 'Pipeline ID: ' + v(r, 'ID')].join('\n') };
+        const amount = Number(r[P['Deal value (₹)'] - 1]); if (amount) deal.Amount = amount;
+        const sub = p.getProperty('ZOHO_SUB_PIPELINE'); if (sub) deal.Sub_Pipeline = sub;
+        dealId = biginCreate_('Pipelines', deal);
+        sh.getRange(i + 2, idCol).setValue(dealId);
+        sent++;
+      } else { skipped++; }
       const next = v(r, 'Next action');
-      if (next) {
+      if (next && !/^yes/.test(taskCell)) {
         try {
-          biginCreate_('Tasks', { Subject: next + ' · ' + company, Due_Date: day(due || new Date()),
-            What_Id: { id: dealId }, $se_module: 'Pipelines' });
-        } catch (e) { console.warn('Task not created for ' + company + ': ' + String(e.message).slice(0, 200)); }
+          const due = r[P['Due'] - 1];
+          sh.getRange(i + 2, taskCol).setValue(biginTask_(dealId, next + ' · ' + company, day(due)));
+          tasks++;
+        } catch (e) { sh.getRange(i + 2, taskCol).setValue('FAILED: ' + String(e.message).slice(0, 160)); console.warn('Task not created for ' + company + ': ' + String(e.message).slice(0, 200)); }
       }
-      sh.getRange(i + 2, idCol).setValue(dealId);
-      sent++;
       Utilities.sleep(250);
     } catch (e) {
       failed++;
@@ -540,5 +574,5 @@ function importShortlistToBigin() {
       console.error(company + ': ' + e.message);
     }
   });
-  console.log('Done. Sent to Bigin: ' + sent + ' · skipped: ' + skipped + ' · failed: ' + failed + '. Failures are marked in the "Bigin ID" column.');
+  console.log('Done. New deals: ' + sent + ' · tasks created: ' + tasks + ' · already there or skipped: ' + skipped + ' · failed: ' + failed + '.');
 }
