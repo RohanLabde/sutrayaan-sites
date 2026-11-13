@@ -38,6 +38,9 @@ PAGES = [
     dict(key="about", path="/about/", tpl="about.html.j2",
          title="About Sutrayaan · Mumbai",
          desc="Sutrayaan connects Indian manufacturers to their buyers with websites and enquiry systems built in their industry's language."),
+    dict(key="crm", path="/crm-for-manufacturers/", tpl="crm.html.j2",
+         title="CRM for Manufacturers: Zoho Bigin Setup · Sutrayaan",
+         desc="Move your factory's enquiries from a spreadsheet to Zoho Bigin CRM. Setup from ₹15,000, ready in a week, with website and IndiaMART leads flowing in."),
     dict(key="contact", path="/contact/", tpl="contact.html.j2",
          title="Contact Sutrayaan · WhatsApp and Email",
          desc="WhatsApp +91 99675 55168 or email rohan@sutrayaan.com. Serving Mumbai, Thane, Navi Mumbai, Palghar, Bhiwandi and Pune."),
@@ -99,8 +102,10 @@ PACKAGES = [
          items=["Every enquiry saved to your Google Sheet", "Instant email alert", "Status from New to Won", "Monthly enquiry report"]),
     dict(name="Monthly care", price="From ₹3,000 a month", ready="Ongoing",
          items=["Text and photo updates", "Backups and uptime checks", "Monthly report and a 30-minute call"]),
-    dict(name="CRM and automation", price="Ask us", soon=True, ready="Ask us",
-         items=["CRM set up for your sales team", "WhatsApp alerts", "Quote templates"]),
+    dict(name="CRM upgrade", price="From ₹15,000 one-time", note="Plus Zoho Bigin licence, paid to Zoho: free for one user, or from ₹400 per user a month", ready="1 week",
+         link=("/crm-for-manufacturers/", "How the CRM upgrade works"),
+         items=["Zoho Bigin set up in your company's name", "Pipeline stages for how your factory sells", "Website enquiries arrive as deals, with a follow-up task",
+                "Your past enquiries and customers imported", "WhatsApp and IndiaMART leads connected where your plans allow", "One hour of team training and 30 days of support"]),
 ]
 
 CHECKS = [
@@ -152,7 +157,7 @@ def add_schema(p, html):
                     "priceCurrency": "INR"}
             if m: item["priceSpecification"] = {"@type": "PriceSpecification", "minPrice": int(m.group(1).replace(",", "")), "priceCurrency": "INR"}
             offers.append(item)
-        blocks.append({"@context": "https://schema.org", "@type": "Service", "serviceType": "Website design and enquiry tracking for manufacturers",
+        blocks.append({"@context": "https://schema.org", "@type": "Service", "serviceType": "Website design, enquiry tracking and CRM setup for manufacturers",
                        "provider": {"@type": "ProfessionalService", "name": "Sutrayaan", "url": "https://sutrayaan.com/"},
                        "areaServed": ["Mumbai", "Thane", "Navi Mumbai", "Vasai", "Palghar", "Bhiwandi", "Pune"],
                        "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Sutrayaan packages", "itemListElement": offers}})

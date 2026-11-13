@@ -464,3 +464,12 @@ a.ccard:hover{border-color:var(--ink-3);transform:translateY(-2px)}
 .prose td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
 .prose tr:last-child td{border-bottom:0}
 .sources{font-size:.9rem;color:var(--ink-2)}
+/* CRM upgrade */
+.more-link{display:inline-block;margin-top:16px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--saffron)}
+.path3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 8px}
+.path3>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.path3>div.now{border-color:var(--saffron);box-shadow:0 0 0 3px rgba(240,160,40,.15)}
+.path3 .step{font:500 .72rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.path3 h3{font:400 1.45rem/1.15 var(--f-display);margin:8px 0 6px}
+.path3 p{margin:0;color:var(--ink-2);font-size:.95rem}
+@media (max-width:760px){.path3{grid-template-columns:1fr}}
