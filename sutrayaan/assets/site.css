@@ -474,3 +474,32 @@ a.ccard:hover{border-color:var(--ink-3);transform:translateY(-2px)}
 .path3 p{margin:0;color:var(--ink-2);font-size:.95rem}
 @media (max-width:760px){.path3{grid-template-columns:1fr}}
 .prose h2[id]{scroll-margin-top:96px}
+/* Process review sample */
+.pr-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:20px}
+.pr-kpis>div{border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:4px;background:#fff}
+.pr-kpis b{font:400 1.9rem/1 var(--f-display);color:var(--ink)}
+.pr-kpis span{font-size:.85rem;color:var(--ink-2)}
+.pr-flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,1fr);gap:10px;counter-reset:st}
+.pr-flow li{position:relative;border:1px solid var(--line);border-top:4px solid #3E9A5B;border-radius:10px;padding:14px 12px;background:#fff;display:grid;gap:6px;align-content:start}
+.pr-flow li.slip{border-top-color:var(--saffron)}
+.pr-flow li.break{border-top-color:#C0392B;background:#FFF8F7}
+.pr-flow li:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:18px;color:var(--ink-2);font-size:.85rem;background:var(--panel);line-height:1}
+.pr-flow b{font:400 1.15rem/1.15 var(--f-display);color:var(--ink)}
+.pr-flow em{font-style:normal;font-size:.78rem;color:var(--ink-2)}
+.pr-flow p{margin:0;font-size:.85rem;line-height:1.4}
+.pr-st{font:600 .62rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:#1E6B33}
+.pr-flow li.slip .pr-st{color:var(--saffron-ink)}
+.pr-flow li.break .pr-st{color:#A3261C}
+@media (max-width:1100px){.pr-flow{grid-template-columns:repeat(4,1fr)}.pr-flow li::after{display:none}}
+@media (max-width:760px){.pr-kpis{grid-template-columns:repeat(2,1fr)}.pr-flow{grid-template-columns:1fr 1fr}}
+@media print{.pr-kpis{grid-template-columns:repeat(5,1fr)}.pr-flow{grid-template-columns:repeat(4,1fr)}.pr-flow li::after{display:none}}
+.r-table.pr-table th:nth-child(1),.r-table.pr-table td:nth-child(1){width:22%}
+.r-table.pr-table th:nth-child(2),.r-table.pr-table td:nth-child(2){width:44%}
+.r-table.pr-table th:nth-child(3),.r-table.pr-table td:nth-child(3){width:24%}
+.r-table.pr-table th:nth-child(4),.r-table.pr-table td:nth-child(4){width:10%}
+@media (max-width:760px){
+  .r-table.pr-table td:nth-child(1){grid-column:1;grid-row:1}
+  .r-table.pr-table td:nth-child(4){grid-column:2;grid-row:1}
+  .r-table.pr-table td:nth-child(2),.r-table.pr-table td:nth-child(3){grid-column:1/-1}
+  .r-table.pr-table td:nth-child(3){color:var(--ink-2);font-style:italic}
+}
