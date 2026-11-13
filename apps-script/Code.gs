@@ -437,7 +437,13 @@ function addToBigin_(d, ref) {
     const res = zohoFetch_('post', '/Pipelines', { data: [deal] });
     const row = res.data && res.data[0];
     if (!row || row.status !== 'success') throw new Error(JSON.stringify(res).slice(0, 400));
-    return 'Added to Bigin as a deal at "' + BIGIN_STAGE_NEW + '".';
+    let taskNote = '';
+    try {
+      const due = new Date(); due.setDate(due.getDate() + 1);
+      biginTask_(row.details.id, 'Send the audit (within 24 h) · ' + company, Utilities.formatDate(due, 'Asia/Kolkata', 'yyyy-MM-dd'));
+      taskNote = ' Task "Send the audit (within 24 h)" is due tomorrow.';
+    } catch (e) { console.warn('Bigin task failed: ' + e.message); taskNote = ' (The follow-up task could not be created: ' + String(e.message).slice(0, 120) + ')'; }
+    return 'Added to Bigin as a deal at "' + BIGIN_STAGE_NEW + '".' + taskNote;
   } catch (err) {
     console.error(err);
     return 'Bigin sync FAILED (the sheet and this email have everything): ' + String(err.message || err).slice(0, 300);
