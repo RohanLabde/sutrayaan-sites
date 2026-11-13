@@ -40,7 +40,7 @@ PAGES = [
          desc="Sutrayaan connects Indian manufacturers to their buyers with websites and enquiry systems built in their industry's language."),
     dict(key="crm", path="/crm-for-manufacturers/", tpl="crm.html.j2",
          title="CRM for Manufacturers: Zoho Bigin Setup · Sutrayaan",
-         desc="Move your factory's enquiries from a spreadsheet to Zoho Bigin CRM. Setup from ₹20,000, ready in a week, with website and IndiaMART leads flowing in."),
+         desc="Move your factory's enquiries from a spreadsheet to Zoho Bigin from ₹20,000, or get a process review and full Zoho CRM setup for growing manufacturers and exporters."),
     dict(key="contact", path="/contact/", tpl="contact.html.j2",
          title="Contact Sutrayaan · WhatsApp and Email",
          desc="WhatsApp +91 99675 55168 or email rohan@sutrayaan.com. Serving Mumbai, Thane, Navi Mumbai, Palghar, Bhiwandi and Pune."),
@@ -106,6 +106,11 @@ PACKAGES = [
          link=("/crm-for-manufacturers/", "How the CRM upgrade works"),
          items=["Zoho Bigin set up in your company's name", "Pipeline stages for how your factory sells", "Website enquiries arrive as deals, with a follow-up task",
                 "Your past enquiries and customers imported", "WhatsApp and IndiaMART leads connected where your plans allow", "One hour of team training and 30 days of support"]),
+    dict(name="Zoho for growing manufacturers", price="From ₹75,000", note="Starts with a paid process review, from ₹15,000, credited if you go ahead. Zoho CRM licence paid to Zoho.", ready="4–8 weeks",
+         link=("/crm-for-manufacturers/#growing", "Who this is for"),
+         items=["Process review: enquiry to quote, order, dispatch and invoice, with the gaps marked", "Zoho CRM set up for your sales and export teams",
+                "Quotes and price lists for domestic and export buyers, with approvals", "Separate pipelines for direct buyers, dealers and export markets",
+                "Website, IndiaMART and email enquiries in one place", "Owner dashboard and weekly reports", "Team training and 60 days of support"]),
 ]
 
 CHECKS = [

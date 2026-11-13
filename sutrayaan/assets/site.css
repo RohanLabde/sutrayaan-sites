@@ -473,3 +473,4 @@ a.ccard:hover{border-color:var(--ink-3);transform:translateY(-2px)}
 .path3 h3{font:400 1.45rem/1.15 var(--f-display);margin:8px 0 6px}
 .path3 p{margin:0;color:var(--ink-2);font-size:.95rem}
 @media (max-width:760px){.path3{grid-template-columns:1fr}}
+.prose h2[id]{scroll-margin-top:96px}
