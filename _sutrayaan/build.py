@@ -76,6 +76,11 @@ for ind in INDUSTRIES:
                       ind=ind))
 
 GUIDES = [
+    dict(key="guide-indiamart", path="/guides/indiamart-vs-own-website/", tpl="guide_indiamart.html.j2",
+         title="IndiaMART Catalogue vs Your Own Website for Manufacturers · Sutrayaan",
+         desc="IndiaMART brings new buyers and shared leads; your own website serves buyers who already know your name. How each works, what it costs, and how to run both.",
+         h="IndiaMART catalogue or your own website: which does a manufacturer need?", kicker="IndiaMART",
+         published="2026-11-13", updated="2026-11-13", updated_label="13 November 2026", article=True),
     dict(key="guide-cost", path="/guides/factory-website-cost-india/", tpl="guide_cost.html.j2",
          title="How Much Does a Factory Website Cost in India? · Sutrayaan",
          desc="Factory websites in India cost ₹30,000 to ₹75,000 to build and about ₹4,000 to ₹16,000 a year to run. Compare options, running costs and what to ask.",
