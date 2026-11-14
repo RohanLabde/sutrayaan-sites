@@ -1,0 +1,147 @@
+{% extends "base.html.j2" %}
+{% import "macros.j2" as M %}
+{% block content %}
+  <section class="page-hero article-hero">
+    <div class="wrap">
+      <a class="eyebrow" href="/guides/" data-knot style="text-decoration:none"><i class="knot"></i>Guides</a>
+      <h1>CRM or ERP: which does a manufacturer need first?</h1>
+      <p class="article-meta">By Sutrayaan · Updated {{ page.updated_label }} · 7-minute read</p>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <article class="prose">
+        <p class="answer"><b>Short answer:</b> a <b>CRM</b> manages everything <b>before</b> the order: enquiries, quotes and follow-ups. An <b>ERP</b> manages everything <b>after</b> the order: materials, production, stock, dispatch and accounts. If you are losing enquiries or quotes go unanswered, start with a CRM. It costs less and is live in weeks. If orders are won but production, stock or billing are chaos, you need an ERP. Most small manufacturers already run Tally for accounts and should add a CRM first.</p>
+
+        <p class="small"><b>Our interest, stated plainly:</b> Sutrayaan sets up CRMs (Zoho Bigin and Zoho CRM). We do not implement ERPs. When a client needs one, we say so and refer them to a specialist.</p>
+
+        <h2>One order, two systems</h2>
+        <p>Follow a single order through your factory. The CRM covers the first half; the ERP covers the second.</p>
+      </article>
+
+      <div class="ce-flow" role="img" aria-label="An order moves from enquiry to payment. A CRM covers enquiry, quote and follow-up. An ERP covers order, materials, production, dispatch and invoice.">
+        <ol>
+          <li class="crm"><b>Enquiry</b><span>Website, IndiaMART, call</span></li>
+          <li class="crm"><b>Quote</b><span>Price, drawing, approval</span></li>
+          <li class="crm"><b>Follow-up</b><span>Until won or lost</span></li>
+          <li class="erp"><b>Order</b><span>Sales order, specs</span></li>
+          <li class="erp"><b>Materials</b><span>Purchase, stock</span></li>
+          <li class="erp"><b>Production</b><span>BOM, job cards</span></li>
+          <li class="erp"><b>Dispatch and invoice</b><span>E-way bill, GST, payment</span></li>
+        </ol>
+        <div class="ce-bands">
+          <div class="crm"><b>CRM</b> · before the order · "Did we win it?"</div>
+          <div class="erp"><b>ERP</b> · after the order · "Can we make, ship and bill it?"</div>
+        </div>
+      </div>
+
+      <article class="prose">
+        <p>The handover point is the won deal. A good setup sends a won deal from the CRM to the ERP or accounts as a sales order, so nobody types the details twice.</p>
+
+        <h2>The difference at a glance</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th></th><th>CRM</th><th>ERP</th></tr></thead>
+          <tbody>
+            <tr><td><b>Answers</b></td><td>Who asked, what we quoted, who follows up</td><td>What to buy, what to make, what is in stock, who owes us</td></tr>
+            <tr><td><b>Used by</b></td><td>Owner, sales, export team</td><td>Purchase, stores, production, accounts</td></tr>
+            <tr><td><b>Fixes</b></td><td>Lost enquiries, slow quotes, no follow-up</td><td>Stock-outs, late production, billing errors</td></tr>
+            <tr><td><b>Typical cost</b></td><td>₹400–2,600 per user a month, plus setup from about ₹20,000</td><td>From a one-time ₹22,500 for Tally to ₹15 lakh and more in year one for SAP Business One<sup><a href="#s1">1</a>,<a href="#s4">4</a></sup></td></tr>
+            <tr><td><b>Time to go live</b></td><td>1 to 8 weeks</td><td>2 weeks for Tally add-ons to 6 months or more for a full ERP<sup><a href="#s5">5</a></sup></td></tr>
+            <tr><td><b>Risk if it goes wrong</b></td><td>Low: sales falls back to WhatsApp for a while</td><td>High: billing, stock and GST filings depend on it</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2>Which do you need first?</h2>
+        <p>Match what hurts most today.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>If this sounds like you</th><th>Start with</th></tr></thead>
+          <tbody>
+            <tr><td>Enquiries come from five places and some never get a reply</td><td><b>CRM</b></td></tr>
+            <tr><td>Quotes take days and nobody follows up</td><td><b>CRM</b></td></tr>
+            <tr><td>You can't say how many quotes are open or what you won last month</td><td><b>CRM</b></td></tr>
+            <tr><td>A salesperson leaves and their customers leave with them</td><td><b>CRM</b></td></tr>
+            <tr><td>Production often runs out of raw material mid-job</td><td><b>ERP</b> (or inventory software)</td></tr>
+            <tr><td>Nobody knows the true cost of a part or a job</td><td><b>ERP</b></td></tr>
+            <tr><td>Stock in the system never matches the store</td><td><b>ERP</b> (or inventory software)</td></tr>
+            <tr><td>Several plants or warehouses, and month-end takes weeks</td><td><b>ERP</b></td></tr>
+            <tr><td>Both lists sound familiar</td><td><b>CRM first</b>, then ERP. Quicker win, lower risk, and it shows whether your team will adopt software.</td></tr>
+          </tbody>
+        </table></div>
+
+        <h2>Why most small manufacturers should start with a CRM</h2>
+        <ul>
+          <li><b>You probably have part of an ERP already.</b> Tally handles accounts, GST, inventory and basic job work for most small factories. One small-business guide suggests TallyPrime for most small Indian manufacturers, moving to an ERP once you need work orders and production planning.<sup><a href="#s6">6</a></sup></li>
+          <li><b>Nothing handles the sales side.</b> Enquiries sit in inboxes, WhatsApp and notebooks. That is where orders are lost, and no accounting software fixes it.</li>
+          <li><b>It is cheaper and faster.</b> A small team can be on a CRM within a week. An ERP for a factory takes months.</li>
+          <li><b>It is lower risk.</b> If a CRM rollout stumbles, sales carries on. If an ERP rollout stumbles, billing and GST filings can stop.</li>
+        </ul>
+
+        <h2>When you do need an ERP</h2>
+        <ul>
+          <li>You plan production from orders, with a bill of materials for each product</li>
+          <li>You need to know the real cost of each job or part</li>
+          <li>You run more than one plant, warehouse or GST number</li>
+          <li>Stock, purchase and production teams work from different spreadsheets</li>
+          <li>Your turnover and team have outgrown Tally plus Excel. One Indian comparison puts that line around ₹15 crore turnover.<sup><a href="#s5">5</a></sup></li>
+        </ul>
+
+        <h2>ERP options for Indian manufacturers</h2>
+        <p>Typical published figures. Year-one costs include setup through a partner and vary widely with scope.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Option</th><th>Typical cost</th><th>Good for</th></tr></thead>
+          <tbody>
+            <tr><td><b>TallyPrime</b> (+ add-ons)</td><td>₹22,500 (Silver, one user) or ₹67,500 (Gold, multi-user), one-time, plus GST<sup><a href="#s1">1</a></sup></td><td>Accounts, GST, basic inventory and job work</td></tr>
+            <tr><td><b>Zoho ERP</b> (launched in India, January 2026)<sup><a href="#s2">2</a></sup></td><td>About ₹2,499 per full user and ₹249 per limited user a month<sup><a href="#s3">3</a></sup></td><td>Cloud-first firms already on Zoho; BOM, production orders, GST</td></tr>
+            <tr><td><b>ERPNext</b> (open source)</td><td>Software free; setup about ₹75,000–1.5 lakh for a small business<sup><a href="#s7">7</a></sup></td><td>Firms wanting low licence cost and willing to self-manage</td></tr>
+            <tr><td><b>Odoo</b> (cloud, with partner)</td><td>About ₹3.6–8 lakh in year one for a 10-person factory<sup><a href="#s4">4</a></sup></td><td>Modular growth, app by app</td></tr>
+            <tr><td><b>SAP Business One</b></td><td>About ₹15–33 lakh in year one for a 10-person factory<sup><a href="#s4">4</a></sup></td><td>Larger or export-heavy manufacturers needing audit-grade control</td></tr>
+          </tbody>
+        </table></div>
+        <p>Zoho ERP is new. At launch its manufacturing module covers bills of material, production orders and shop-floor visibility.<sup><a href="#s8">8</a></sup> Check that it covers your process before you commit.</p>
+
+        <h2>How the two fit together</h2>
+        <ol>
+          <li><b>Start with a CRM</b> and keep Tally for accounts.</li>
+          <li><b>Connect them at the won deal.</b> Won deals go to accounts as a clean sales order instead of being re-typed.</li>
+          <li><b>Add inventory or an ERP</b> once stock and production become the bottleneck.</li>
+          <li><b>Keep one customer list.</b> Whatever you choose, the customer name, GST number and address should come from one place.</li>
+        </ol>
+
+        <h2>Four mistakes to avoid</h2>
+        <ol>
+          <li><b>Buying an ERP to fix a sales problem.</b> ERPs start at the order. They don't chase enquiries.</li>
+          <li><b>Automating a process nobody has agreed.</b> Write down who handles an enquiry and when a quote goes out first. Software follows the process, not the other way round.</li>
+          <li><b>Replacing Tally because a vendor says so.</b> If accounts are happy, connect to Tally instead.</li>
+          <li><b>Doing everything at once.</b> One system at a time, each fully in use before the next.</li>
+        </ol>
+
+        <h2>What we do</h2>
+        <p>We set up Zoho Bigin for small teams from ₹20,000, and Zoho CRM for growing manufacturers from ₹75,000, starting with a short process review that tells you honestly whether you need a CRM, an ERP, or neither yet. See our <a href="/crm-for-manufacturers/">CRM page</a>, a <a href="/crm-for-manufacturers/process-review-sample/">sample process review</a>, and our guide to <a href="/guides/zoho-vs-salesforce-for-manufacturers/">Zoho or Salesforce</a>.</p>
+
+        <div class="faq" style="margin-top:12px">
+          <details><summary>Is Tally an ERP?</summary><p>Tally is accounting software with GST, inventory and some manufacturing features. For many small factories it does part of an ERP's job. It does not manage enquiries, quotes or follow-ups, which is what a CRM is for.</p></details>
+          <details><summary>Can one system do both CRM and ERP?</summary><p>Some suites cover both, such as Zoho's apps, Odoo or SAP. Even then, most firms roll out the sales side and the operations side separately, one after the other.</p></details>
+          <details><summary>Will a CRM work with Tally?</summary><p>Yes. The usual approach is to keep Tally for accounts and send won deals or customer details from the CRM to Tally, using a connector or a simple export. Check what your CRM plan supports.</p></details>
+          <details><summary>How long does each take to set up?</summary><p>A simple CRM: one to eight weeks. Tally add-ons: two to four weeks. A full ERP with a partner: two to twelve months, depending on the product and scope.</p></details>
+          <details><summary>We are a 15-person job shop. What do we need?</summary><p>Usually Tally for accounts and a simple CRM such as Bigin for enquiries and quotes. Revisit an ERP when stock or production planning becomes the main problem.</p></details>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <ol class="sources">
+          <li id="s1"><a href="https://tallysolutions.com/business-guides/tallyprime-total-cost-of-ownership-india/" rel="noopener" target="_blank">Tally Solutions: total cost of TallyPrime in India</a></li>
+          <li id="s2"><a href="https://prezohoweb.zoho.com/news/zoho-launches-zoho-erp-from-kumbakonam-a-rural-tamil-nadu-town-takes-on-global-players.html" rel="noopener" target="_blank">Zoho: Zoho ERP launch announcement, January 2026</a></li>
+          <li id="s3"><a href="https://peliqan.io/?p=3715" rel="noopener" target="_blank">Peliqan: Zoho ERP launch and pricing</a></li>
+          <li id="s4"><a href="https://website-el2.pages.dev/blog/erp-implementation-cost-india-small-business" rel="noopener" target="_blank">ERP implementation cost for Indian MSMEs</a></li>
+          <li id="s5"><a href="https://itforsme.in/best/manufacturing-erp-india" rel="noopener" target="_blank">IT for SME: manufacturing ERP in India</a></li>
+          <li id="s6"><a href="https://echai.ventures/startingup/tools-money-admin/which-erp-or-manufacturing-software-should-a-small-manufacturer-use" rel="noopener" target="_blank">eChai Ventures: which ERP should a small manufacturer use?</a></li>
+          <li id="s7"><a href="https://aurigait.com/blog/erpnext-implementation-cost-india/" rel="noopener" target="_blank">Auriga IT: ERPNext implementation cost in India 2026</a></li>
+          <li id="s8"><a href="https://aaxonix.com/resources/zoho-erp-india-launch-2026/" rel="noopener" target="_blank">Aaxonix: Zoho ERP India launch</a></li>
+        </ol>
+        <p class="small">ERP costs vary widely with scope, users and partner. Treat these as ranges and get written quotes.</p>
+      </article>
+    </div>
+  </section>
+
+{{ M.cta_band("Not sure where <em>your orders slip?</em>", "Tell us how enquiries and orders move today. We'll reply within 24 hours with a straight answer: CRM, ERP, or neither yet.", btn="See the CRM packages", href="/crm-for-manufacturers/") }}
+{% endblock %}

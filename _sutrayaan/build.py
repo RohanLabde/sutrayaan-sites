@@ -82,6 +82,11 @@ for ind in INDUSTRIES:
                       ind=ind))
 
 GUIDES = [
+    dict(key="guide-crm-erp", path="/guides/crm-vs-erp-for-manufacturers/", tpl="guide_crm_erp.html.j2",
+         title="CRM vs ERP for Manufacturers: Which Do You Need First? · Sutrayaan",
+         desc="A CRM manages enquiries and quotes before the order; an ERP manages production, stock and billing after it. Costs, options and which a factory needs first.",
+         h="CRM or ERP: which does a manufacturer need first?", kicker="CRM and ERP",
+         published="2026-11-14", updated="2026-11-14", updated_label="14 November 2026", article=True),
     dict(key="guide-zoho-salesforce", path="/guides/zoho-vs-salesforce-for-manufacturers/", tpl="guide_zoho_salesforce.html.j2",
          title="Zoho vs Salesforce for Indian Manufacturers: Which CRM Fits? · Sutrayaan",
          desc="Zoho costs ₹400 to ₹2,600 per user a month; Salesforce $25 to $175 and more. Prices, setup cost, and which CRM suits which size of manufacturer.",
