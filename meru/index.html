@@ -927,10 +927,10 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
           '<span class="meta">'+esc(l.qty||"—")+' · '+esc(l.material||"—")+'</span>'+
           '<span class="meta">'+esc(l.ref)+' · '+esc(ago(l.createdAt))+'</span>'+
           (task?'<span class="task'+(task.late?' late':'')+'">'+esc(task.t)+'</span>':'')+
-          (editable&&next.length?'<span class="mv">'+next.map(n=>'<button type="button" data-to="'+n+'">'+(next.length>1?n:'Move to '+STAGES.find(x=>x[0]===n)[1]+' →')+'</button>').join("")+'</span>':'');
+          ((editable||l.example)&&next.length?'<span class="mv">'+next.map(n=>'<button type="button" data-to="'+n+'">'+(next.length>1?n:'Move to '+STAGES.find(x=>x[0]===n)[1]+' →')+'</button>').join("")+'</span>':'');
         d.querySelectorAll("button[data-to]").forEach(b=>b.addEventListener("click",async()=>{
           d.querySelectorAll("button").forEach(x=>x.disabled=true);
-          try{ await api({action:"status",ref:l.ref,status:b.dataset.to}); l.status=b.dataset.to; }catch(e){}
+          try{ if(!l.example) await api({action:"status",ref:l.ref,status:b.dataset.to}); l.status=b.dataset.to; }catch(e){}
           render(leads,editable);
         }));
         col.appendChild(d);
@@ -980,15 +980,16 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
       {ref:"RFQ-EXAMPLE-099",type:"Quote for a part",process:"Fittings / threading",name:"Faisal",company:"Gulf Fluid Systems (example)",city:"Dubai, UAE",material:"SS316",qty:"10,000 pcs",desc:"Male connector 1/2\" NPT × 12 mm",files:[],status:"Quoted",createdAt:iso(120),example:true}
     ];
   }
+  let EX=null; function exLeads(){ return EX||(EX=exampleLeads()); }
   function startTracker(){
     const notice=$("#trackerNotice");
-    if(!API){ notice.hidden=false; notice.innerHTML='<b>You are seeing example data.</b><span class="muted">On a live site this page is private to the business owner.</span>'; render(exampleLeads(),false); return; }
+    if(!API){ notice.hidden=false; notice.innerHTML='<b>You are seeing example data.</b><span class="muted">On a live site this page is private to the business owner.</span>'; render(exLeads(),false); return; }
     notice.hidden=false;
     notice.innerHTML='<b>Live demo.</b><span class="muted">Inquiries sent from the quote form appear here. Contact details are hidden on this public page; the owner sees them in Google Sheets.</span>';
     let busy=false;
     async function load(){ if(busy) return; busy=true;
-      try{ const r=await fetch(API+"?t="+Date.now()); const j=await r.json(); const leads=(j.leads||[]); render(leads.length?leads:exampleLeads(),leads.length>0); }
-      catch(e){ render(exampleLeads(),false); }
+      try{ const r=await fetch(API+"?t="+Date.now()); const j=await r.json(); const leads=(j.leads||[]); render(leads.length?leads:exLeads(),leads.length>0); }
+      catch(e){ render(exLeads(),false); }
       busy=false; }
     window.refreshLeads=load;
     load(); setInterval(()=>{ if(document.querySelector("#v-leads.active")) load(); },15000);
