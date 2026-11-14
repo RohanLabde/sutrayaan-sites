@@ -251,6 +251,28 @@ footer.site{background:var(--panel);border-top:2px solid var(--ink)}
 @media (max-width:520px){.tb{grid-template-columns:1fr}.tb>div{border-left:0;border-top:1px solid var(--ink)}.tb>div:first-child{border-top:0}}
 
 /* Tracker */
+.owner-tabs{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+.owner-tabs a{display:grid;gap:2px;padding:10px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--ink);text-decoration:none;font-weight:600}
+.owner-tabs a small{font:400 .72rem var(--f-mono);color:var(--ink-2)}
+.owner-tabs a[aria-selected="true"]{border-color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.crm-note{margin-top:20px}
+.board-wrap{overflow-x:auto;margin-block:24px;padding-bottom:6px}
+.board{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:12px;min-width:1090px;align-items:start}
+.bcol{background:color-mix(in srgb,var(--panel) 55%,var(--paper));border:1px solid var(--line);border-radius:var(--r);padding:10px;display:grid;gap:10px}
+.bcol h3{display:flex;justify-content:space-between;align-items:center;font:600 .78rem var(--f-mono);text-transform:uppercase;letter-spacing:.06em;margin:2px 4px;color:var(--ink-2)}
+.bcol h3 b{font:700 .8rem var(--f-mono);background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:2px 8px;color:var(--ink)}
+.deal{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:12px;display:grid;gap:6px;font-size:.9rem}
+.deal b{font-size:.98rem;line-height:1.25}
+.deal .meta{font:400 .74rem var(--f-mono);color:var(--ink-2)}
+.deal .task{font-size:.82rem;padding:6px 8px;border-radius:4px;background:var(--accent-soft);color:var(--ink)}
+.deal .task.late{background:transparent;border:1px solid var(--warn);color:var(--warn);font-weight:600}
+.deal .mv{display:flex;gap:6px;flex-wrap:wrap}
+.deal .mv button{font:600 .8rem var(--f-body);padding:6px 10px;border-radius:4px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.deal .mv button:hover{border-color:var(--accent)}
+.deal .mv button:disabled{opacity:.5;cursor:wait}
+@media (max-width:700px){.board{grid-template-columns:1fr;min-width:0}.bcol .none{display:none}}
+.bcol .none{font-size:.82rem;color:var(--ink-2);padding:8px 4px}
+.bcol.c-Won .deal{border-left-color:var(--ok)} .bcol.c-Lost .deal{border-left-color:var(--ink-2)} .bcol.c-New .deal{border-left-color:var(--stamp)}
 .tracker-head{display:flex;justify-content:space-between;gap:16px;align-items:end;flex-wrap:wrap}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-block:24px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
@@ -763,6 +785,15 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
         <div class="sec-head" style="margin:0"><span class="eyebrow">Owner view · hidden from buyers on a live site</span><h1>Inquiry tracker</h1><p class="muted">Every website inquiry, in one place. Update the status as you work each one.</p></div>
         <a class="btn btn-ghost" href="#quote">Add a test inquiry</a>
       </div>
+      <div class="owner-tabs" role="tablist" aria-label="Owner views">
+        <a role="tab" id="tabTracker" href="#leads" aria-selected="true">Tracker <small>included with the website</small></a>
+        <a role="tab" id="tabCrm" href="#crm" aria-selected="false">CRM view <small>the upgrade</small></a>
+      </div>
+      <div id="paneCrm" hidden>
+        <div class="notice crm-note"><b>The same inquiries, as a sales pipeline.</b><span class="muted">This is an illustration. Contact details are hidden on this public page. On a client's site the pipeline lives in their own Zoho Bigin account: every inquiry becomes a deal with a follow-up task, and the team works it from the phone app. <a href="https://sutrayaan.com/crm-for-manufacturers/" target="_blank" rel="noopener">How the CRM upgrade works →</a></span></div>
+        <div class="board-wrap"><div class="board" id="crmBoard"></div></div>
+      </div>
+      <div id="paneTracker">
       <div id="trackerNotice" class="notice" style="margin-top:20px" hidden></div>
       <div class="kpis" id="kpis">
         <div class="kpi" id="k-new"><b>0</b><span>New, awaiting reply</span></div>
@@ -781,6 +812,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
           </div>
           <p class="muted" style="font-size:.88rem">On a client's live site, each inquiry also pings the owner's WhatsApp.</p>
         </div>
+      </div>
       </div>
     </div>
   </section>
@@ -805,6 +837,8 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   let pendingPrefill=null;
   function show(name){
+    let tab=null; if(name==="crm"){name="leads";tab="crm"} else if(name==="leads") tab="tracker";
+    if(tab){ const c=tab==="crm"; $("#paneCrm").hidden=!c; $("#paneTracker").hidden=c; $("#tabCrm").setAttribute("aria-selected",c); $("#tabTracker").setAttribute("aria-selected",!c); }
     if(!VIEWS.includes(name)) name="home";
     $$(".view").forEach(v=>v.classList.toggle("active",v.id==="v-"+name));
     $$("nav.main a").forEach(a=>{ if(a.dataset.nav===name) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
@@ -861,7 +895,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
     $("#refNo").textContent=finalRef;
     $("#doneMsg").textContent=isDocs?"We will email the vendor registration pack within one working day.":"An engineer will reply within 48 hours. For anything urgent, WhatsApp us with this reference.";
     const note=$("#demoNote"); note.hidden=false;
-    if(saved){note.innerHTML='Demo: saved to the owner\'s Google Sheet and emailed to them. <a href="#leads">See it in the tracker →</a>';if(window.refreshLeads) setTimeout(window.refreshLeads,800);}
+    if(saved){note.innerHTML='Demo: saved to the owner\'s Google Sheet and emailed to them. <a href="#leads">See it in the tracker →</a> · <a href="#crm">CRM view →</a>';if(window.refreshLeads) setTimeout(window.refreshLeads,800);}
     else{note.textContent="We could not save this request just now. Please email or WhatsApp us using the details on the right.";}
     $("#rfq").hidden=true; $("#done").hidden=false; window.scrollTo(0,0);
   });
@@ -870,7 +904,42 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
   const STATUSES=["New","Contacted","Quoted","Won","Lost"];
   function ago(iso){const m=Math.round((Date.now()-new Date(iso))/60000);if(m<60)return m+" min ago";const h=Math.round(m/60);if(h<48)return h+" h ago";return Math.round(h/24)+" days ago"}
   function esc(s){const d=document.createElement("div");d.textContent=s==null?"":String(s);return d.innerHTML}
+  const STAGES=[["New","New inquiry"],["Contacted","Contacted"],["Quoted","Quote sent"],["Won","Won"],["Lost","Lost"]];
+  function taskFor(l){
+    if(l.status==="New"){ const h=Math.round((new Date(l.createdAt).getTime()+864e5-Date.now())/36e5);
+      return h>=0?{t:"Task: reply within 24 h · "+h+" h left"}:{t:"Task overdue by "+(-h<48?(-h)+" h":Math.round(-h/24)+" days")+": reply now",late:true}; }
+    if(l.status==="Contacted") return {t:"Task: send the quote"};
+    if(l.status==="Quoted") return {t:"Task: follow up on day 3"};
+    return null;
+  }
+  function renderBoard(leads,editable){
+    const board=$("#crmBoard"); board.innerHTML="";
+    STAGES.forEach(([key,label])=>{
+      const items=leads.filter(l=>l.status===key);
+      const col=document.createElement("section"); col.className="bcol c-"+key;
+      col.innerHTML='<h3>'+label+' <b>'+items.length+'</b></h3>';
+      if(!items.length) col.insertAdjacentHTML("beforeend",'<div class="none">No deals here</div>');
+      items.forEach(l=>{
+        const d=document.createElement("article"); d.className="deal"; const task=taskFor(l);
+        const next=key==="New"?["Contacted"]:key==="Contacted"?["Quoted"]:key==="Quoted"?["Won","Lost"]:[];
+        d.innerHTML='<b>'+esc(l.company)+(l.example?' <span class="tag">example</span>':'')+'</b>'+
+          '<span>'+esc((l.desc||l.type||"").slice(0,70))+'</span>'+
+          '<span class="meta">'+esc(l.qty||"—")+' · '+esc(l.material||"—")+'</span>'+
+          '<span class="meta">'+esc(l.ref)+' · '+esc(ago(l.createdAt))+'</span>'+
+          (task?'<span class="task'+(task.late?' late':'')+'">'+esc(task.t)+'</span>':'')+
+          (editable&&next.length?'<span class="mv">'+next.map(n=>'<button type="button" data-to="'+n+'">'+(next.length>1?n:'Move to '+STAGES.find(x=>x[0]===n)[1]+' →')+'</button>').join("")+'</span>':'');
+        d.querySelectorAll("button[data-to]").forEach(b=>b.addEventListener("click",async()=>{
+          d.querySelectorAll("button").forEach(x=>x.disabled=true);
+          try{ await api({action:"status",ref:l.ref,status:b.dataset.to}); l.status=b.dataset.to; }catch(e){}
+          render(leads,editable);
+        }));
+        col.appendChild(d);
+      });
+      board.appendChild(col);
+    });
+  }
   function render(leads,editable){
+    renderBoard(leads,editable);
     const list=$("#leadList"); list.innerHTML="";
     const n=s=>leads.filter(l=>l.status===s).length;
     const late=leads.filter(l=>l.status==="New"&&Date.now()-new Date(l.createdAt)>864e5).length;
@@ -894,7 +963,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
           sel.disabled=true;
           const patch={status:sel.value,updatedAt:new Date().toISOString()};
           if(l.status==="New"&&sel.value!=="New"&&!l.firstResponseAt) patch.firstResponseAt=patch.updatedAt;
-          try{await api({action:"status",ref:l.ref,status:sel.value}); l.status=sel.value; el.querySelector(".pill").className="pill s-"+sel.value; el.querySelector(".pill").textContent=sel.value;}catch(e){sel.value=l.status}
+          try{await api({action:"status",ref:l.ref,status:sel.value}); l.status=sel.value; el.querySelector(".pill").className="pill s-"+sel.value; el.querySelector(".pill").textContent=sel.value; renderBoard(leads,editable);}catch(e){sel.value=l.status}
           sel.disabled=false;
         });
       }
@@ -923,7 +992,7 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 4px var(--accent-soft)}
       busy=false; }
     window.refreshLeads=load;
     load(); setInterval(()=>{ if(document.querySelector("#v-leads.active")) load(); },15000);
-    addEventListener("hashchange",()=>{ if(location.hash==="#leads") load(); });
+    addEventListener("hashchange",()=>{ if(location.hash==="#leads"||location.hash==="#crm") load(); });
   }
 })();
 </script>
