@@ -25,7 +25,7 @@
 
 <div class="demo" role="note">
   <div class="wrap">
-    <span>DEMO SITE · {{ s.name }} is a fictional company · stock photos from Unsplash. Built by Sutrayaan.</span>
+    <span>DEMO SITE · {{ s.name }} is a fictional company · stock photos from Unsplash. Built by <a href="https://sutrayaan.com/" style="color:inherit;text-decoration:underline">Sutrayaan</a>, websites for manufacturers.</span>
     <a href="#leads">Owner view: inquiry tracker →</a>
   </div>
 </div>
@@ -341,7 +341,7 @@
       <div><span class="eyebrow">Buyers</span><a href="#quote">{{ s.nav.cta }}</a><a href="#quote" data-prefill="docs">Vendor documents</a></div>
       <div><span class="eyebrow">Certified</span>{% for c in s.foot_certs %}<span class="mono">{{ c }}</span>{% endfor %}</div>
     </div>
-    <div class="tb-bottom"><span>{{ s.doc_no }}</span><span>Demo website by Sutrayaan · fictional company · <a href="#leads" style="color:inherit">owner view</a></span></div>
+    <div class="tb-bottom"><span>{{ s.doc_no }}</span><span>Demo website by <a href="https://sutrayaan.com/" style="color:inherit">Sutrayaan</a> · fictional company · <a href="#leads" style="color:inherit">owner view</a></span></div>
   </div>
 </footer>
 
